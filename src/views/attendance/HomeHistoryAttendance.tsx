@@ -25,7 +25,6 @@ export default function HomeHistoryAttendance() {
       if (!dateSelected.from || !dateSelected.to) {
         return Promise.resolve([]);
       }
-
       return getAttendanceHistoryMonth(
         dateSelected.from.toISOString(),
         dateSelected.to.toISOString()
@@ -43,8 +42,8 @@ export default function HomeHistoryAttendance() {
   };
 
   return (
-    <div className=" mx-auto px-4 py-8">
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+    <div className="max-w-screen-lg mx-auto px-4 py-8">
+      <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center mb-6">
         <div>
           <h1 className="text-3xl font-extrabold text-green-700 mb-1">
             Histórico de Asistencias
@@ -56,10 +55,15 @@ export default function HomeHistoryAttendance() {
             </span>
           </p>
         </div>
-        <div className="flex gap-2 ">
-          <Button onClick={handleFetchReports} className="w-full md:w-auto">
+
+        <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+          <Button
+            onClick={handleFetchReports}
+            className="w-full sm:w-auto whitespace-nowrap"
+          >
             {isLoading ? "Cargando..." : "Cargar"}
           </Button>
+
           {data && data.length > 0 && (
             <PDFDownloadLink
               document={
@@ -69,7 +73,7 @@ export default function HomeHistoryAttendance() {
                 new Date().getMonth() + 1
               } de ${new Date().getFullYear()} - ${user?.name}`}
             >
-              <Button className="rounded-lg text-white w-full lg:w-auto text-center font-bold cursor-pointer">
+              <Button className="w-full sm:w-auto whitespace-nowrap">
                 Generar PDF
               </Button>
             </PDFDownloadLink>
@@ -77,13 +81,12 @@ export default function HomeHistoryAttendance() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow p-6 border min-h-[200px]">
+      <div className="bg-white rounded-lg shadow p-4 md:p-6 border min-h-[200px]">
         <CalendarFilter setDateSelected={setDateSelected} />
-
         {data ? (
           <ListAttendanceHistory data={data} />
         ) : (
-          <p className="text-center text-gray-500">
+          <p className="text-center text-gray-500 mt-4">
             No hay asistencias en el rango de fecha seleccionado.
           </p>
         )}
