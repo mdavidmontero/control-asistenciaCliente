@@ -30,6 +30,7 @@ export const registerAttendanceAfternoon = async (tipo: string) => {
 export const getAttendandesUser = async () => {
   try {
     const { data } = await api.get("/attendance");
+    console.log(data);
     const response = attendanceSchema.safeParse(data);
     if (response.success) {
       return response.data;

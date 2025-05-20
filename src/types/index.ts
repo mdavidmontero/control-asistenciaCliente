@@ -38,17 +38,19 @@ export const userSchema = authSchema
 export type User = z.infer<typeof userSchema>;
 export type UserProfileForm = Pick<User, "name" | "email">;
 
-export const attendanceSchema = z.object({
-  id: z.string(),
-  userId: z.string(),
-  date: z.string(),
-  morningIn: z.string().nullable(),
-  morningOut: z.string().nullable(),
-  afternoonIn: z.string().nullable(),
-  afternoonOut: z.string().nullable(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
-});
+export const attendanceSchema = z
+  .object({
+    id: z.string(),
+    userId: z.string(),
+    date: z.string(),
+    morningIn: z.string().nullable(),
+    morningOut: z.string().nullable(),
+    afternoonIn: z.string().nullable(),
+    afternoonOut: z.string().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+  })
+  .optional();
 
 export type Attendance = z.infer<typeof attendanceSchema>;
 

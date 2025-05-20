@@ -9,8 +9,6 @@ export default function HomeView() {
     queryFn: getAttendandesUser,
   });
 
-  if (!attendances) return null;
-
   return (
     <>
       <div className="flex flex-col-reverse md:flex-row md:justify-between items-center">
@@ -31,7 +29,7 @@ export default function HomeView() {
         </Link>
       </div>
 
-      {attendances.morningIn || attendances.afternoonIn ? (
+      {attendances?.morningIn || attendances?.afternoonIn ? (
         <div className="grid grid-cols-1 gap-6 mt-10">
           <div
             key={attendances.id}

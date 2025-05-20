@@ -2,7 +2,6 @@ import api from "../lib/axios";
 import {
   userSchema,
   type UpdateCurrentUserPasswordForm,
-  type User,
   type CheckPasswordForm,
   type ForgotPasswordForm,
   type NewPasswordForm,
@@ -10,6 +9,7 @@ import {
   type UserLoginForm,
   type UserRegistrationForm,
   type confirmToken,
+  type UserProfileForm,
 } from "../types";
 import { isAxiosError } from "axios";
 
@@ -119,7 +119,7 @@ export async function getUser() {
   }
 }
 
-export async function updateProfile(formData: User) {
+export async function updateProfile(formData: UserProfileForm) {
   try {
     const { data } = await api.patch<string>("/auth/update-profile", formData);
     return data;
