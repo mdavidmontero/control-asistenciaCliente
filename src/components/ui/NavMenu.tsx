@@ -50,6 +50,15 @@ export default function NavMenu({ name }: NavMenuProps) {
             <Link to="/" className="block p-2 hover:text-green-950">
               Mis Asistencias
             </Link>
+            <Link
+              to="/history-asistencia"
+              className="block p-2 hover:text-green-950"
+            >
+              Historico de Asistencias
+            </Link>
+            <Link to="/" className="block p-2 hover:text-green-950">
+              Registrar Limpieza Centrales
+            </Link>
             <button
               className="block p-2 hover:text-green-950  hover:font-bold cursor-pointer"
               type="button"

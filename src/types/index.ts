@@ -55,3 +55,32 @@ export const attendanceSchema = z
 export type Attendance = z.infer<typeof attendanceSchema>;
 
 export const attendancesSchemas = z.array(attendanceSchema);
+
+export interface SchemaHistoryAttendances {
+  id: string;
+  userId: string;
+  date: Date;
+  morningIn: Date;
+  morningOut: Date;
+  afternoonIn: Date;
+  afternoonOut: null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export const historyAttendancesSchema = z
+  .object({
+    id: z.string(),
+    userId: z.string(),
+    date: z.string(),
+    morningIn: z.string().nullable(),
+    morningOut: z.string().nullable(),
+    afternoonIn: z.string().nullable(),
+    afternoonOut: z.string().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+  })
+  .optional();
+
+export const historyAttendancesSchemas = z.array(historyAttendancesSchema);
+export type HistoryAttendances = z.infer<typeof historyAttendancesSchema>;

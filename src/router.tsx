@@ -12,6 +12,7 @@ import HomeAttedancen from "./views/attendance/HomeAttedancen";
 import ProfileLayout from "./layouts/ProfileLayout";
 import HomeProfile from "./views/profile/HomeProfile";
 import ChangePasswordView from "./views/profile/ChangePasswordView";
+import HomeHistoryAttendance from "./views/attendance/HomeHistoryAttendance";
 
 export default function Router() {
   return (
@@ -20,6 +21,10 @@ export default function Router() {
         <Route element={<AppLayout />}>
           <Route path="/" element={<HomeView />} />
           <Route path="/create-attendance" element={<HomeAttedancen />} />
+          <Route
+            path="/history-asistencia"
+            element={<HomeHistoryAttendance />}
+          />
           <Route element={<ProfileLayout />}>
             <Route path="/profile" element={<HomeProfile />} />
             <Route path="/profile/password" element={<ChangePasswordView />} />
