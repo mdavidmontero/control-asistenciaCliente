@@ -4,7 +4,9 @@ import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import type { UserRegistrationForm } from "../../types";
 import { createAccount } from "../../actions/auth.actions";
+import { useNavigate } from "react-router-dom";
 export default function RegisterForm() {
+  const navigate = useNavigate();
   const initialValues: UserRegistrationForm = {
     email: "",
     name: "",
@@ -25,8 +27,12 @@ export default function RegisterForm() {
       toast.error(error.message);
     },
     onSuccess: (data) => {
-      toast.success(data);
       reset();
+      toast.success(data, {
+        onClose: () => {
+          navigate("/auth/login");
+        },
+      });
     },
   });
   const handleRegister = (formData: UserRegistrationForm) => {
