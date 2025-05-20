@@ -30,8 +30,8 @@ export default function ConfirmAccountView() {
   };
   return (
     <>
-      <h1 className="font-black text-6xl text-green-800">Confirma tu cuenta</h1>
-      <p className="text-3xl font-bold">
+      <h1 className="font-black text-3xl text-green-800">Confirma tu cuenta</h1>
+      <p className="text-2xl font-bold">
         Ingresa el código que recibiste{" "}
         <span className="text-amber-500">por email</span>
       </p>
@@ -39,18 +39,18 @@ export default function ConfirmAccountView() {
         <label className="font-normal text-xl text-center block">
           Código de 6 dígitos
         </label>
-        <div className="flex justify-center gap-5">
+        <div className="flex justify-center flex-wrap gap-3 sm:gap-5">
           <PinInput
             value={token}
             onChange={handleChange}
             onComplete={handleCompleted}
           >
-            <PinInputField className="w-10 h-10 rounde-lg text-center border border-gray-400 rounded placeholder-white" />
-            <PinInputField className="w-10 h-10 rounde-lg text-center border border-gray-400 rounded placeholder-white" />
-            <PinInputField className="w-10 h-10 rounde-lg text-center border border-gray-400 rounded placeholder-white" />
-            <PinInputField className="w-10 h-10 rounde-lg text-center border border-gray-400 rounded placeholder-white" />
-            <PinInputField className="w-10 h-10 rounde-lg text-center border border-gray-400 rounded placeholder-white" />
-            <PinInputField className="w-10 h-10 rounde-lg text-center border border-gray-400 rounded placeholder-white" />
+            {Array.from({ length: 6 }).map((_, index) => (
+              <PinInputField
+                key={index}
+                className="w-10 h-10 sm:w-12 sm:h-12 text-center border border-gray-400 rounded text-xl focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all"
+              />
+            ))}
           </PinInput>
         </div>
       </form>

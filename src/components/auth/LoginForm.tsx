@@ -37,7 +37,7 @@ export default function LoginForm() {
           id="email"
           type="email"
           placeholder="Email de Registro"
-          className="w-full border border-gray-300 p-3 rounded-lg"
+          className="w-full border border-gray-400 p-3 rounded-lg"
           {...register("email", {
             required: "El Email es obligatorio",
             pattern: {
@@ -55,7 +55,7 @@ export default function LoginForm() {
         <input
           type="password"
           placeholder="Password de Registro"
-          className="w-full border border-gray-300 p-3 rounded-lg"
+          className="w-full border border-gray-400 p-3 rounded-lg"
           {...register("password", {
             required: "El Password es obligatorio",
           })}

@@ -34,28 +34,28 @@ export default function RequestNewCodeView() {
 
   return (
     <>
-      <h1 className="font-black text-6xl text-green-800">
+      <h1 className="font-black text-3xl text-green-800">
         Solicitar Código de Confirmación
       </h1>
-      <p className="text-3xl font-bold">
-        coloca un email para recibir{" "}
+      <p className="text-2xl font-bold">
+        Coloca un email para recibir{" "}
         <span className="text-amber-500">un nuevo código</span>
       </p>
 
       <form
         onSubmit={handleSubmit(handleRequestCode)}
-        className="space-y-8 p-10 rounded-lg bg-white mt-10"
+        className="space-y-8 p-5 rounded-lg  mt-10"
         noValidate
       >
         <div className="flex flex-col gap-5">
-          <label className="font-normal text-2xl" htmlFor="email">
+          <label className="font-bold text-2xl" htmlFor="email">
             Email
           </label>
           <input
             id="email"
             type="email"
             placeholder="Email de Registro"
-            className="w-full p-3 rounded-lg border-gray-300 border"
+            className="w-full border border-gray-400 p-3 rounded-lg"
             {...register("email", {
               required: "El Email de registro es obligatorio",
               pattern: {
@@ -77,13 +77,13 @@ export default function RequestNewCodeView() {
       <nav className="mt-10 flex flex-col space-y-4">
         <Link
           to="/auth/login"
-          className="text-center text-gray-300 font-normal"
+          className="text-center text-gray-500 font-normal"
         >
           ¿Ya tienes cuenta? Iniciar Sesión
         </Link>
         <Link
           to="/auth/forgot-password"
-          className="text-center text-gray-300 font-normal"
+          className="text-center text-gray-500 font-normal"
         >
           ¿Olvidaste tu contraseña? Reestablecer
         </Link>

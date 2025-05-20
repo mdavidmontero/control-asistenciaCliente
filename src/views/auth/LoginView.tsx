@@ -4,8 +4,8 @@ import LoginForm from "../../components/auth/LoginForm";
 export default function LoginView() {
   return (
     <>
-      <h1 className="font-black text-6xl text-green-800">Iniciar Sesión</h1>
-      <p className="text-3xl font-bold">
+      <h1 className="font-black text-3xl text-green-800">Iniciar Sesión</h1>
+      <p className="text-2xl font-bold">
         y registra tu <span className="text-amber-500">asistencia</span>
       </p>
       <LoginForm />

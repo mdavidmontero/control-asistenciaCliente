@@ -8,6 +8,7 @@ import RequestNewCodeView from "./views/auth/RequestNewCodeView";
 import NewPasswordView from "./views/auth/NewPasswordView";
 import AppLayout from "./layouts/AppLayout";
 import HomeView from "./views/home/HomeView";
+import HomeAttedancen from "./views/attendance/HomeAttedancen";
 
 export default function Router() {
   return (
@@ -15,7 +16,7 @@ export default function Router() {
       <Routes>
         <Route element={<AppLayout />}>
           <Route path="/" element={<HomeView />} />
-          {/* <Route path="/" element={< />} /> */}
+          <Route path="/create-attendance" element={<HomeAttedancen />} />
         </Route>
 
         <Route element={<AuthLayout />}>

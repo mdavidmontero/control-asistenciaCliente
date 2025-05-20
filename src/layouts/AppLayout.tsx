@@ -16,7 +16,7 @@ export default function AppLayout() {
     return (
       <>
         <header className="bg-[#88cdb1] py-5 ">
-          <div className="max-w-screen-2xl mx-auto flex flex-col lg:flex-row justify-between items-center">
+          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center">
             <div className="w-64">
               <Link to={"/"}>
                 <Logo />
