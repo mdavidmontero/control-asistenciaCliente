@@ -61,7 +61,6 @@ export const getAttendanceHistoryMonth = async (from: string, to: string) => {
         to,
       },
     });
-    console.log(data);
     const response = historyAttendancesSchemas.safeParse(data);
     if (response.success) {
       return response.data;
