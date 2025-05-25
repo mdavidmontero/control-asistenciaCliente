@@ -1,8 +1,11 @@
 import { getLimpiezaByDateActual } from "@/actions/cleanin-center.actions";
 import ListCleaningCenter from "@/components/centerCleaning/ListCleaningCenter";
+import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 export default function HomeCleaningCenter() {
+  const navigation = useNavigate();
   const { data } = useQuery({
     queryKey: ["limpiezaacopioDateActual"],
     queryFn: getLimpiezaByDateActual,
@@ -21,6 +24,9 @@ export default function HomeCleaningCenter() {
             </span>
           </p>
         </div>
+        <Button onClick={() => navigation("/register-cleaning-center")}>
+          Registrar Limpieza
+        </Button>
       </div>
       {data ? (
         <div className="bg-white rounded-lg shadow p-4 md:p-6 border min-h-[200px]">

@@ -16,6 +16,7 @@ import HomeHistoryAttendance from "./views/attendance/HomeHistoryAttendance";
 import HistoryAttendandeAll from "./views/attendance/HistoryAttendandeAll";
 import HomeCleaningCenter from "./views/CleaningCenter/HomeCleaningCenter";
 import FormCleaningEdit from "./components/centerCleaning/FormCleaningEdit";
+import FormCleaningCenter from "./components/centerCleaning/FormCleaningCenter";
 
 export default function Router() {
   return (
@@ -33,6 +34,10 @@ export default function Router() {
             element={<HistoryAttendandeAll />}
           />
           <Route path="/cleaning-center" element={<HomeCleaningCenter />} />
+          <Route
+            path="/register-cleaning-center"
+            element={<FormCleaningCenter />}
+          />
           <Route
             path="/cleaning-center/edit/:id"
             element={<FormCleaningEdit />}
