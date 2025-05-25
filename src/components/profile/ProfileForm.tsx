@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
 import type { User, UserProfileForm } from "../../types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateProfile } from "../../actions/auth.actions";
+import { updateProfile, uploadImage } from "../../actions/auth.actions";
 import { toast } from "react-toastify";
 import ErrorMessage from "../ui/ErrorMessage";
+import Spinner from "../ui/shared/spinner/Spinner";
 
 type ProfileFormProps = {
   data: User;
@@ -17,7 +18,7 @@ export default function ProfileForm({ data }: ProfileFormProps) {
   } = useForm<UserProfileForm>({ defaultValues: data });
 
   const queryClient = useQueryClient();
-  const { mutate } = useMutation({
+  const updateProfileMutation = useMutation({
     mutationFn: updateProfile,
     onError: (error) => toast.error(error.message),
     onSuccess: (data) => {
@@ -25,8 +26,32 @@ export default function ProfileForm({ data }: ProfileFormProps) {
       queryClient.invalidateQueries({ queryKey: ["user"] });
     },
   });
+  const updateImageMutation = useMutation({
+    mutationFn: uploadImage,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(["user"], (prevData: User) => {
+        return {
+          ...prevData,
+          image: data,
+        };
+      });
+    },
+  });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      updateImageMutation.mutate(e.target.files[0]);
+    }
+  };
 
-  const handleEditProfile = (formData: UserProfileForm) => mutate(formData);
+  const handleUserProfileForm = (formData: UserProfileForm) => {
+    const user: User = queryClient.getQueryData(["user"])!;
+    user.name = formData.name;
+    user.email = formData.email;
+    updateProfileMutation.mutate(user);
+  };
 
   return (
     <>
@@ -37,7 +62,7 @@ export default function ProfileForm({ data }: ProfileFormProps) {
         </p>
 
         <form
-          onSubmit={handleSubmit(handleEditProfile)}
+          onSubmit={handleSubmit(handleUserProfileForm)}
           className=" mt-14 space-y-5  bg-white shadow-lg p-10 rounded-l"
           noValidate
         >
@@ -78,6 +103,34 @@ export default function ProfileForm({ data }: ProfileFormProps) {
               <ErrorMessage>{errors.email.message}</ErrorMessage>
             )}
           </div>
+          <div className="grid grid-cols-1 gap-2">
+            <label htmlFor="handle" className="text-sm font-bold uppercase">
+              Imagen
+            </label>
+            <input
+              id="image"
+              type="file"
+              name="handle"
+              className="p-2 border-none rounded-lg bg-slate-100"
+              accept="image/*"
+              onChange={handleChange}
+            />
+          </div>
+          {updateImageMutation.isPending ? (
+            <div className="flex justify-center my-3">
+              <Spinner />
+            </div>
+          ) : (
+            <div className="flex justify-center my-3">
+              {data.image && (
+                <img
+                  src={data.image!}
+                  alt="Imagen de perfil"
+                  className="object-cover w-56 h-56 rounded-lg"
+                />
+              )}
+            </div>
+          )}
           <input
             type="submit"
             value="Guardar Cambios"

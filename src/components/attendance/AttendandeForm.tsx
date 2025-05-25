@@ -75,15 +75,17 @@ export default function AttendanceFormMorning() {
         </Select>
       </div>
 
-      <label className="font-bold text-lg">Anotaciones </label>
       {tipo === "salida" && (
-        <textarea
-          placeholder="Escriba anotaciones (opcional)"
-          className="w-full border border-gray-400 p-2 rounded-lg"
-          onChange={(e) => setAnotaciones(e.target.value)}
-          value={anotaciones}
-          defaultValue={anotaciones}
-        />
+        <>
+          <label className="font-bold text-lg">Anotaciones </label>
+          <textarea
+            placeholder="Escriba anotaciones (opcional)"
+            className="w-full border border-gray-400 p-2 rounded-lg"
+            onChange={(e) => setAnotaciones(e.target.value)}
+            value={anotaciones}
+            defaultValue={anotaciones}
+          />
+        </>
       )}
 
       <MapaIframe onUbicacionConfirmada={(coords) => setUbicacion(coords)} />

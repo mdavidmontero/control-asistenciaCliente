@@ -23,23 +23,19 @@ export default function ListAttendanceHistory({ data }: Props) {
         </TableCaption>
         <TableHeader>
           <TableRow className="bg-gray-100">
-            <TableHead className="w-[120px] text-gray-700 font-semibold">
-              Fecha
-            </TableHead>
-            <TableHead className="text-gray-700 font-semibold">
-              Entrada Mañana
-            </TableHead>
-            <TableHead className="text-gray-700 font-semibold">
-              Salida Mañana
-            </TableHead>
-            <TableHead className="text-gray-700 font-semibold">
-              Entrada Tarde
-            </TableHead>
-            <TableHead className="text-gray-700 font-semibold">
-              Salida Tarde
-            </TableHead>
+            <TableHead className="w-[120px]">Fecha</TableHead>
+            <TableHead>Entrada Mañana</TableHead>
+            <TableHead>Ubicación Entrada</TableHead>
+            <TableHead>Salida Mañana</TableHead>
+            <TableHead>Ubicación Salida</TableHead>
+            <TableHead>Anotación Mañana</TableHead>
+            <TableHead>Entrada Tarde</TableHead>
+            <TableHead>Ubicación Entrada</TableHead>
+            <TableHead>Salida Tarde</TableHead>
+            <TableHead>Ubicación Salida</TableHead>
           </TableRow>
         </TableHeader>
+
         <TableBody>
           {data.map((attendance, idx) => (
             <TableRow
@@ -48,28 +44,83 @@ export default function ListAttendanceHistory({ data }: Props) {
                 idx % 2 === 0 ? "bg-white" : "bg-gray-50 hover:bg-gray-100"
               }
             >
-              <TableCell className="font-medium text-gray-800">
-                {formatDate(attendance!.date)}
-              </TableCell>
+              <TableCell>{formatDate(attendance!.date)}</TableCell>
               <TableCell>
                 {attendance?.morningIn
-                  ? formatDateTime(attendance.morningIn)
+                  ? formatDateTime(attendance?.morningIn)
                   : "—"}
+              </TableCell>
+              <TableCell>
+                {attendance?.morningInLocation ? (
+                  <a
+                    href={`https://www.google.com/maps?q=${attendance?.morningInLocation.lat},${attendance?.morningInLocation.lng}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 underline"
+                  >
+                    Ver en Mapa
+                  </a>
+                ) : (
+                  "—"
+                )}
               </TableCell>
               <TableCell>
                 {attendance?.morningOut
-                  ? formatDateTime(attendance.morningOut)
+                  ? formatDateTime(attendance?.morningOut)
                   : "—"}
               </TableCell>
               <TableCell>
+                {attendance?.morningOutLocation ? (
+                  <a
+                    href={`https://www.google.com/maps?q=${attendance?.morningOutLocation.lat},${attendance?.morningOutLocation.lng}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 underline"
+                  >
+                    Ver mapa
+                  </a>
+                ) : (
+                  "—"
+                )}
+              </TableCell>
+              <TableCell>{attendance?.anotacionesMorning || "—"}</TableCell>
+              <TableCell>
                 {attendance?.afternoonIn
-                  ? formatDateTime(attendance.afternoonIn)
+                  ? formatDateTime(attendance?.afternoonIn)
                   : "—"}
+              </TableCell>
+              <TableCell>
+                {attendance?.afternoonInLocation ? (
+                  <a
+                    href={`https://www.google.com/maps?q=${attendance?.afternoonInLocation.lat},${attendance?.afternoonInLocation.lng}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 underline"
+                  >
+                    Ver mapa
+                  </a>
+                ) : (
+                  "—"
+                )}
               </TableCell>
               <TableCell>
                 {attendance?.afternoonOut
-                  ? formatDateTime(attendance.afternoonOut)
+                  ? formatDateTime(attendance?.afternoonOut)
                   : "—"}
+              </TableCell>
+              <TableCell>
+                {attendance?.afternoonOutLocation ? (
+                  <a
+                    href={`https://www.google.com/maps?q=${attendance?.afternoonOutLocation.lat},${attendance?.afternoonOutLocation.lng}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 underline"
+                  >
+                    Ver mapa
+                  </a>
+                ) : (
+                  "—"
+                )}
               </TableCell>
             </TableRow>
           ))}

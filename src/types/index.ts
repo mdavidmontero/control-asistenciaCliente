@@ -34,6 +34,8 @@ export const userSchema = authSchema
   })
   .extend({
     id: z.string(),
+    role: z.string(),
+    image: z.string().nullable(),
   });
 export type User = z.infer<typeof userSchema>;
 export type UserProfileForm = Pick<User, "name" | "email">;
@@ -43,10 +45,43 @@ export const attendanceSchema = z
     id: z.string(),
     userId: z.string(),
     date: z.string(),
+
     morningIn: z.string().nullable(),
     morningOut: z.string().nullable(),
     afternoonIn: z.string().nullable(),
     afternoonOut: z.string().nullable(),
+
+    morningInLocation: z
+      .object({
+        lat: z.number(),
+        lng: z.number(),
+      })
+      .nullable(),
+
+    morningOutLocation: z
+      .object({
+        lat: z.number(),
+        lng: z.number(),
+      })
+      .nullable(),
+
+    afternoonInLocation: z
+      .object({
+        lat: z.number(),
+        lng: z.number(),
+      })
+      .nullable(),
+
+    afternoonOutLocation: z
+      .object({
+        lat: z.number(),
+        lng: z.number(),
+      })
+      .nullable(),
+
+    anotacionesMorning: z.string().nullable(),
+    anotacionesAfternoon: z.string().nullable(),
+
     createdAt: z.string(),
     updatedAt: z.string(),
   })
@@ -59,14 +94,25 @@ export const attendancesSchemas = z.array(attendanceSchema);
 export interface SchemaHistoryAttendances {
   id: string;
   userId: string;
-  date: Date;
-  morningIn: Date;
-  morningOut: Date;
-  afternoonIn: Date;
-  afternoonOut: null;
-  createdAt: Date;
-  updatedAt: Date;
+  date: string;
+  morningIn: string | null;
+  morningInLocation: { lat: number; lng: number } | null;
+  morningOut: string | null;
+  morningOutLocation: { lat: number; lng: number } | null;
+  afternoonIn: string | null;
+  afternoonInLocation: { lat: number; lng: number } | null;
+  afternoonOut: string | null;
+  afternoonOutLocation: { lat: number; lng: number } | null;
+  anotacionesMorning?: string | null;
+  anotacionesAfternoon?: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
+
+const locationSchema = z.object({
+  lat: z.number(),
+  lng: z.number(),
+});
 
 export const historyAttendancesSchema = z
   .object({
@@ -74,9 +120,15 @@ export const historyAttendancesSchema = z
     userId: z.string(),
     date: z.string(),
     morningIn: z.string().nullable(),
+    morningInLocation: locationSchema.nullable(),
     morningOut: z.string().nullable(),
+    morningOutLocation: locationSchema.nullable(),
     afternoonIn: z.string().nullable(),
+    afternoonInLocation: locationSchema.nullable(),
     afternoonOut: z.string().nullable(),
+    afternoonOutLocation: locationSchema.nullable(),
+    anotacionesMorning: z.string().nullable().optional(),
+    anotacionesAfternoon: z.string().nullable().optional(),
     createdAt: z.string(),
     updatedAt: z.string(),
   })
