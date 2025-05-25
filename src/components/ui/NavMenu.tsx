@@ -66,8 +66,11 @@ export default function NavMenu({ name }: NavMenuProps) {
                 Historico Todas las Asistencias
               </Link>
             )}
-            <Link to="/" className="block p-2 hover:text-green-950">
-              Registrar Limpieza Centrales
+            <Link
+              to="/cleaning-center"
+              className="block p-2 hover:text-green-950"
+            >
+              Registrar Limpieza Centro Acopio
             </Link>
             <button
               className="block p-2 hover:text-green-950  hover:font-bold cursor-pointer"

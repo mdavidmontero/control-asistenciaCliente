@@ -14,6 +14,8 @@ import HomeProfile from "./views/profile/HomeProfile";
 import ChangePasswordView from "./views/profile/ChangePasswordView";
 import HomeHistoryAttendance from "./views/attendance/HomeHistoryAttendance";
 import HistoryAttendandeAll from "./views/attendance/HistoryAttendandeAll";
+import HomeCleaningCenter from "./views/CleaningCenter/HomeCleaningCenter";
+import FormCleaningEdit from "./components/centerCleaning/FormCleaningEdit";
 
 export default function Router() {
   return (
@@ -29,6 +31,11 @@ export default function Router() {
           <Route
             path="/history-asistencias-todas"
             element={<HistoryAttendandeAll />}
+          />
+          <Route path="/cleaning-center" element={<HomeCleaningCenter />} />
+          <Route
+            path="/cleaning-center/edit/:id"
+            element={<FormCleaningEdit />}
           />
           <Route element={<ProfileLayout />}>
             <Route path="/profile" element={<HomeProfile />} />
