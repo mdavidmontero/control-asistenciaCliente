@@ -1,6 +1,6 @@
 import { isAxiosError } from "axios";
 import api from "../lib/axios";
-import { attendanceSchema } from "../types";
+import { attendanceSchema, historyAttendancesSchemas } from "../types";
 export const registerAttendanceMorning = async (
   tipo: string,
   ubicacion: { lat: number; lng: number },
@@ -42,8 +42,26 @@ export const registerAttendanceAfternoon = async (
 export const getAttendandesUser = async () => {
   try {
     const { data } = await api.get("/attendance");
-    console.log(data);
     const response = attendanceSchema.safeParse(data);
+    if (response.success) {
+      return response.data;
+    }
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+    }
+  }
+};
+
+export const getAttendanceHistoryMonth = async (from: string, to: string) => {
+  try {
+    const { data } = await api.get("/attendance/history/", {
+      params: {
+        from,
+        to,
+      },
+    });
+    const response = historyAttendancesSchemas.safeParse(data);
     if (response.success) {
       return response.data;
     }
