@@ -114,6 +114,14 @@ const locationSchema = z.object({
   lng: z.number(),
 });
 
+export const userSchemaProfile = z
+  .object({
+    email: z.string().nullable(),
+    image: z.string().nullable(),
+    name: z.string().nullable(),
+  })
+  .optional();
+
 export const historyAttendancesSchema = z
   .object({
     id: z.string(),
@@ -131,6 +139,7 @@ export const historyAttendancesSchema = z
     anotacionesAfternoon: z.string().nullable().optional(),
     createdAt: z.string(),
     updatedAt: z.string(),
+    user: userSchemaProfile,
   })
   .optional();
 

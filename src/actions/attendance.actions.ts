@@ -62,6 +62,27 @@ export const getAttendanceHistoryMonth = async (from: string, to: string) => {
       },
     });
     const response = historyAttendancesSchemas.safeParse(data);
+
+    if (response.success) {
+      return response.data;
+    }
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+    }
+  }
+};
+
+export const getAttendanceHistoryAll = async (fecha: string) => {
+  try {
+    const { data } = await api.get("/attendance/history-all", {
+      params: {
+        fecha,
+      },
+    });
+    console.log(data);
+    const response = historyAttendancesSchemas.safeParse(data);
+    console.log(response);
     if (response.success) {
       return response.data;
     }

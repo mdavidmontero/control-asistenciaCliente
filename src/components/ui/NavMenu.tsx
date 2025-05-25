@@ -9,11 +9,13 @@ import { Bars3Icon } from "@heroicons/react/20/solid";
 import { Link, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import type { User } from "../../types";
+import { userAuthStore } from "@/store/useAuthStore";
 
 type NavMenuProps = {
   name: User["name"];
 };
 export default function NavMenu({ name }: NavMenuProps) {
+  const user = userAuthStore((state) => state.user);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const logout = async () => {
@@ -56,6 +58,14 @@ export default function NavMenu({ name }: NavMenuProps) {
             >
               Historico de Asistencias
             </Link>
+            {user?.role === "ADMIN" && (
+              <Link
+                to="/history-asistencias-todas"
+                className="block p-2 hover:text-green-950"
+              >
+                Historico Todas las Asistencias
+              </Link>
+            )}
             <Link to="/" className="block p-2 hover:text-green-950">
               Registrar Limpieza Centrales
             </Link>

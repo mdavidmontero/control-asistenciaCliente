@@ -92,6 +92,7 @@ export default function AttendanceFormMorning() {
 
       <Button
         onClick={handleSubmit}
+        disabled={!ubicacion}
         className="w-full md:w-80 bg-amber-500 hover:bg-amber-600 transition-colors"
       >
         Firmar asistencia

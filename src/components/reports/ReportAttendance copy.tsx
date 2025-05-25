@@ -78,7 +78,7 @@ interface Props {
   companyName?: string;
 }
 
-export function AttendanceReport({
+export function AttendanceReportAll({
   data,
   personName,
   logoUrl = "/logo.png",
@@ -102,6 +102,7 @@ export function AttendanceReport({
 
         <View style={styles.tableHeader}>
           <Text style={styles.col}>Fecha</Text>
+          <Text style={styles.col}>Nombre</Text>
           <Text style={styles.col}>Entrada Mañana</Text>
           <Text style={styles.col}>Salida Mañana</Text>
           <Text style={styles.largeCol}>Anotación Mañana</Text>
@@ -113,6 +114,7 @@ export function AttendanceReport({
         {data.map((attendance, index) => (
           <View key={index} style={styles.tableRow}>
             <Text style={styles.col}>{formatDate(attendance!.date)}</Text>
+            <Text style={styles.col}>{attendance?.user?.name || "—"}</Text>
 
             <Text style={styles.col}>
               {attendance?.morningIn

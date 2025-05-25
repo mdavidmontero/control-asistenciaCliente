@@ -42,7 +42,7 @@ export default function HomeHistoryAttendance() {
   };
 
   return (
-    <div className="max-w-screen-lg mx-auto px-4 py-8">
+    <div className="max-w-screen mx-auto px-4 py-8">
       <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center mb-6">
         <div>
           <h1 className="text-3xl font-extrabold text-green-700 mb-1">
