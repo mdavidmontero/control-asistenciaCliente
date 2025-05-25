@@ -36,9 +36,10 @@ export const userSchema = authSchema
     id: z.string(),
     role: z.string(),
     image: z.string().nullable(),
+    cargo: z.string().nullable(),
   });
 export type User = z.infer<typeof userSchema>;
-export type UserProfileForm = Pick<User, "name" | "email">;
+export type UserProfileForm = Pick<User, "name" | "email" | "cargo">;
 
 export const attendanceSchema = z
   .object({
@@ -119,6 +120,7 @@ export const userSchemaProfile = z
     email: z.string().nullable(),
     image: z.string().nullable(),
     name: z.string().nullable(),
+    cargo: z.string().nullable(),
   })
   .optional();
 

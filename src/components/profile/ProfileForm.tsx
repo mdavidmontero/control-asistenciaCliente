@@ -50,6 +50,7 @@ export default function ProfileForm({ data }: ProfileFormProps) {
     const user: User = queryClient.getQueryData(["user"])!;
     user.name = formData.name;
     user.email = formData.email;
+    user.cargo = formData.cargo;
     updateProfileMutation.mutate(user);
   };
 
@@ -101,6 +102,23 @@ export default function ProfileForm({ data }: ProfileFormProps) {
             />
             {errors.email && (
               <ErrorMessage>{errors.email.message}</ErrorMessage>
+            )}
+          </div>
+          <div className="mb-5 space-y-3">
+            <label className="text-sm uppercase font-bold" htmlFor="cargo">
+              Cargo o Área de Atención
+            </label>
+            <input
+              id="cargo"
+              type="text"
+              placeholder="Área a cargo o cargo"
+              className="w-full border border-gray-400 p-3 rounded-lg"
+              {...register("cargo", {
+                required: "El cargo es obligatorio",
+              })}
+            />
+            {errors.cargo && (
+              <ErrorMessage>{errors.cargo.message}</ErrorMessage>
             )}
           </div>
           <div className="grid grid-cols-1 gap-2">

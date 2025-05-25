@@ -34,6 +34,11 @@ export default function AppLayout() {
                 <span className="text-black font-semibold mt-2 text-center">
                   {data.name}
                 </span>
+                {data.cargo && (
+                  <span className="text-black font-black mt-2 text-center">
+                    {data.cargo}
+                  </span>
+                )}
               </div>
 
               <div className="w-full lg:w-auto flex justify-center">

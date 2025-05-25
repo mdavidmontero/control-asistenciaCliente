@@ -25,6 +25,9 @@ export default function ListAttendanceHistoryAll({ data }: Props) {
           <TableRow className="bg-gray-100  text-gray-600">
             <TableHead>Empleado</TableHead>
             <TableHead>Fecha</TableHead>
+            {data?.[0]?.user?.cargo && <TableHead>Cargo</TableHead>}
+            <TableHead>Cargo</TableHead>
+
             <TableHead>Entrada AM</TableHead>
             <TableHead>Ubicación</TableHead>
             <TableHead>Salida AM</TableHead>
@@ -65,6 +68,9 @@ export default function ListAttendanceHistoryAll({ data }: Props) {
               </TableCell>
 
               <TableCell>{formatDate(attendance!.date)}</TableCell>
+              {attendance?.user?.cargo && (
+                <TableCell>{attendance?.user?.cargo || "—"}</TableCell>
+              )}
 
               {/* AM - Entrada */}
               <TableCell>
@@ -78,7 +84,7 @@ export default function ListAttendanceHistoryAll({ data }: Props) {
                     href={`https://www.google.com/maps?q=${attendance.morningInLocation.lat},${attendance.morningInLocation.lng}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 underline text-xs"
+                    className="text-blue-600 underline"
                   >
                     Ver mapa
                   </a>
@@ -143,7 +149,7 @@ export default function ListAttendanceHistoryAll({ data }: Props) {
                     href={`https://www.google.com/maps?q=${attendance.afternoonOutLocation.lat},${attendance.afternoonOutLocation.lng}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 underline text-xs"
+                    className="text-blue-600 underline"
                   >
                     Ver mapa
                   </a>
