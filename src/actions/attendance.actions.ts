@@ -1,10 +1,16 @@
 import { isAxiosError } from "axios";
 import api from "../lib/axios";
 import { attendanceSchema } from "../types";
-export const registerAttendanceMorning = async (tipo: string) => {
+export const registerAttendanceMorning = async (
+  tipo: string,
+  ubicacion: { lat: number; lng: number },
+  anotaciones: string
+) => {
   try {
     const { data } = await api.post("/attendance/register-morning", {
       tipo,
+      ubicacion,
+      anotaciones,
     });
     return data;
   } catch (error) {
@@ -14,10 +20,16 @@ export const registerAttendanceMorning = async (tipo: string) => {
   }
 };
 
-export const registerAttendanceAfternoon = async (tipo: string) => {
+export const registerAttendanceAfternoon = async (
+  tipo: string,
+  ubicacion: { lat: number; lng: number },
+  anotaciones: string
+) => {
   try {
     const { data } = await api.post("/attendance/register-afternoon", {
       tipo,
+      ubicacion,
+      anotaciones,
     });
     return data;
   } catch (error) {

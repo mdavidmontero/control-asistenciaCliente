@@ -11,14 +11,26 @@ import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { registerAttendanceMorning } from "../../actions/attendance.actions";
 import { useNavigate } from "react-router-dom";
+import MapaIframe from "../maps/MapaIframe";
 
 export default function AttendanceFormMorning() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [tipo, setTipo] = useState<"entrada" | "salida" | "">("");
+  const [ubicacion, setUbicacion] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+  const [anotaciones, setAnotaciones] = useState("");
+  type AttendanceInput = {
+    tipo: "entrada" | "salida";
+    ubicacion: { lat: number; lng: number };
+    anotaciones: string;
+  };
 
   const { mutate } = useMutation({
-    mutationFn: registerAttendanceMorning,
+    mutationFn: ({ tipo, ubicacion, anotaciones }: AttendanceInput) =>
+      registerAttendanceMorning(tipo, ubicacion, anotaciones),
     onError: (error) => {
       toast.error(error.message);
     },
@@ -37,7 +49,12 @@ export default function AttendanceFormMorning() {
       toast.error("Seleccione el tipo de asistencia");
       return;
     }
-    mutate(tipo);
+
+    if (!ubicacion) {
+      toast.error("Debe permitir ubicación para firmar asistencia");
+      return;
+    }
+    mutate({ tipo, ubicacion, anotaciones });
   };
 
   return (
@@ -57,6 +74,19 @@ export default function AttendanceFormMorning() {
           </SelectContent>
         </Select>
       </div>
+
+      <label className="font-bold text-lg">Anotaciones </label>
+      {tipo === "salida" && (
+        <textarea
+          placeholder="Escriba anotaciones (opcional)"
+          className="w-full border border-gray-400 p-2 rounded-lg"
+          onChange={(e) => setAnotaciones(e.target.value)}
+          value={anotaciones}
+          defaultValue={anotaciones}
+        />
+      )}
+
+      <MapaIframe onUbicacionConfirmada={(coords) => setUbicacion(coords)} />
 
       <Button
         onClick={handleSubmit}
