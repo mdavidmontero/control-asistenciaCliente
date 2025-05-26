@@ -26,7 +26,6 @@ export default function ListAttendanceHistoryAll({ data }: Props) {
             <TableHead>Empleado</TableHead>
             <TableHead>Fecha</TableHead>
             {data?.[0]?.user?.cargo && <TableHead>Cargo</TableHead>}
-            <TableHead>Cargo</TableHead>
 
             <TableHead>Entrada AM</TableHead>
             <TableHead>Ubicación</TableHead>
