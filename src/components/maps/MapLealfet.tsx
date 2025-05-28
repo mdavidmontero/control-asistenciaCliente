@@ -26,7 +26,7 @@ export default function MapaLeaflet({
         alert("Debes permitir acceso a la ubicación para firmar asistencia.");
       }
     );
-  }, []);
+  }, [onUbicacionConfirmada]);
 
   if (!coords) {
     return <p className="text-center mt-4">Obteniendo ubicación...</p>;
