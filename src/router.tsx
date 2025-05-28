@@ -17,8 +17,16 @@ import HistoryAttendandeAll from "./views/attendance/HistoryAttendandeAll";
 import HomeCleaningCenter from "./views/CleaningCenter/HomeCleaningCenter";
 import FormCleaningEdit from "./components/centerCleaning/FormCleaningEdit";
 import FormCleaningCenter from "./components/centerCleaning/FormCleaningCenter";
+import { useUbicacionStore } from "./store/ubicacionStore";
+import { useEffect } from "react";
 
 export default function Router() {
+  const cargarUbicacion = useUbicacionStore((state) => state.cargarUbicacion);
+
+  useEffect(() => {
+    cargarUbicacion();
+  }, [cargarUbicacion]);
+
   return (
     <BrowserRouter>
       <Routes>

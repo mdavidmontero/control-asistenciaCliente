@@ -1,33 +1,25 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { useUbicacionStore } from "@/store/ubicacionStore";
 
 type Props = {
-  onUbicacionConfirmada: (coords: { lat: number; lng: number }) => void;
+  onUbicacionConfirmada?: (coords: { lat: number; lng: number }) => void;
 };
 
 export default function MapaLeaflet({ onUbicacionConfirmada }: Props) {
-  const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(
-    null
-  );
+  const coords = useUbicacionStore((state) => state.coords);
+  const cargarUbicacion = useUbicacionStore((state) => state.cargarUbicacion);
   const markerRef = useRef<L.Marker | null>(null);
 
   useEffect(() => {
     if (!coords) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const nuevaUbicacion = {
-            lat: pos.coords.latitude,
-            lng: pos.coords.longitude,
-          };
-          setCoords(nuevaUbicacion);
-          onUbicacionConfirmada(nuevaUbicacion);
-        },
-        () => alert("Debes permitir acceso a tu ubicación")
-      );
+      cargarUbicacion();
+    } else {
+      onUbicacionConfirmada?.(coords);
     }
-  }, [coords, onUbicacionConfirmada]);
+  }, [coords, cargarUbicacion, onUbicacionConfirmada]);
 
   if (!coords)
     return <p className="text-center text-gray-500">Cargando mapa...</p>;
