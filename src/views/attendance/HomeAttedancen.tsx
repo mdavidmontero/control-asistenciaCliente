@@ -20,10 +20,10 @@ export default function HomeAttendance() {
     <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
       <div className="flex flex-col-reverse md:flex-row md:justify-between items-start md:items-center gap-4">
         <div className="space-y-2">
-          <h1 className="font-extrabold text-3xl md:text-4xl text-amber-600">
+          <h1 className="font-extrabold text-2xl md:text-3xl text-amber-600">
             Registrar asistencia del día {new Date().toLocaleDateString()}
           </h1>
-          <p className="text-lg md:text-xl font-medium text-gray-700">
+          <p className="text-lg  font-medium text-gray-700">
             Seleccione el tipo de{" "}
             <span className="text-amber-500 font-semibold">asistencia</span>
           </p>
@@ -59,9 +59,11 @@ export default function HomeAttendance() {
         </Button>
       </div>
 
-      <div className="p-6 md:p-10 mt-6 bg-white border rounded-xl shadow-md space-y-6">
+      <div className="p-6 md:p-10 mt-6 bg-white border rounded-xl shadow-md space-y-6 text-center">
         <MapaLeaflet onUbicacionConfirmada={setUbicacion} />
-        <span>Hora Actual: {new Date().toLocaleTimeString()}</span>
+        <span className="font-semibold text-sm text-center">
+          Hora Actual: {new Date().toLocaleTimeString()}
+        </span>
         {tipo === "entrada" ? (
           <AttendanceFormMorning ubicacion={ubicacion} />
         ) : (
