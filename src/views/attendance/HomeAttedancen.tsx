@@ -3,11 +3,16 @@ import { Link } from "react-router-dom";
 import { Button } from "../../components/ui/button";
 import AttendanceFormMorning from "../../components/attendance/AttendandeForm";
 import AttendanceFormAfternoon from "../../components/attendance/AttendanceFormAfternoon";
+import MapaLeaflet from "@/components/maps/MapLealfet";
 
 export default function HomeAttendance() {
   const [tipo, setTipo] = useState<"entrada" | "salida">("entrada");
+  const [ubicacion, setUbicacion] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
 
-  const handleSelectJornada = async (tipo: "entrada" | "salida") => {
+  const handleSelectJornada = (tipo: "entrada" | "salida") => {
     setTipo(tipo);
   };
 
@@ -30,6 +35,7 @@ export default function HomeAttendance() {
           Volver
         </Link>
       </div>
+
       <div className="flex justify-center gap-4">
         <Button
           onClick={() => handleSelectJornada("entrada")}
@@ -53,11 +59,13 @@ export default function HomeAttendance() {
         </Button>
       </div>
 
-      <div className="p-6 md:p-10 mt-6 bg-white border rounded-xl shadow-md">
+      <div className="p-6 md:p-10 mt-6 bg-white border rounded-xl shadow-md space-y-6">
+        <MapaLeaflet onUbicacionConfirmada={setUbicacion} />
+        <span>Hora Actual: {new Date().toLocaleTimeString()}</span>
         {tipo === "entrada" ? (
-          <AttendanceFormMorning />
+          <AttendanceFormMorning ubicacion={ubicacion} />
         ) : (
-          <AttendanceFormAfternoon />
+          <AttendanceFormAfternoon ubicacion={ubicacion} />
         )}
       </div>
     </div>

@@ -1,61 +1,55 @@
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-export default function MapaLeaflet({
-  onUbicacionConfirmada,
-}: {
+type Props = {
   onUbicacionConfirmada: (coords: { lat: number; lng: number }) => void;
-}) {
+};
+
+export default function MapaLeaflet({ onUbicacionConfirmada }: Props) {
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(
     null
   );
+  const markerRef = useRef<L.Marker | null>(null);
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const ubicacion = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-        setCoords(ubicacion);
-        onUbicacionConfirmada(ubicacion);
-      },
-      () => {
-        alert("Debes permitir acceso a la ubicación para firmar asistencia.");
-      }
-    );
-  }, [onUbicacionConfirmada]);
+    if (!coords) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const nuevaUbicacion = {
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude,
+          };
+          setCoords(nuevaUbicacion);
+          onUbicacionConfirmada(nuevaUbicacion);
+        },
+        () => alert("Debes permitir acceso a tu ubicación")
+      );
+    }
+  }, [coords, onUbicacionConfirmada]);
 
-  if (!coords) {
-    return <p className="text-center mt-4">Obteniendo ubicación...</p>;
-  }
+  if (!coords)
+    return <p className="text-center text-gray-500">Cargando mapa...</p>;
 
-  const markerIcon = new L.Icon({
-    iconUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png",
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png",
-    shadowSize: [41, 41],
+  const icon = L.icon({
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/64/64113.png",
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
   });
 
   return (
-    <div className="w-full h-[300px] rounded border overflow-hidden">
-      <MapContainer
-        center={[coords.lat, coords.lng]}
-        zoom={18}
-        style={{ height: "100%", width: "100%" }}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a>'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={[coords.lat, coords.lng]} icon={markerIcon}>
-          <Popup>Tu ubicación</Popup>
-        </Marker>
-      </MapContainer>
-    </div>
+    <MapContainer
+      center={[coords.lat, coords.lng]}
+      zoom={15}
+      style={{ height: "300px", width: "100%", borderRadius: "12px" }}
+      scrollWheelZoom={false}
+    >
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution="&copy; OpenStreetMap contributors"
+      />
+      <Marker position={[coords.lat, coords.lng]} icon={icon} ref={markerRef} />
+    </MapContainer>
   );
 }

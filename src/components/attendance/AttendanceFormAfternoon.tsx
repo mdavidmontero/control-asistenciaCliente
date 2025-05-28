@@ -11,16 +11,15 @@ import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { registerAttendanceAfternoon } from "../../actions/attendance.actions";
 import { useNavigate } from "react-router-dom";
-import MapaLeaflet from "../maps/MapLealfet";
 
-export default function AttendanceFormAfternoon() {
+type Props = {
+  ubicacion: { lat: number; lng: number } | null;
+};
+export default function AttendanceFormAfternoon({ ubicacion }: Props) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [tipo, setTipo] = useState<"entrada" | "salida" | "">("");
-  const [ubicacion, setUbicacion] = useState<{
-    lat: number;
-    lng: number;
-  } | null>(null);
+
   const [anotaciones, setAnotaciones] = useState("");
   type AttendanceInput = {
     tipo: "entrada" | "salida";
@@ -76,18 +75,18 @@ export default function AttendanceFormAfternoon() {
           </SelectContent>
         </Select>
       </div>
-      <label className="font-bold text-lg">Anotaciones </label>
       {tipo === "salida" && (
-        <textarea
-          placeholder="Escriba anotaciones (opcional)"
-          className="w-full border border-gray-400 p-2 rounded-lg"
-          onChange={(e) => setAnotaciones(e.target.value)}
-          value={anotaciones}
-          defaultValue={anotaciones}
-        />
+        <>
+          <label className="font-bold text-lg">Anotaciones </label>
+          <textarea
+            placeholder="Escriba anotaciones (opcional)"
+            className="w-full border border-gray-400 p-2 rounded-lg"
+            onChange={(e) => setAnotaciones(e.target.value)}
+            value={anotaciones}
+            defaultValue={anotaciones}
+          />
+        </>
       )}
-
-      <MapaLeaflet onUbicacionConfirmada={(coords) => setUbicacion(coords)} />
 
       <Button
         onClick={handleSubmit}

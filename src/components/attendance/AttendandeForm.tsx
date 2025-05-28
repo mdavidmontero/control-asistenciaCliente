@@ -11,16 +11,15 @@ import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { registerAttendanceMorning } from "../../actions/attendance.actions";
 import { useNavigate } from "react-router-dom";
-import MapaLeaflet from "../maps/MapLealfet";
 
-export default function AttendanceFormMorning() {
+type Props = {
+  ubicacion: { lat: number; lng: number } | null;
+};
+export default function AttendanceFormMorning({ ubicacion }: Props) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [tipo, setTipo] = useState<"entrada" | "salida" | "">("");
-  const [ubicacion, setUbicacion] = useState<{
-    lat: number;
-    lng: number;
-  } | null>(null);
+
   const [anotaciones, setAnotaciones] = useState("");
   type AttendanceInput = {
     tipo: "entrada" | "salida";
@@ -87,8 +86,6 @@ export default function AttendanceFormMorning() {
           />
         </>
       )}
-
-      <MapaLeaflet onUbicacionConfirmada={(coords) => setUbicacion(coords)} />
 
       <Button
         onClick={handleSubmit}
