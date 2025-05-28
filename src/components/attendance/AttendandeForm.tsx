@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { registerAttendanceMorning } from "../../actions/attendance.actions";
 import { useNavigate } from "react-router-dom";
-import MapaIframe from "../maps/MapaIframe";
+import MapaLeaflet from "../maps/MapLealfet";
 
 export default function AttendanceFormMorning() {
   const navigate = useNavigate();
@@ -88,7 +88,7 @@ export default function AttendanceFormMorning() {
         </>
       )}
 
-      <MapaIframe onUbicacionConfirmada={(coords) => setUbicacion(coords)} />
+      <MapaLeaflet onUbicacionConfirmada={(coords) => setUbicacion(coords)} />
 
       <Button
         onClick={handleSubmit}
