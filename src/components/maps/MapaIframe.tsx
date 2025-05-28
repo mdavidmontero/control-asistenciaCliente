@@ -8,6 +8,7 @@ export default function MapaIframe({
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(
     null
   );
+  const [mapLoaded, setMapLoaded] = useState(false);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -25,13 +26,20 @@ export default function MapaIframe({
     );
   }, []);
 
+  const handleLoad = () => setMapLoaded(true);
+
   if (!coords)
     return <p className="text-center mt-4">Obteniendo ubicación...</p>;
 
   const mapUrl = `https://maps.google.com/maps?q=${coords.lat},${coords.lng}&z=18&output=embed`;
 
   return (
-    <div className="w-full h-[300px] rounded border overflow-hidden">
+    <div className="w-full h-[300px] rounded border overflow-hidden relative">
+      {!mapLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center bg-white z-10">
+          <span className="text-gray-600">Cargando mapa...</span>
+        </div>
+      )}
       <iframe
         title="Google Maps"
         width="100%"
@@ -39,7 +47,9 @@ export default function MapaIframe({
         frameBorder="0"
         src={mapUrl}
         allowFullScreen
-      ></iframe>
+        onLoad={handleLoad}
+        loading="lazy"
+      />
     </div>
   );
 }
