@@ -19,6 +19,7 @@ import FormCleaningEdit from "./components/centerCleaning/FormCleaningEdit";
 import FormCleaningCenter from "./components/centerCleaning/FormCleaningCenter";
 import { useUbicacionStore } from "./store/ubicacionStore";
 import { useEffect } from "react";
+import HomeStickyTraps from "./views/stickyTraps/HomeStickyTraps";
 
 export default function Router() {
   const cargarUbicacion = useUbicacionStore((state) => state.cargarUbicacion);
@@ -50,6 +51,8 @@ export default function Router() {
             path="/cleaning-center/edit/:id"
             element={<FormCleaningEdit />}
           />
+          <Route path="/traps-center" element={<HomeStickyTraps />} />
+
           <Route element={<ProfileLayout />}>
             <Route path="/profile" element={<HomeProfile />} />
             <Route path="/profile/password" element={<ChangePasswordView />} />

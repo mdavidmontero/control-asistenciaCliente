@@ -54,7 +54,6 @@ export default function HomeCleaningCenter() {
         </p>
       </div>
 
-      {/* Acciones */}
       <div className="flex flex-wrap gap-4 justify-between items-center">
         <CalendarFilter setDateSelected={setDateSelected} />
 
@@ -87,7 +86,6 @@ export default function HomeCleaningCenter() {
         </div>
       </div>
 
-      {/* Resultados */}
       <div className=" rounded-xl">
         {data && data.length > 0 ? (
           <>

@@ -15,7 +15,7 @@ import {
 } from "@/actions/cleanin-center.actions";
 import { toast } from "react-toastify";
 
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CalendarShared from "../ui/CalendarShared";
 
 export default function FormCleaningEdit() {
@@ -23,6 +23,7 @@ export default function FormCleaningEdit() {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const queryClient = useQueryClient();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const {
     handleSubmit,
@@ -82,9 +83,16 @@ export default function FormCleaningEdit() {
       toast.error(error.message);
     },
     onSuccess: (data) => {
-      toast.success(data);
       queryClient.invalidateQueries({ queryKey: ["limpiezaacopio"] });
-      queryClient.invalidateQueries({ queryKey: ["limpiezaacopioDateActual"] });
+      queryClient.invalidateQueries({
+        queryKey: ["limpiezaacopioDateActual"],
+      });
+      toast.success(data, {
+        onClose: () => {
+          navigate(-1);
+        },
+        autoClose: 1000,
+      });
     },
   });
 
@@ -118,10 +126,20 @@ export default function FormCleaningEdit() {
       {/* Áreas */}
       <div>
         <label className="font-bold uppercase">Fecha de Intervención</label>
-        <CalendarShared date={date} setDate={setDate} />
-        <label className="text-sm uppercase font-bold">
-          Áreas a intervenir
-        </label>
+        <div className="flex flex-col-reverse md:flex-row items-center justify-between">
+          <div className="w-full md:w-2/3">
+            <CalendarShared date={date} setDate={setDate} />
+          </div>
+
+          <div className="w-full md:w-1/2 flex justify-end md:justify-center">
+            <img
+              src="/limpieza.png"
+              alt="limpieza"
+              className="w-28 sm:w-36 md:w-44 lg:w-full object-contain"
+            />
+          </div>
+        </div>
+
         <p className="font-medium text-gray-600">
           Seleccione las Áreas a intervenir
         </p>

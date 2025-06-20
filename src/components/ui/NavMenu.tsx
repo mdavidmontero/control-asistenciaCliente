@@ -72,6 +72,9 @@ export default function NavMenu({ name }: NavMenuProps) {
             >
               Registrar Limpieza Centro Acopio
             </Link>
+            <Link to="/traps-center" className="block p-2 hover:text-green-950">
+              Trampas Pegajosas
+            </Link>
             <button
               className="block p-2 hover:text-green-950  hover:font-bold cursor-pointer"
               type="button"

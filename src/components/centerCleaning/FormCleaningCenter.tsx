@@ -12,9 +12,11 @@ import { registerLimpiezaAcopio } from "@/actions/cleanin-center.actions";
 import { toast } from "react-toastify";
 import CalendarShared from "../ui/CalendarShared";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function FormCleaningCenter() {
   const user = userAuthStore((state) => state.user);
+  const navigate = useNavigate();
   const [date, setDate] = useState<Date | undefined>(new Date());
   const queryClient = useQueryClient();
   const {
@@ -51,8 +53,16 @@ export default function FormCleaningCenter() {
       toast.error(error.message);
     },
     onSuccess: (data) => {
-      toast.success(data);
       queryClient.invalidateQueries({ queryKey: ["limpiezaacopio"] });
+      queryClient.invalidateQueries({
+        queryKey: ["limpiezaacopioDateActual"],
+      });
+      toast.success(data, {
+        onClose: () => {
+          navigate(-1);
+        },
+        autoClose: 1000,
+      });
     },
   });
 
@@ -76,13 +86,25 @@ export default function FormCleaningCenter() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-6 p-4 max-w-4xl mx-auto bg-white rounded-lg shadow-lg shadow-gray-400"
+      className="space-y-6 p-4 max-w-4xl mx-auto bg-white rounded-lg shadow-lg shadow-gray-400 relative"
     >
       <h2 className="text-xl font-bold">Información general</h2>
 
       <div>
         <label className="font-bold uppercase">Fecha de Intervención</label>
-        <CalendarShared date={date} setDate={setDate} />
+        <div className="flex flex-col-reverse md:flex-row items-center justify-between">
+          <div className="w-full md:w-2/3">
+            <CalendarShared date={date} setDate={setDate} />
+          </div>
+
+          <div className="w-full md:w-1/2 flex justify-end md:justify-center">
+            <img
+              src="/limpieza.png"
+              alt="limpieza"
+              className="w-28 sm:w-36 md:w-44 lg:w-full object-contain"
+            />
+          </div>
+        </div>
         <label className="text-sm uppercase font-bold">
           Áreas a intervenir
         </label>
