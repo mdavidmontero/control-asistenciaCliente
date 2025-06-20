@@ -10,9 +10,12 @@ import { limpiezaSchema, type LimpiezaForm } from "@/types/schemas";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { registerLimpiezaAcopio } from "@/actions/cleanin-center.actions";
 import { toast } from "react-toastify";
+import CalendarShared from "../ui/CalendarShared";
+import { useState } from "react";
 
 export default function FormCleaningCenter() {
   const user = userAuthStore((state) => state.user);
+  const [date, setDate] = useState<Date | undefined>(new Date());
   const queryClient = useQueryClient();
   const {
     handleSubmit,
@@ -56,7 +59,7 @@ export default function FormCleaningCenter() {
   const onSubmit = async (data: LimpiezaForm) => {
     const payload: any = {
       userId: user?.id,
-      date: new Date(),
+      date: date,
       responsable: data.responsable,
       insumosutilizados: data.insumosutilizados,
     };
@@ -76,7 +79,10 @@ export default function FormCleaningCenter() {
       className="space-y-6 p-4 max-w-4xl mx-auto bg-white rounded-lg shadow-lg shadow-gray-400"
     >
       <h2 className="text-xl font-bold">Información general</h2>
+
       <div>
+        <label className="font-bold uppercase">Fecha de Intervención</label>
+        <CalendarShared date={date} setDate={setDate} />
         <label className="text-sm uppercase font-bold">
           Áreas a intervenir
         </label>

@@ -1,5 +1,8 @@
 import api from "@/lib/axios";
-import { limpiezaCleaningSchema, type LimpiezaForm } from "@/types/schemas";
+import {
+  listHistoryAttendancesSchema,
+  type LimpiezaForm,
+} from "@/types/schemas";
 import { isAxiosError } from "axios";
 
 export const registerLimpiezaAcopio = async (formData: LimpiezaForm) => {
@@ -46,10 +49,15 @@ export const getLimpiezaById = async (id: number) => {
   }
 };
 
-export const getLimpiezaByDateActual = async () => {
+export const getLimpiezaByDateActual = async (from: string, to: string) => {
   try {
-    const { data } = await api.get("/cleaning-center/actual");
-    const response = limpiezaCleaningSchema.safeParse(data);
+    const { data } = await api.get("/cleaning-center/actual", {
+      params: {
+        from,
+        to,
+      },
+    });
+    const response = listHistoryAttendancesSchema.safeParse(data);
     if (response.success) {
       return response.data;
     }

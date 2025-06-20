@@ -120,7 +120,6 @@ export async function getUser() {
 
 export async function updateProfile(formData: UserProfileForm) {
   try {
-    console.log("datos de profile", formData);
     const { data } = await api.patch<string>("/auth/update-profile", formData);
     return data;
   } catch (error) {

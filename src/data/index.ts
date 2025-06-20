@@ -17,6 +17,9 @@ export const INTERVENCIONES = [
   { key: "dispobasuras", label: "Disposición de basuras" },
   { key: "barridopisos", label: "Barrido de pisos" },
   { key: "limpiezasuperficies", label: "Limpieza de superficies" },
+  { key: "limpiezaparedes", label: "Limpieza de Paredes" },
   { key: "lavadosuperficies", label: "Lavado de superficies" },
-  { key: "lavadoparedes", label: "Lavado de paredes" },
+  { key: "lavadoparedes", label: "Lavado de Paredes" },
+  { key: "lavadopisos", label: "Lavado de Pisos" },
+  { key: "controlplagas", label: "Control de plagas" },
 ];

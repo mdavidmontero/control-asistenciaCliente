@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -16,9 +16,11 @@ import {
 import { toast } from "react-toastify";
 
 import { useParams } from "react-router-dom";
+import CalendarShared from "../ui/CalendarShared";
 
 export default function FormCleaningEdit() {
   const user = userAuthStore((state) => state.user);
+  const [date, setDate] = useState<Date | undefined>(new Date());
   const queryClient = useQueryClient();
   const { id } = useParams();
 
@@ -115,6 +117,8 @@ export default function FormCleaningEdit() {
 
       {/* Áreas */}
       <div>
+        <label className="font-bold uppercase">Fecha de Intervención</label>
+        <CalendarShared date={date} setDate={setDate} />
         <label className="text-sm uppercase font-bold">
           Áreas a intervenir
         </label>

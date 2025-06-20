@@ -2,89 +2,137 @@ import type { limpiezasCleaningTypes } from "@/types/schemas";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "../ui/table";
 import { AREAS, INTERVENCIONES } from "@/data";
-import { Check, Pencil } from "lucide-react"; // ícono elegante
+import { Check, Pencil, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
-  data: limpiezasCleaningTypes;
+  data: limpiezasCleaningTypes[];
 }
 
 export default function ListCleaningCenter({ data }: Props) {
   const navigate = useNavigate();
+
   return (
     <div className="w-full overflow-x-auto rounded-lg border bg-white p-4 shadow-md">
       <Table>
-        <TableCaption className="text-sm text-muted-foreground mt-4">
-          Limpieza realizada el día{" "}
-          {data.date ? new Date(data.date).toLocaleDateString() : "Sin fecha"}
-        </TableCaption>
         <TableHeader>
           <TableRow className="bg-gray-100 text-gray-700">
-            <TableHead className="whitespace-nowrap">Responsable</TableHead>
-            <TableHead className="whitespace-nowrap">Fecha</TableHead>
-            {AREAS.map((area) => (
-              <TableHead key={area.key} className="whitespace-nowrap">
-                {area.label}
-              </TableHead>
-            ))}
-            {INTERVENCIONES.map((inter) => (
-              <TableHead key={inter.key} className="whitespace-nowrap">
-                {inter.label}
-              </TableHead>
-            ))}
+            <TableHead>Responsable</TableHead>
+            <TableHead>Fecha</TableHead>
             <TableHead className="text-right">Acciones</TableHead>
           </TableRow>
         </TableHeader>
 
         <TableBody>
-          <TableRow className="hover:bg-gray-50">
-            <TableCell className="font-medium">{data.responsable}</TableCell>
-            <TableCell>
-              {data.date
-                ? new Date(data.date).toLocaleDateString()
-                : "Sin fecha"}
-            </TableCell>
+          {data.map((limpieza) => (
+            <>
+              <TableRow key={limpieza!.id} className="hover:bg-gray-50">
+                <TableCell className="font-medium">
+                  {limpieza!.responsable}
+                </TableCell>
+                <TableCell>
+                  {limpieza!.date
+                    ? new Date(limpieza!.date).toLocaleDateString()
+                    : "Sin fecha"}
+                </TableCell>
+                <TableCell className="text-right">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() =>
+                      navigate(`/cleaning-center/edit/${limpieza!.id}`)
+                    }
+                  >
+                    <Pencil className="w-4 h-4 mr-2" />
+                    Editar
+                  </Button>
+                </TableCell>
+              </TableRow>
 
-            {AREAS.map((area) => (
-              <TableCell key={area.key} className="text-center">
-                {data[area.key as keyof limpiezasCleaningTypes] ? (
-                  <Check className="text-green-700 font-bold w-8 h-8" />
-                ) : (
-                  ""
-                )}
-              </TableCell>
-            ))}
+              <TableRow>
+                <TableCell colSpan={3}>
+                  <div className="grid gap-6 bg-gray-50 rounded-md p-4 text-sm">
+                    {/* ÁREAS */}
+                    <div>
+                      <h4 className="text-base font-semibold mb-3 border-b pb-1 text-gray-700">
+                        Áreas
+                      </h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                        {AREAS.map((area) => {
+                          const checked =
+                            limpieza![area.key as keyof limpiezasCleaningTypes];
+                          return (
+                            <div
+                              key={area.key}
+                              className={`flex items-center gap-2 p-2 rounded-md border 
+                                ${
+                                  checked
+                                    ? "bg-green-100 border-green-400 text-green-800 font-medium"
+                                    : "text-gray-400"
+                                }`}
+                            >
+                              {checked ? (
+                                <Check className="w-4 h-4" />
+                              ) : (
+                                <X className="w-4 h-4" />
+                              )}
+                              <span>{area.label}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
 
-            {INTERVENCIONES.map((inter) => (
-              <TableCell key={inter.key} className="text-center">
-                {data[inter.key as keyof limpiezasCleaningTypes] ? (
-                  <Check className="text-green-700 font-bold w-8 h-8" />
-                ) : (
-                  ""
-                )}
-              </TableCell>
-            ))}
+                    <div>
+                      <h4 className="text-base font-semibold mb-3 border-b pb-1 text-gray-700">
+                        Tipo de Intervención
+                      </h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                        {INTERVENCIONES.map((inter) => {
+                          const checked =
+                            limpieza![
+                              inter.key as keyof limpiezasCleaningTypes
+                            ];
+                          return (
+                            <div
+                              key={inter.key}
+                              className={`flex items-center gap-2 p-2 rounded-md border 
+                                ${
+                                  checked
+                                    ? "bg-green-100 border-green-400 text-green-800 font-medium"
+                                    : "text-gray-400"
+                                }`}
+                            >
+                              {checked ? (
+                                <Check className="w-4 h-4" />
+                              ) : (
+                                <X className="w-4 h-4" />
+                              )}
+                              <span>{inter.label}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
 
-            <TableCell className="text-right">
-              <Button
-                variant="outline"
-                size="sm"
-                className="gap-2"
-                onClick={() => navigate(`/cleaning-center/edit/${data.id}`)}
-              >
-                <Pencil className="w-4 h-4" />
-                Editar
-              </Button>
-            </TableCell>
-          </TableRow>
+                    {limpieza!.insumosutilizados && (
+                      <div className="mt-4 text-sm text-gray-700">
+                        <strong>Insumos utilizados:</strong>{" "}
+                        {limpieza!.insumosutilizados}
+                      </div>
+                    )}
+                  </div>
+                </TableCell>
+              </TableRow>
+            </>
+          ))}
         </TableBody>
       </Table>
     </div>
