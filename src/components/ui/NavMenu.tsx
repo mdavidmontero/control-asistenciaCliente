@@ -28,6 +28,7 @@ export default function NavMenu({ name }: NavMenuProps) {
       console.error("Error al cerrar sesión:", error);
     }
   };
+
   return (
     <Popover className="relative">
       <PopoverButton className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 p-1 rounded-lg bg-green-800">
@@ -74,6 +75,12 @@ export default function NavMenu({ name }: NavMenuProps) {
             </Link>
             <Link to="/traps-center" className="block p-2 hover:text-green-950">
               Trampas Pegajosas
+            </Link>
+            <Link
+              to="/cleaning-silos"
+              className="block p-2 hover:text-green-950"
+            >
+              Limpieza Silos
             </Link>
             <button
               className="block p-2 hover:text-green-950  hover:font-bold cursor-pointer"

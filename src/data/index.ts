@@ -23,3 +23,14 @@ export const INTERVENCIONES = [
   { key: "lavadopisos", label: "Lavado de Pisos" },
   { key: "controlplagas", label: "Control de plagas" },
 ];
+
+export const AREAS_SILOS = [
+  { key: "silouno", label: "Silo Uno" },
+  { key: "silodos", label: "Silo Dos" },
+  { key: "clasificadoragranos", label: "Clasificador de agranos" },
+  { key: "patiossecado", label: "Patios y secado" },
+];
+
+export const INTERVENCIONES_SILOS = [
+  { key: "barridoaspirado", label: "Barrido de aspirado" },
+];
