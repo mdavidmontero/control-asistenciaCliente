@@ -1,16 +1,16 @@
 import { Button } from "@/components/ui/button";
 import CalendarFilter from "@/components/ui/CalendarFilter";
-import { userAuthStore } from "@/store/useAuthStore";
-import { useQuery } from "@tanstack/react-query";
+// import { userAuthStore } from "@/store/useAuthStore";
+// import { useQuery } from "@tanstack/react-query";
 import { addDays } from "date-fns";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function HomeStickyTraps() {
-  const user = userAuthStore((state) => state.user);
+  // const user = userAuthStore((state) => state.user);
   const navigate = useNavigate();
 
-  const { data, isLoading, refetch } = useQuery({});
+  // const { data, isLoading, refetch } = useQuery({});
   const [dateSelected, setDateSelected] = useState<{
     from: Date | undefined;
     to: Date | undefined;
@@ -24,7 +24,7 @@ export default function HomeStickyTraps() {
       alert("Selecciona un rango de fechas válido.");
       return;
     }
-    refetch();
+    // refetch();
   };
   return (
     <div className="max-w-screen-xl mx-auto px-4 py-8 space-y-6">
@@ -50,7 +50,7 @@ export default function HomeStickyTraps() {
             variant="outline"
             className="border-gray-300"
           >
-            {isLoading ? "Cargando..." : "Cargar Registros"}
+            {/* {isLoading ? "Cargando..." : "Cargar Registros"} */}
           </Button>
         </div>
       </div>
