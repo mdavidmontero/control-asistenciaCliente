@@ -31,7 +31,7 @@ export default function HomeCleaningCenter() {
         dateSelected.to.toISOString()
       );
     },
-    enabled: false,
+    enabled: !!dateSelected.from && !!dateSelected.to,
   });
 
   const handleFetchReports = () => {

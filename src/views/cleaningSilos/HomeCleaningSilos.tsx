@@ -28,7 +28,7 @@ export default function HomeCleaningSilos() {
         dateSelected.to.toISOString()
       );
     },
-    enabled: false,
+    enabled: !!dateSelected.from && !!dateSelected.to,
   });
   const handleFetchReports = () => {
     if (!dateSelected.from || !dateSelected.to) {
