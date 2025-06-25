@@ -79,3 +79,40 @@ export const limpiezaSilosSchema = z.object({
 });
 export type limpiezasSilosTypes = z.infer<typeof limpiezaSilosSchema>;
 export const listHistorySilosSchema = z.array(limpiezaSilosSchema);
+
+// Trampas pegajosas
+export const trapsSchema = z.object({
+  lugarcolocacion: z.string().min(1, "El lugar de colocación es obligatorio"),
+  tipotrampa: z.string().min(1, "El tipo de trampa es obligatoria"),
+  cantidadtrampas: z.string().min(1, "La cantidad de trampas es obligatoria"),
+  plagamonitor: z
+    .string()
+    .min(1, "El nombre de la plaga monitoreada es obligatoria"),
+  imagenes: z.array(z.string()).nullable().optional(),
+  responsable: z.string().min(1, "El nombre del responsable es requerido"),
+});
+
+export type LimpiezaTraps = z.infer<typeof trapsSchema>;
+// Extender limpiezaTraps
+export const TrapsFormSchema = trapsSchema.extend({
+  fecha: z.string(),
+  fecharecambio: z.string(),
+});
+export type trapsFormSchema = z.infer<typeof TrapsFormSchema>;
+
+export const limpiezaCleaningTrapsSchema = z.object({
+  id: z.number().nullable(),
+  fecha: z.string(),
+  lugarcolocacion: z.string(),
+  tipotrampa: z.string(),
+  cantidadtrampas: z.string(),
+  plagamonitor: z.string(),
+  fecharecambio: z.string(),
+  imagenes: z.array(z.string()).nullable().optional(),
+  responsable: z.string(),
+});
+export type limpiezasCleaningTrapsTypes = z.infer<
+  typeof limpiezaCleaningTrapsSchema
+>;
+
+export const listHistoryTrapsSchema = z.array(limpiezaCleaningTrapsSchema);

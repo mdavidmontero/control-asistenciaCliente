@@ -23,6 +23,8 @@ import HomeStickyTraps from "./views/stickyTraps/HomeStickyTraps";
 import HomeCleaningSilos from "./views/cleaningSilos/HomeCleaningSilos";
 import FormCleaningSilos from "./components/cleaningSilos/FormCleaningSilos";
 import FormCleaningEditSilos from "./components/cleaningSilos/FormCleaningEditSilos";
+import FormCleaningSticky from "./components/stickyTrapsCleaning/FormCleaningSticky";
+import FormCleaningStickyEdit from "./components/stickyTrapsCleaning/FormCleaningStickyEdit";
 
 export default function Router() {
   const cargarUbicacion = useUbicacionStore((state) => state.cargarUbicacion);
@@ -55,6 +57,14 @@ export default function Router() {
             element={<FormCleaningEdit />}
           />
           <Route path="/traps-center" element={<HomeStickyTraps />} />
+          <Route
+            path="/register-sticky-traps"
+            element={<FormCleaningSticky />}
+          />
+          <Route
+            path="/cleaning-sticky-traps/edit/:id"
+            element={<FormCleaningStickyEdit />}
+          />
           <Route path="/cleaning-silos" element={<HomeCleaningSilos />} />
           <Route
             path="/register-cleaning-silo"
