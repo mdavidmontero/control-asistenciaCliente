@@ -119,9 +119,9 @@ export default function FormCleaningEditSilos() {
       controlplagas: formData.controlPlagas,
       responsable: formData.responsable,
       insumosutilizados: formData.insumosutilizados,
-      otrasintervenciones: formData.otrasintervenciones ?? "",
+      otrasintervenciones: formData.otrasintervenciones,
       observaciones: formData.observaciones,
-      otraarea: formData.otraarea ?? "",
+      otraarea: formData.otraarea,
       id: +id!,
     };
     formData.areas.forEach((area) => {
@@ -200,7 +200,7 @@ export default function FormCleaningEditSilos() {
             render={({ field }) => (
               <Input
                 {...field}
-                value={field.value}
+                value={field.value ?? ""}
                 placeholder="Nombre de la área"
                 className="w-full border border-gray-300 p-3 rounded-md"
               />
@@ -248,7 +248,7 @@ export default function FormCleaningEditSilos() {
               render={({ field }) => (
                 <Input
                   {...field}
-                  value={field.value}
+                  value={field.value ?? ""}
                   placeholder="Nombre de la intervención"
                   className="w-full border border-gray-300 p-3 rounded-md"
                 />

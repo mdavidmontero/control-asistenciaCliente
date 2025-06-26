@@ -46,9 +46,9 @@ export const listHistoryAttendancesSchema = z.array(limpiezaCleaningSchema);
 // Silos
 export const siloSchema = z.object({
   areas: z.array(z.string()),
-  otraarea: z.string().optional(),
+  otraarea: z.string().nullable().optional(),
   intervenciones: z.array(z.string()),
-  otrasintervenciones: z.string().optional(),
+  otrasintervenciones: z.string().nullable().optional(),
   controlPlagas: z.enum(["PREVENTIVO", "CORRECTIVO"], {
     message: "Tipo de control inválido",
   }),

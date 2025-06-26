@@ -163,7 +163,7 @@ export default function FormCleaningSilos() {
             render={({ field }) => (
               <Input
                 {...field}
-                value={field.value}
+                value={field.value ?? ""}
                 placeholder="Nombre de la área"
                 className="w-full border border-gray-300 p-3 rounded-md"
               />
@@ -208,7 +208,7 @@ export default function FormCleaningSilos() {
               render={({ field }) => (
                 <Input
                   {...field}
-                  value={field.value}
+                  value={field.value ?? ""}
                   placeholder="Nombre de la intervención"
                   className="w-full border border-gray-300 p-3 rounded-md"
                 />
