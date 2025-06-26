@@ -264,15 +264,12 @@ export default function FormCleaningEditSilos() {
       </div>
 
       <div className="space-y-2">
-        <label className="font-medium text-gray-600">Control de Plagas</label>
+        <label className="font-medium text-gray-600">Control Realizado</label>
         <Controller
           name="controlPlagas"
           control={control}
           render={({ field }) => (
-            <Select
-              value={field.value ?? data.controlplagas}
-              onValueChange={field.onChange}
-            >
+            <Select value={field.value} onValueChange={field.onChange}>
               <SelectTrigger className="w-[200px]">
                 <SelectValue placeholder="Seleccione tipo de control" />
               </SelectTrigger>
