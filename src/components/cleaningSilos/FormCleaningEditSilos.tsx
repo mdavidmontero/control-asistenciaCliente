@@ -90,6 +90,7 @@ export default function FormCleaningEditSilos() {
     const updated = current.includes(key)
       ? current.filter((k: string) => k !== key)
       : [...current, key];
+    console.log(updated);
     setValue(tipo, updated);
   };
 
@@ -124,8 +125,16 @@ export default function FormCleaningEditSilos() {
       otraarea: formData.otraarea,
       id: +id!,
     };
+
+    AREAS_SILOS.forEach(({ key }) => {
+      payload[key] = false;
+    });
     formData.areas.forEach((area) => {
       payload[area] = true;
+    });
+
+    INTERVENCIONES_SILOS.forEach(({ key }) => {
+      payload[key] = false;
     });
     formData.intervenciones.forEach((inter) => {
       payload[inter] = true;

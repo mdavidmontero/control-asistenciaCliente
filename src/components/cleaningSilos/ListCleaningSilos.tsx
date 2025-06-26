@@ -148,7 +148,7 @@ export default function ListCleaningSilos({ data }: Props) {
                     {limpieza!.insumosutilizados && (
                       <div className="text-sm text-gray-700">
                         <strong>Insumos utilizados:</strong>{" "}
-                        {limpieza!.insumosutilizados}limp
+                        {limpieza!.insumosutilizados}
                       </div>
                     )}
                   </div>
