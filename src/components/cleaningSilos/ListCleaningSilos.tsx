@@ -132,7 +132,7 @@ export default function ListCleaningSilos({ data }: Props) {
                     <div>
                       {
                         <div className=" text-sm text-gray-700">
-                          <strong>Control de Plagas:</strong>{" "}
+                          <strong>Control Realizado:</strong>{" "}
                           <span className="font-semibold ">
                             {limpieza!.controlplagas}
                           </span>

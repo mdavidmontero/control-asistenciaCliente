@@ -27,7 +27,7 @@ export const INTERVENCIONES = [
 export const AREAS_SILOS = [
   { key: "silouno", label: "Silo Uno" },
   { key: "silodos", label: "Silo Dos" },
-  { key: "clasificadoragranos", label: "Clasificador de agranos" },
+  { key: "clasificadoragranos", label: "Clasificador de granos" },
   { key: "patiossecado", label: "Patios y secado" },
 ];
 

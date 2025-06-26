@@ -43,7 +43,9 @@ export default function FormCleaningEditSilos() {
     resolver: zodResolver(siloSchema),
     defaultValues: {
       areas: [],
+      otraarea: "",
       intervenciones: [],
+      otrasintervenciones: "",
       controlPlagas: "PREVENTIVO",
       insumosutilizados: "",
       observaciones: "",
@@ -74,6 +76,7 @@ export default function FormCleaningEditSilos() {
         observaciones: data.observaciones,
         areas: selectedAreas,
         intervenciones: selectedIntervenciones,
+        otraarea: data.otraarea,
       });
     }
   }, [data, reset]);
@@ -113,6 +116,7 @@ export default function FormCleaningEditSilos() {
       insumosutilizados: formData.insumosutilizados,
       otrasintervenciones: formData.otrasintervenciones,
       observaciones: formData.observaciones,
+      otraarea: formData.otraarea,
       id: +id!,
     };
     formData.areas.forEach((area) => {
@@ -178,6 +182,27 @@ export default function FormCleaningEditSilos() {
           <p className="text-red-600 text-sm mt-1">{errors.areas.message}</p>
         )}
       </div>
+      <div className="space-y-2">
+        <div className="w-full mt-4">
+          <label className="block font-semibold text-gray-700 mb-1">
+            Otras Áreas
+          </label>
+          <Controller
+            name="otraarea"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                placeholder="Nombre de la área"
+                className="w-full border border-gray-300 p-3 rounded-md"
+              />
+            )}
+          />
+        </div>
+        {errors.otraarea && (
+          <p className="text-red-600 text-sm mt-1">{errors.otraarea.message}</p>
+        )}
+      </div>
 
       <div>
         <label className="text-sm uppercase font-bold">
@@ -235,7 +260,10 @@ export default function FormCleaningEditSilos() {
           name="controlPlagas"
           control={control}
           render={({ field }) => (
-            <Select value={field.value} onValueChange={field.onChange}>
+            <Select
+              value={field.value || data.controlplagas}
+              onValueChange={field.onChange}
+            >
               <SelectTrigger className="w-[200px]">
                 <SelectValue placeholder="Tipo de control" />
               </SelectTrigger>

@@ -37,7 +37,9 @@ export default function FormCleaningSilos() {
     resolver: zodResolver(siloSchema),
     defaultValues: {
       areas: [],
+      otraarea: "",
       intervenciones: [],
+      otrasintervenciones: "",
       controlPlagas: "PREVENTIVO",
       insumosutilizados: "",
       observaciones: "",
@@ -85,6 +87,7 @@ export default function FormCleaningSilos() {
       responsable: data.responsable,
       insumosutilizados: data.insumosutilizados,
       otrasintervenciones: data.otrasintervenciones,
+      otraarea: data.otraarea,
     };
     data.areas.forEach((area) => {
       payload[area] = true;
@@ -149,6 +152,24 @@ export default function FormCleaningSilos() {
           <p className="text-red-600 text-sm mt-1">{errors.areas.message}</p>
         )}
       </div>
+      <div className="space-y-2">
+        <div className="w-full mt-4">
+          <label className="block font-semibold text-gray-700 mb-1">
+            Otras Áreas
+          </label>
+          <Controller
+            name="otraarea"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                placeholder="Nombre de la área"
+                className="w-full border border-gray-300 p-3 rounded-md"
+              />
+            )}
+          />
+        </div>
+      </div>
 
       <div>
         <label className="text-sm uppercase font-bold">
@@ -201,7 +222,7 @@ export default function FormCleaningSilos() {
       </div>
 
       <div className="space-y-2">
-        <label className="font-medium text-gray-600">Control de Plagas</label>
+        <label className="font-medium text-gray-600">Control Realizado</label>
         <Controller
           name="controlPlagas"
           control={control}
@@ -211,8 +232,8 @@ export default function FormCleaningSilos() {
                 <SelectValue placeholder="Tipo de control" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="PREVENTIVO">Prevención</SelectItem>
-                <SelectItem value="CORRECTIVO">Corrección</SelectItem>
+                <SelectItem value="PREVENTIVO">Preventivo</SelectItem>
+                <SelectItem value="CORRECTIVO">Correctivo</SelectItem>
               </SelectContent>
             </Select>
           )}
