@@ -155,7 +155,7 @@ export default function FormCleaningSilos() {
       <div className="space-y-2">
         <div className="w-full mt-4">
           <label className="block font-semibold text-gray-700 mb-1">
-            Otras Áreas
+            Otras Área
           </label>
           <Controller
             name="otraarea"
@@ -163,6 +163,7 @@ export default function FormCleaningSilos() {
             render={({ field }) => (
               <Input
                 {...field}
+                value={field.value || ""}
                 placeholder="Nombre de la área"
                 className="w-full border border-gray-300 p-3 rounded-md"
               />
@@ -207,6 +208,7 @@ export default function FormCleaningSilos() {
               render={({ field }) => (
                 <Input
                   {...field}
+                  value={field.value || ""}
                   placeholder="Nombre de la intervención"
                   className="w-full border border-gray-300 p-3 rounded-md"
                 />

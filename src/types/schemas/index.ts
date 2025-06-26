@@ -46,7 +46,7 @@ export const listHistoryAttendancesSchema = z.array(limpiezaCleaningSchema);
 // Silos
 export const siloSchema = z.object({
   areas: z.array(z.string()),
-  otraarea: z.string().optional(),
+  otraarea: z.string().nullable().optional(),
   intervenciones: z.array(z.string()),
   otrasintervenciones: z.string().optional(),
   controlPlagas: z.enum(["PREVENTIVO", "CORRECTIVO"]),
@@ -68,7 +68,7 @@ export const limpiezaSilosSchema = z.object({
   silouno: z.boolean().nullable(),
   silodos: z.boolean().nullable(),
   clasificadoragranos: z.boolean().nullable(),
-  otraarea: z.string().nullable(),
+  otraarea: z.string().nullable().optional(),
   patiossecado: z.boolean().nullable(),
   barridoaspirado: z.boolean().nullable(),
   otrasintervenciones: z.string().nullable(),

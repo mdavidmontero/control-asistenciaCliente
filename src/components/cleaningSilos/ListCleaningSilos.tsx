@@ -90,6 +90,11 @@ export default function ListCleaningSilos({ data }: Props) {
                           );
                         })}
                       </div>
+                      {limpieza!.otraarea && (
+                        <div className="mt-4 text-sm text-gray-700">
+                          <strong>Otras Áreas:</strong> {limpieza!.otraarea}
+                        </div>
+                      )}
                     </div>
 
                     <div>
