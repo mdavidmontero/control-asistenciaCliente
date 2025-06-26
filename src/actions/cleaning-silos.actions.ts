@@ -54,7 +54,6 @@ export const getLimpiezaSiloByDateActual = async (from: string, to: string) => {
       },
     });
     const response = listHistorySilosSchema.safeParse(data);
-    console.log(response);
     if (response.success) {
       return response.data;
     }

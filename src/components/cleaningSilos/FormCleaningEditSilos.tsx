@@ -119,9 +119,9 @@ export default function FormCleaningEditSilos() {
       controlplagas: formData.controlPlagas,
       responsable: formData.responsable,
       insumosutilizados: formData.insumosutilizados,
-      otrasintervenciones: formData.otrasintervenciones,
+      otrasintervenciones: formData.otrasintervenciones ?? "",
       observaciones: formData.observaciones,
-      otraarea: formData.otraarea,
+      otraarea: formData.otraarea ?? "",
       id: +id!,
     };
     formData.areas.forEach((area) => {
