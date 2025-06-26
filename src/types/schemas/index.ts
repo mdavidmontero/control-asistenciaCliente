@@ -70,7 +70,7 @@ export const limpiezaSilosSchema = z.object({
   silouno: z.boolean().nullable(),
   silodos: z.boolean().nullable(),
   clasificadoragranos: z.boolean().optional(),
-  otraarea: z.string().optional(),
+  otraarea: z.string().nullable().optional(),
   otrasintervenciones: z.string().nullable().optional(),
   patiossecado: z.boolean().nullable(),
   barridoaspirado: z.boolean().nullable(),
