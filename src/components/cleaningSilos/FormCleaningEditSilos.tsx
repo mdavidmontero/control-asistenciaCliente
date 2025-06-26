@@ -46,7 +46,6 @@ export default function FormCleaningEditSilos() {
       otraarea: "",
       intervenciones: [],
       otrasintervenciones: "",
-      controlPlagas: "PREVENTIVO",
       insumosutilizados: "",
       observaciones: "",
     },
@@ -58,6 +57,7 @@ export default function FormCleaningEditSilos() {
   const { data } = useQuery({
     queryKey: ["limpiezasilo", +id!],
     queryFn: () => getLimpiezaSiloById(+id!),
+    enabled: !!id,
   });
 
   useEffect(() => {
@@ -68,11 +68,16 @@ export default function FormCleaningEditSilos() {
       const selectedIntervenciones = INTERVENCIONES_SILOS.filter(
         ({ key }) => data[key]
       ).map(({ key }) => key);
+
       reset({
         responsable: data.responsable,
         insumosutilizados: data.insumosutilizados,
         otrasintervenciones: data.otrasintervenciones,
-        controlPlagas: data.controlplagas,
+        controlPlagas:
+          data.controlplagas === "PREVENTIVO" ||
+          data.controlplagas === "CORRECTIVO"
+            ? data.controlplagas
+            : "PREVENTIVO",
         observaciones: data.observaciones,
         areas: selectedAreas,
         intervenciones: selectedIntervenciones,
@@ -130,7 +135,9 @@ export default function FormCleaningEditSilos() {
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit, (formErrors) => {
+        console.log("Errores en el formulario:", formErrors);
+      })}
       className="space-y-6 p-6 max-w-4xl mx-auto bg-white rounded-lg shadow-md"
     >
       <h2 className="text-2xl font-bold text-center text-gray-800">
@@ -193,7 +200,7 @@ export default function FormCleaningEditSilos() {
             render={({ field }) => (
               <Input
                 {...field}
-                value={field.value || ""}
+                value={field.value}
                 placeholder="Nombre de la área"
                 className="w-full border border-gray-300 p-3 rounded-md"
               />
@@ -241,7 +248,7 @@ export default function FormCleaningEditSilos() {
               render={({ field }) => (
                 <Input
                   {...field}
-                  value={field.value || ""}
+                  value={field.value}
                   placeholder="Nombre de la intervención"
                   className="w-full border border-gray-300 p-3 rounded-md"
                 />
@@ -263,11 +270,11 @@ export default function FormCleaningEditSilos() {
           control={control}
           render={({ field }) => (
             <Select
-              value={field.value || data.controlplagas}
+              value={field.value ?? data.controlplagas}
               onValueChange={field.onChange}
             >
               <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder="Tipo de control" />
+                <SelectValue placeholder="Seleccione tipo de control" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="PREVENTIVO">Preventivo</SelectItem>
@@ -276,6 +283,11 @@ export default function FormCleaningEditSilos() {
             </Select>
           )}
         />
+        {errors.controlPlagas && (
+          <p className="text-red-600 text-sm mt-1">
+            {errors.controlPlagas.message}
+          </p>
+        )}
       </div>
 
       <div className="space-y-2">
