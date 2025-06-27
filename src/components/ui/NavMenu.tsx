@@ -77,6 +77,12 @@ export default function NavMenu({ name }: NavMenuProps) {
               Trampas Pegajosas
             </Link>
             <Link
+              to="/cleaning-equipments"
+              className="block p-2 hover:text-green-950"
+            >
+              Mantemiento de Maquinas y Equipos
+            </Link>
+            <Link
               to="/cleaning-silos"
               className="block p-2 hover:text-green-950"
             >

@@ -25,6 +25,8 @@ import FormCleaningSilos from "./components/cleaningSilos/FormCleaningSilos";
 import FormCleaningEditSilos from "./components/cleaningSilos/FormCleaningEditSilos";
 import FormCleaningSticky from "./components/stickyTrapsCleaning/FormCleaningSticky";
 import FormCleaningStickyEdit from "./components/stickyTrapsCleaning/FormCleaningStickyEdit";
+import HomeCleaningEquipment from "./views/cleaningEquipment/HomeCleaningEquipment";
+import { FormCleaningEquipment } from "./components/cleaningEquipmentCenter/FormCleaningEquipment";
 
 export default function Router() {
   const cargarUbicacion = useUbicacionStore((state) => state.cargarUbicacion);
@@ -73,6 +75,14 @@ export default function Router() {
           <Route
             path="/cleaning-silos/edit/:id"
             element={<FormCleaningEditSilos />}
+          />
+          <Route
+            path="/cleaning-equipments"
+            element={<HomeCleaningEquipment />}
+          />
+          <Route
+            path="/register-cleaning-equipments"
+            element={<FormCleaningEquipment />}
           />
 
           <Route element={<ProfileLayout />}>

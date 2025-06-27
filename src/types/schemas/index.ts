@@ -118,3 +118,28 @@ export type limpiezasCleaningTrapsTypes = z.infer<
 >;
 
 export const listHistoryTrapsSchema = z.array(limpiezaCleaningTrapsSchema);
+
+// Equipos y maquinas
+export const equipmentSchema = z.object({
+  nombre: z.string(),
+  marca: z.string(),
+  modelo: z.string(),
+  nroserie: z.string(),
+  fechacompra: z.string(),
+  nroplaca: z.string(),
+  referencia: z.string(),
+  potencia: z.string(),
+  area: z.string(),
+  estado: z.string(),
+  descripcionsituacion: z.string(),
+  mantenimiento: z.string(),
+  descripcionmantemiento: z.string(),
+  falla: z.string(),
+  descripcionfalla: z.string(),
+  proximomantenimiento: z.string(),
+  motivomantenimiento: z.string(),
+  tecnico: z.string(),
+  responsable: z.string(),
+});
+
+export type EquipmentSchema = z.infer<typeof equipmentSchema>;
