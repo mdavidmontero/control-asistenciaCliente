@@ -12,6 +12,7 @@ export default function CalendarShared({ date, setDate }: Props) {
         mode="single"
         selected={date}
         onSelect={setDate}
+        month={date}
         className="rounded-lg border bg-[#F1F1FC] p-3 shadow-md"
         locale={es}
       />
