@@ -27,6 +27,7 @@ import FormCleaningSticky from "./components/stickyTrapsCleaning/FormCleaningSti
 import FormCleaningStickyEdit from "./components/stickyTrapsCleaning/FormCleaningStickyEdit";
 import HomeCleaningEquipment from "./views/cleaningEquipment/HomeCleaningEquipment";
 import { FormCleaningEquipment } from "./components/cleaningEquipmentCenter/FormCleaningEquipment";
+import EditEquimentView from "./views/cleaningEquipment/EditEquimentView";
 
 export default function Router() {
   const cargarUbicacion = useUbicacionStore((state) => state.cargarUbicacion);
@@ -83,6 +84,10 @@ export default function Router() {
           <Route
             path="/register-cleaning-equipments"
             element={<FormCleaningEquipment />}
+          />
+          <Route
+            path="/update-cleaning-equipments/edit/:id"
+            element={<EditEquimentView />}
           />
 
           <Route element={<ProfileLayout />}>

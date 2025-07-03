@@ -1,5 +1,8 @@
+import { getEquimentByDateActual } from "@/actions/cleaning-equipment.actions";
+import ListCleaningEquipment from "@/components/cleaningEquipmentCenter/ListCleaningEquipment";
 import { Button } from "@/components/ui/button";
 import CalendarFilter from "@/components/ui/CalendarFilter";
+import { useQuery } from "@tanstack/react-query";
 import { addDays } from "date-fns";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +16,27 @@ export default function HomeCleaningEquipment() {
     from: addDays(new Date(), -5),
     to: addDays(new Date(), 5),
   });
+
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ["cleaningEquipmentDateActual"],
+    queryFn: () => {
+      if (!dateSelected.from || !dateSelected.to) return Promise.resolve([]);
+      return getEquimentByDateActual(
+        dateSelected.from.toISOString(),
+        dateSelected.to.toISOString()
+      );
+    },
+    enabled: !!dateSelected.from && !!dateSelected.to,
+  });
+
+  const handleFetchReports = () => {
+    if (!dateSelected.from || !dateSelected.to) {
+      alert("Selecciona un rango de fechas válido.");
+      return;
+    }
+    refetch();
+  };
+
   return (
     <div className="max-w-screen-xl mx-auto px-4 py-8 space-y-6">
       <div className="space-y-2 text-center md:text-left">
@@ -33,18 +57,23 @@ export default function HomeCleaningEquipment() {
             Registrar Mantenimiento
           </Button>
           <Button
-            onClick={() => {}}
+            onClick={handleFetchReports}
             variant="outline"
             className="border-gray-300"
           >
-            Acción
-            {/* {isLoading ? "Cargando..." : "Cargar Registros"} */}
+            {isLoading ? "Cargando..." : "Cargar Registros"}
           </Button>
         </div>
       </div>
 
       <div className="rounded-xl flex justify-center">
-        <p className="tex-center">Listado de mantenimientos</p>
+        {data && data.length > 0 ? (
+          <ListCleaningEquipment data={data} />
+        ) : (
+          <p className="text-center text-gray-500 text-sm">
+            No hay registros disponibles para el rango de fechas seleccionado.
+          </p>
+        )}
       </div>
     </div>
   );

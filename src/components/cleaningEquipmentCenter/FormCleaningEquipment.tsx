@@ -3,9 +3,16 @@ import ErrorMessage from "../ui/ErrorMessage";
 import type { EquipmentSchema } from "@/types/schemas";
 import CalendarShared from "../ui/CalendarShared";
 import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { registetEquimentCleaning } from "@/actions/cleaning-equipment.actions";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export const FormCleaningEquipment = () => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const initialValues: EquipmentSchema = {
+    fecharealizado: "",
     nombre: "",
     marca: "",
     modelo: "",
@@ -27,6 +34,9 @@ export const FormCleaningEquipment = () => {
     responsable: "",
   };
   const [fechaCompra, setFechaCompra] = useState<Date | undefined>(new Date());
+  const [fechaRealizado, setFechaRealizado] = useState<Date | undefined>(
+    new Date()
+  );
   const [proximoMantenimiento, setProximoMantenimiento] = useState<
     Date | undefined
   >(new Date());
@@ -35,8 +45,27 @@ export const FormCleaningEquipment = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues: initialValues });
+
+  const equimentMutation = useMutation({
+    mutationKey: ["equimentRegister"],
+    mutationFn: registetEquimentCleaning,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["limpiezaEquiment"] });
+      queryClient.invalidateQueries({
+        queryKey: ["limpiezaEquimentDateActual"],
+      });
+      toast.success(data, {
+        onClose: () => {
+          navigate(-1);
+        },
+        autoClose: 1000,
+      });
+    },
+  });
+
   const handleEquipmentSubmit = (data: EquipmentSchema) => {
     const payload: EquipmentSchema = {
+      fecharealizado: new Date().toISOString(),
       nombre: data.nombre,
       marca: data.marca,
       modelo: data.modelo,
@@ -57,7 +86,7 @@ export const FormCleaningEquipment = () => {
       tecnico: data.tecnico,
       responsable: data.responsable,
     };
-    console.log(payload);
+    equimentMutation.mutate(payload);
   };
   return (
     <div className="mx-auto max-w-3xl">
@@ -66,6 +95,15 @@ export const FormCleaningEquipment = () => {
         className="space-y-6 p-4 max-w-4xl mx-auto bg-white rounded-lg shadow-lg shadow-gray-400 relative"
       >
         <h2 className="text-xl font-bold">Información general</h2>
+        <div className="flex flex-col gap-2">
+          <label className="font-bold uppercase" htmlFor="nroserie">
+            Fecha de Mantenimiento del Equipo/Maquina :
+          </label>
+          <CalendarShared date={fechaRealizado} setDate={setFechaRealizado} />
+          {errors.fecharealizado && (
+            <ErrorMessage>{errors.fecharealizado.message}</ErrorMessage>
+          )}
+        </div>
         <div className="flex flex-col gap-2">
           <label className="font-bold uppercase" htmlFor="nombre">
             Nombre de la maquina y/o equipo
@@ -343,6 +381,24 @@ export const FormCleaningEquipment = () => {
             <ErrorMessage>{errors.proximomantenimiento.message}</ErrorMessage>
           )}
         </div>
+        <div className="flex flex-col gap-2">
+          <label className="font-bold uppercase" htmlFor="area">
+            Motivo del proximo mantenimiento
+          </label>
+          <input
+            id="motivomantenimiento"
+            type="text"
+            placeholder="Motivo del proximo mantenimiento"
+            className="w-full border border-gray-400 p-3 rounded-lg"
+            {...register("motivomantenimiento", {
+              required: "El detalle del proximo mantenimiento es obligatorio",
+            })}
+          />
+          {errors.motivomantenimiento && (
+            <ErrorMessage>{errors.motivomantenimiento.message}</ErrorMessage>
+          )}
+        </div>
+
         <div className="flex flex-col gap-2">
           <label className="font-bold uppercase" htmlFor="area">
             Técnico responsable

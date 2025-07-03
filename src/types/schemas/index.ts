@@ -121,6 +121,7 @@ export const listHistoryTrapsSchema = z.array(limpiezaCleaningTrapsSchema);
 
 // Equipos y maquinas
 export const equipmentSchema = z.object({
+  fecharealizado: z.string(),
   nombre: z.string(),
   marca: z.string(),
   modelo: z.string(),
@@ -143,3 +144,9 @@ export const equipmentSchema = z.object({
 });
 
 export type EquipmentSchema = z.infer<typeof equipmentSchema>;
+export const lisEquipmentSchema = equipmentSchema.extend({
+  id: z.number(),
+});
+
+export type EquipmentSchemaType = z.infer<typeof lisEquipmentSchema>;
+export const listEquipmentSchema = z.array(lisEquipmentSchema);
