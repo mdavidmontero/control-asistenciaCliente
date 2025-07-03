@@ -26,6 +26,12 @@ export default function FormCleaningStickyEdit() {
     new Date()
   );
   const queryClient = useQueryClient();
+  useEffect(() => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    });
+  }, []);
 
   const {
     handleSubmit,

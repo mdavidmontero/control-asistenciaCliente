@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 
 import { useNavigate, useParams } from "react-router-dom";
 import CalendarShared from "../ui/CalendarShared";
+import { formatDate } from "@/utils";
 
 export default function FormCleaningEdit() {
   const user = userAuthStore((state) => state.user);
@@ -126,9 +127,18 @@ export default function FormCleaningEdit() {
       {/* Áreas */}
       <div>
         <label className="font-bold uppercase">Fecha de Intervención</label>
+        <p className="font-bold text-gray-800 italic">
+          Por favor seleccione la fecha en la que se realizaron la intervención
+        </p>
         <div className="flex flex-col-reverse md:flex-row items-center justify-between">
           <div className="w-full md:w-2/3">
             <CalendarShared date={date} setDate={setDate} />
+            <p className="text-xl font-semibold text-gray-900 dark:text-white">
+              Fecha Seleccionanada:{" "}
+              <span className="text-gray-800 font-semibold text-lg">
+                {formatDate(date!.toISOString())}
+              </span>
+            </p>
           </div>
 
           <div className="w-full md:w-1/2 flex justify-end md:justify-center">

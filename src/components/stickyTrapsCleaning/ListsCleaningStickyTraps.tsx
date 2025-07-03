@@ -9,7 +9,7 @@ import {
 } from "../ui/table";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
-import { Pencil } from "lucide-react";
+import { Pencil, Upload } from "lucide-react";
 
 interface Props {
   data: limpiezasCleaningTrapsTypes[];
@@ -56,17 +56,30 @@ export default function ListsCleaningStickyTraps({ data }: Props) {
                       </p>
                     </div>
 
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() =>
-                        navigate(`/cleaning-sticky-traps/edit/${trampa.id}`)
-                      }
-                      className="w-full sm:w-auto"
-                    >
-                      <Pencil className="w-4 h-4 mr-2" />
-                      Editar
-                    </Button>
+                    <div className="flex justify-center items-center gap-5 flex-wrap">
+                      <Button
+                        variant="outline"
+                        size="lg"
+                        onClick={() =>
+                          navigate(`/cleaning-sticky-traps/edit/${trampa.id}`)
+                        }
+                        className="w-full sm:w-auto"
+                      >
+                        <Pencil className="w-4 h-4 mr-2" />
+                        Editar
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="lg"
+                        onClick={() =>
+                          navigate(`/cleaning-sticky-traps/edit/${trampa.id}`)
+                        }
+                        className="w-full sm:w-auto bg-blue-400 hover:bg-blue-500"
+                      >
+                        <Upload className="w-4 h-4 mr-2" />
+                        Subir Imagenes
+                      </Button>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-sm text-gray-700 mt-4">

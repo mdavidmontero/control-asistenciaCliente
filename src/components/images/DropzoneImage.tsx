@@ -70,7 +70,7 @@ export default function UploadImage({
           <input {...getInputProps()} />
           {isDragAccept && <p>Suelta la imagen</p>}
           {isDragReject && <p>Archivo no válido</p>}
-          {!isDragActive && <p>Arrastra y suelta una imagen aquí</p>}
+          {!isDragActive && <p>Click aqui para subir o arrastrar una imagen</p>}
         </div>
       </div>
       {isUploading && (
