@@ -28,6 +28,7 @@ import FormCleaningStickyEdit from "./components/stickyTrapsCleaning/FormCleanin
 import HomeCleaningEquipment from "./views/cleaningEquipment/HomeCleaningEquipment";
 import { FormCleaningEquipment } from "./components/cleaningEquipmentCenter/FormCleaningEquipment";
 import EditEquimentView from "./views/cleaningEquipment/EditEquimentView";
+import NotFoundView from "./views/404/NotFounfView";
 
 export default function Router() {
   const cargarUbicacion = useUbicacionStore((state) => state.cargarUbicacion);
@@ -110,6 +111,7 @@ export default function Router() {
           />
           <Route path="/auth/new-password" element={<NewPasswordView />} />
         </Route>
+        <Route path="/*" element={<NotFoundView />} />
       </Routes>
     </BrowserRouter>
   );
