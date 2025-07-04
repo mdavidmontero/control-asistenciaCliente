@@ -1,13 +1,33 @@
 export const LinksNav = [
-  { to: "/", label: "Asistencias", role: "USER" },
-  { to: "/history-asistencia", label: "Historial de Asistencias" },
+  { to: "/", label: "Asistencias", allowedRoles: ["USER", "ADMIN"] },
+  {
+    to: "/history-asistencia",
+    label: "Historial de Asistencias",
+    allowedRoles: ["USER", "ADMIN"],
+  },
   {
     to: "/history-asistencias-todas",
     label: " Historico Todas las Asistencias",
-    role: "ADMIN",
+    allowedRoles: ["ADMIN"],
   },
-  { to: "/cleaning-center", label: "Limpieza Centro Acopio", role: "USER" },
-  { to: "/traps-center", label: "Trampas Pegajosas", role: "USER" },
-  { to: "/cleaning-equipments", label: "Maquinas y Equipos", role: "USER" },
-  { to: "/cleaning-silos", label: "Limpieza Silos", role: "USER" },
+  {
+    to: "/cleaning-center",
+    label: "Limpieza Centro Acopio",
+    allowedRoles: ["USER", "ADMIN"],
+  },
+  {
+    to: "/traps-center",
+    label: "Trampas Pegajosas",
+    allowedRoles: ["USER", "ADMIN"],
+  },
+  {
+    to: "/cleaning-equipments",
+    label: "Maquinas y Equipos",
+    allowedRoles: ["USER", "ADMIN"],
+  },
+  {
+    to: "/cleaning-silos",
+    label: "Limpieza Silos",
+    allowedRoles: ["USER", "ADMIN"],
+  },
 ];

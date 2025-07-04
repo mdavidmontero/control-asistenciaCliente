@@ -29,6 +29,7 @@ import HomeCleaningEquipment from "./views/cleaningEquipment/HomeCleaningEquipme
 import { FormCleaningEquipment } from "./components/cleaningEquipmentCenter/FormCleaningEquipment";
 import EditEquimentView from "./views/cleaningEquipment/EditEquimentView";
 import NotFoundView from "./views/404/NotFounfView";
+import UnauthorizedView from "./views/unauthorized/UnauthorizedView";
 
 export default function Router() {
   const cargarUbicacion = useUbicacionStore((state) => state.cargarUbicacion);
@@ -112,6 +113,7 @@ export default function Router() {
           <Route path="/auth/new-password" element={<NewPasswordView />} />
         </Route>
         <Route path="/*" element={<NotFoundView />} />
+        <Route path="/403" element={<UnauthorizedView />} />
       </Routes>
     </BrowserRouter>
   );

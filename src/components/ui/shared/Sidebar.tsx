@@ -1,4 +1,5 @@
 import { LinksNav } from "@/data/LinksNav";
+import { userAuthStore } from "@/store/useAuthStore";
 import { Bars3Icon } from "@heroicons/react/20/solid";
 import { useState, useRef, useEffect } from "react";
 import { NavLink } from "react-router-dom";
@@ -6,6 +7,7 @@ import { NavLink } from "react-router-dom";
 export default function Sidebar() {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const user = userAuthStore((state) => state.user);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -25,6 +27,16 @@ export default function Sidebar() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpenSidebar]);
+  if (!user) {
+    return (
+      <aside className="flex flex-col bg-white md:w-72 md:h-screen">
+        <div className="p-5 text-center">Cargando...</div>
+      </aside>
+    );
+  }
+  const filteredNavigation = LinksNav.filter((nav) =>
+    nav.allowedRoles.includes(user.role)
+  );
 
   return (
     <>
@@ -48,7 +60,7 @@ export default function Sidebar() {
           </div>
 
           <nav className="flex flex-col gap-2">
-            {LinksNav.map(({ to, label }) => (
+            {filteredNavigation.map(({ to, label }) => (
               <NavLink
                 key={to}
                 to={to}

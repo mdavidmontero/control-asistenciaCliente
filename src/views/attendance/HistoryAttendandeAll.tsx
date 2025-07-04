@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { startOfDay } from "date-fns";
 import { es } from "date-fns/locale";
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function HistoryAttendandeAll() {
@@ -52,11 +53,11 @@ export default function HistoryAttendandeAll() {
       });
       toast.success("Correo enviado con éxito.");
     } catch (error) {
-      console.log(error);
       console.error("Error al enviar PDF:", error);
       toast.error("Ocurrió un error al enviar el correo.");
     }
   };
+  if (user?.role !== "ADMIN") return <Navigate to={"/403"} />;
 
   return (
     <div className="max-w-screen mx-auto px-4 py-8">
