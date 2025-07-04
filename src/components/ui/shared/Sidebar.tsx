@@ -18,15 +18,16 @@ export default function Sidebar() {
         setIsOpenSidebar(false);
       }
     };
+
     if (isOpenSidebar) {
       document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, [isOpenSidebar]);
+
   if (!user) {
     return (
       <aside className="flex flex-col bg-white md:w-72 md:h-screen">
@@ -34,6 +35,7 @@ export default function Sidebar() {
       </aside>
     );
   }
+
   const filteredNavigation = LinksNav.filter((nav) =>
     nav.allowedRoles.includes(user.role)
   );
@@ -43,9 +45,9 @@ export default function Sidebar() {
       <button
         type="button"
         className="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-700 rounded-lg sm:hidden w-12"
-        onClick={() => setIsOpenSidebar(!isOpenSidebar)}
+        onClick={() => setIsOpenSidebar(true)}
       >
-        <Bars3Icon className="w-8 h-8 text-black " />
+        <Bars3Icon className="w-8 h-8 text-black" />
       </button>
 
       <aside
@@ -68,7 +70,7 @@ export default function Sidebar() {
                   `flex items-center px-4 py-2 rounded-lg transition ${
                     isActive
                       ? "bg-white text-[#333] font-semibold shadow"
-                      : "text-[#F8FAFC] hover:bg-[#6BB29B] hover:[#F8FAFC]"
+                      : "text-[#F8FAFC] hover:bg-[#6BB29B] hover:text-[#F8FAFC]"
                   }`
                 }
                 onClick={() => setIsOpenSidebar(false)}

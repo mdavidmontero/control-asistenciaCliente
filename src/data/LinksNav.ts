@@ -30,4 +30,9 @@ export const LinksNav = [
     label: "Limpieza Silos",
     allowedRoles: ["USER", "ADMIN"],
   },
+  {
+    to: "/visit-center",
+    label: "Registro de Visitas",
+    allowedRoles: ["USER", "ADMIN"],
+  },
 ];

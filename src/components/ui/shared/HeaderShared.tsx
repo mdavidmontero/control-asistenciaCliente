@@ -50,7 +50,7 @@ export default function HeaderShared({ data }: HeaderProps) {
 
           <button
             onClick={logout}
-            className="bg-white text-[#1D4F3E] hover:bg-gray-200 font-medium px-4 py-2 rounded transition text-sm "
+            className="bg-white text-[#1D4F3E] hover:bg-gray-200 font-medium px-4 py-2 rounded transition text-sm w-full lg:w-auto"
           >
             Cerrar sesión
           </button>

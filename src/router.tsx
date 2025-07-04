@@ -30,6 +30,8 @@ import { FormCleaningEquipment } from "./components/cleaningEquipmentCenter/Form
 import EditEquimentView from "./views/cleaningEquipment/EditEquimentView";
 import NotFoundView from "./views/404/NotFounfView";
 import UnauthorizedView from "./views/unauthorized/UnauthorizedView";
+import HomeVisitCenter from "./views/visitCenter/HomeVisitCenter";
+import RegisterVisitCenter from "./views/visitCenter/RegisterVisitCenter";
 
 export default function Router() {
   const cargarUbicacion = useUbicacionStore((state) => state.cargarUbicacion);
@@ -90,6 +92,11 @@ export default function Router() {
           <Route
             path="/update-cleaning-equipments/edit/:id"
             element={<EditEquimentView />}
+          />
+          <Route path="/visit-center" element={<HomeVisitCenter />} />
+          <Route
+            path="/register-visit-center"
+            element={<RegisterVisitCenter />}
           />
 
           <Route element={<ProfileLayout />}>

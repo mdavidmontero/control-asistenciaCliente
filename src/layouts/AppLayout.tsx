@@ -14,7 +14,7 @@ export default function AppLayout() {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-50 flex flex-col">
+      <div className="min-h-screen bg-[#EDF3FB] flex flex-col">
         <HeaderShared data={data} />
         <Sidebar />
         <main className="flex-1 p-4 sm:p-6 sm:ml-64">
