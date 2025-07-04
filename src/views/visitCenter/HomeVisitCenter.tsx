@@ -20,10 +20,10 @@ export default function HomeVisitCenter() {
       <div className="max-w-screen-xl mx-auto px-4 py-8 space-y-6">
         <div className="space-y-2 text-center md:text-left">
           <h1 className="text-3xl md:text-4xl font-extrabold text-[#1B5040]">
-            Mantenimiento de Equipos
+            Solicitud de Visitas
           </h1>
           <p className="text-base md:text-lg text-gray-700">
-            Consulta y descarga los registros de mantenimiento de los equipos
+            Formato Solicitud de Visitas
           </p>
         </div>
         <div className="flex flex-wrap gap-4 justify-between items-center">
@@ -33,7 +33,7 @@ export default function HomeVisitCenter() {
               onClick={() => navigate("/register-visit-center")}
               className="bg-emerald-700 hover:bg-emerald-800 text-white"
             >
-              Registrar Mantenimiento
+              Solicitar Visita
             </Button>
             {/* <Button
             onClick={handleFetchReports}

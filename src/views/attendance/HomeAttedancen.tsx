@@ -20,7 +20,7 @@ export default function HomeAttendance() {
     <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
       <div className="flex flex-col-reverse md:flex-row md:justify-between items-start md:items-center gap-4">
         <div className="space-y-2">
-          <h1 className="font-extrabold text-2xl md:text-3xl text-amber-600">
+          <h1 className="font-extrabold text-3xl md:text-3xl text-gray-700">
             Registrar asistencia del día {new Date().toLocaleDateString()}
           </h1>
           <p className="text-lg  font-medium text-gray-700">

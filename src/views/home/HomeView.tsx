@@ -16,12 +16,11 @@ export default function HomeView() {
     <div className="px-4 md:px-8 py-6">
       <div className="flex flex-col-reverse md:flex-row md:justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
+          <h1 className="text-3xl md:text-4xl font-bold text-[#1B5040]">
             Mis Asistencias
           </h1>
           <p className="text-lg font-medium text-gray-700 mt-1">
-            Revisa tus{" "}
-            <span className="text-amber-500">asistencias diarias</span>
+            Revisa tus asistencia del día{" "}
           </p>
         </div>
 
@@ -41,7 +40,6 @@ export default function HomeView() {
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-sm text-gray-700">
-              {/* Entrada Mañana */}
               <div>
                 <p className="font-semibold text-gray-900">Entrada Mañana</p>
                 <p>
@@ -64,7 +62,6 @@ export default function HomeView() {
                 )}
               </div>
 
-              {/* Salida Mañana */}
               <div>
                 <p className="font-semibold text-gray-900">Salida Mañana</p>
                 <p>
@@ -87,13 +84,11 @@ export default function HomeView() {
                 )}
               </div>
 
-              {/* Anotación Mañana */}
               <div>
                 <p className="font-semibold text-gray-900">Anotación Mañana</p>
                 <p>{attendances.anotacionesMorning || "—"}</p>
               </div>
 
-              {/* Entrada Tarde */}
               <div>
                 <p className="font-semibold text-gray-900">Entrada Tarde</p>
                 <p>
@@ -116,7 +111,6 @@ export default function HomeView() {
                 )}
               </div>
 
-              {/* Salida Tarde */}
               <div>
                 <p className="font-semibold text-gray-900">Salida Tarde</p>
                 <p>
@@ -139,7 +133,6 @@ export default function HomeView() {
                 )}
               </div>
 
-              {/* Anotación Tarde */}
               <div>
                 <p className="font-semibold text-gray-900">Anotación Tarde</p>
                 <p>{attendances.anotacionesAfternoon || "—"}</p>

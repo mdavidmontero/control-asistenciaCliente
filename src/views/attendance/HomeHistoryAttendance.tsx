@@ -45,14 +45,11 @@ export default function HomeHistoryAttendance() {
     <div className="max-w-screen mx-auto px-4 py-8">
       <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center mb-6">
         <div>
-          <h1 className="text-3xl font-extrabold text-green-700 mb-1">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-[#1B5040] mb-1">
             Histórico de Asistencias
           </h1>
           <p className="text-lg text-gray-700">
-            Revisa tus{" "}
-            <span className="text-amber-500 font-semibold">
-              asistencias anteriores
-            </span>
+            Revisa tus asistencias anteriores
           </p>
         </div>
 

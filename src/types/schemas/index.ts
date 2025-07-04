@@ -150,3 +150,66 @@ export const lisEquipmentSchema = equipmentSchema.extend({
 
 export type EquipmentSchemaType = z.infer<typeof lisEquipmentSchema>;
 export const listEquipmentSchema = z.array(lisEquipmentSchema);
+
+// Visitas
+export const AsistenteVisitaSchema = z.object({
+  nombres: z.string(),
+  tipoDocumento: z.string(),
+  numeroDocumento: z.string(),
+  dependencia: z.string(),
+});
+export const visitSchema = z.object({
+  id: z.number(),
+  municipio: z.string(),
+  dia: z.string(),
+  mes: z.string(),
+  anio: z.string(),
+  nombres: z.string(),
+  empresa: z.string(),
+  area: z.string(),
+  email: z.string(),
+  telefono: z.string(),
+  fechaVisitaDia: z.string(),
+  fechaVisitaMes: z.string(),
+  fechaVisitaAnio: z.string(),
+  horaInicio: z.string(),
+  horaFin: z.string(),
+  dependencia: z.string(),
+  objeto: z.string(),
+  material: z.string(),
+  evaluacion: z.enum(["PENDIENTE", "APROBADO", "RECHAZADO"]),
+  documentVisit: z.string().nullable(),
+  asistentes: z.array(AsistenteVisitaSchema),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
+export const editVistSchema = visitSchema.omit({
+  asistentes: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type Visit = z.infer<typeof visitSchema>;
+
+export type VisitFormData = Pick<
+  Visit,
+  | "municipio"
+  | "dia"
+  | "mes"
+  | "anio"
+  | "nombres"
+  | "empresa"
+  | "area"
+  | "email"
+  | "telefono"
+  | "fechaVisitaDia"
+  | "fechaVisitaMes"
+  | "fechaVisitaAnio"
+  | "horaInicio"
+  | "horaFin"
+  | "dependencia"
+  | "objeto"
+  | "material"
+  | "evaluacion"
+  | "asistentes"
+>;

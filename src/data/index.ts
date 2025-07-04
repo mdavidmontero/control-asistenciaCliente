@@ -34,3 +34,15 @@ export const AREAS_SILOS = [
 export const INTERVENCIONES_SILOS = [
   { key: "barridoaspirado", label: "Barrido de aspirado" },
 ];
+
+export const opciones = [
+  "Laboratorio de Café Lofbergs",
+  "Laboratorio Agro Emprende Cacao",
+  "Laboratorio de Rones Weyru",
+  "Administrativa",
+  "Coordinación Técnica y/o de Calidad",
+  "Centro de Acopio",
+  "Auditorio",
+  "Centro de Negocios David Chart rand",
+  "Casa de Hospedaje",
+];
