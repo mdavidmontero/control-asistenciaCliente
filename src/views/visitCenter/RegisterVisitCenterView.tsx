@@ -1,36 +1,33 @@
 import VisitForm from "@/components/visitCenter/VisitForm";
 import type { VisitFormData } from "@/types/schemas";
 import { useFieldArray, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { useVisitStore } from "@/store/visitStore";
+import { buildDateFromFormData } from "@/lib/utils";
+import { useMutation } from "@tanstack/react-query";
+import { registerVisitCenter } from "@/actions/visitCenter.actions";
 type ValuePiece = Date | null;
 export type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 export default function RegisterVisitCenterView() {
-  const [date, setDate] = useState<Value>(new Date());
-  const [fechaVisita, setFechaVisita] = useState<Value>(new Date());
-
-  const initialValues: VisitFormData = {
-    municipio: "",
-    dia: "",
-    mes: "",
-    anio: "",
-    nombres: "",
-    empresa: "",
-    area: "",
-    email: "",
-    telefono: "",
-    fechaVisitaDia: "",
-    fechaVisitaMes: "",
-    fechaVisitaAnio: "",
-    horaInicio: "",
-    horaFin: "",
-    dependencia: "",
-    objeto: "",
-    material: "",
-    asistentes: [],
-    evaluacion: "PENDIENTE",
-  };
+  const formData = useVisitStore((state) => state.formData);
+  const setFormData = useVisitStore((state) => state.setFormData);
+  const resetFormData = useVisitStore((state) => state.resetFormData);
+  const initialSolicitudDate = buildDateFromFormData(
+    formData.dia,
+    formData.mes,
+    formData.anio
+  );
+  const initialVisitaDate = buildDateFromFormData(
+    formData.fechaVisitaDia,
+    formData.fechaVisitaMes,
+    formData.fechaVisitaAnio
+  );
+  const [date, setDate] = useState<Value>(initialSolicitudDate);
+  const [fechaVisita, setFechaVisita] = useState<Value>(initialVisitaDate);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -38,32 +35,65 @@ export default function RegisterVisitCenterView() {
     formState: { errors },
     control,
     setValue,
-  } = useForm({ defaultValues: initialValues });
+    watch,
+  } = useForm<VisitFormData>({
+    defaultValues: formData,
+  });
+
   useEffect(() => {
-    if (date instanceof Date) {
-      setValue("dia", date.getDate().toString());
-      setValue("mes", date.toLocaleString("es-ES", { month: "long" }));
-      setValue("anio", date.getFullYear().toString());
-    }
-  }, [date, setValue]);
+    const subscription = watch((value) => {
+      setFormData(value as VisitFormData);
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, setFormData]);
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "asistentes",
   });
 
+  const { mutate } = useMutation({
+    mutationFn: registerVisitCenter,
+    onSuccess: (data) => {
+      Swal.fire({
+        icon: "success",
+        title: "Visita Solicitada Correctamente",
+        text: data,
+      }).then(() => {
+        resetFormData();
+        navigate(-1);
+      });
+    },
+    onError: (error) => {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.message,
+      });
+    },
+  });
+
   const handleForm = (formdata: VisitFormData) => {
-    console.log(formdata);
+    if (formdata.asistentes.length === 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Debes agregar al menos un asistente",
+      });
+      return;
+    }
+    mutate(formdata);
   };
 
   return (
     <div className="mx-auto max-w-5xl">
       <nav className="my-5 flex justify-end">
-        <Link
+        <button
           className="bg-[#052a47] hover:bg-[#041624] px-10 py-3 text-white text-xl font-bold cursor-pointer transition-colors rounded"
-          to={"/"}
+          onClick={() => navigate(-1)}
         >
           Volver
-        </Link>
+        </button>
       </nav>
 
       <form
@@ -86,6 +116,7 @@ export default function RegisterVisitCenterView() {
 
         <input
           type="submit"
+          value="Enviar"
           className="bg-[#1B5040] hover:bg-[#304b43] w-full p-3 rounded-lg text-white font-black text-xl cursor-pointer"
         />
       </form>

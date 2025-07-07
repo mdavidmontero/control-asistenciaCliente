@@ -13,8 +13,8 @@ import "react-calendar/dist/Calendar.css";
 import { useEffect, useState } from "react";
 import { opciones } from "@/data";
 import AddVisitanteForm from "./AddVisitanteForm";
-// import { useNavigate } from "react-router-dom";
 import { Trash2 } from "lucide-react";
+import { useVisitStore } from "@/store/visitStore";
 type ValuePiece = Date | null;
 export type Value = ValuePiece | [ValuePiece, ValuePiece];
 interface VisitFormProps {
@@ -42,11 +42,15 @@ export default function VisitForm({
   append,
   remove,
 }: VisitFormProps) {
-  const [seleccionadas, setSeleccionadas] = useState<string[]>([]);
-  //   const navigate = useNavigate();
+  const dependenciaStore = useVisitStore((state) => state.formData.dependencia);
+  const updateDependencias = useVisitStore((state) => state.updateDependencias);
+  const [seleccionadas, setSeleccionadas] = useState<string[]>(
+    dependenciaStore ? dependenciaStore.split(", ").filter(Boolean) : []
+  );
   useEffect(() => {
     setValue("dependencia", seleccionadas.join(", "));
-  }, [seleccionadas, setValue]);
+    updateDependencias(seleccionadas);
+  }, [seleccionadas, setValue, updateDependencias]);
 
   const toggleSeleccion = (dependencia: string) => {
     setSeleccionadas((prev) =>
@@ -316,29 +320,35 @@ export default function VisitForm({
         )}
       </div>
       <div className="flex flex-col gap-2">
-        <label className="font-bold uppercase">Objetivo de la visita</label>
+        <label htmlFor="objetivo" className="font-bold uppercase">
+          Objetivo de la visita
+        </label>
 
-        <input
-          type="text"
+        <textarea
           placeholder="Objetivo de la visita"
+          id="objetivo"
+          rows={4}
           className="w-full border border-gray-400 p-3 rounded-lg"
           {...register("objeto", {
             required: "El objetivo de la visita es obligatorio",
           })}
-        />
+        ></textarea>
         {errors.objeto && <ErrorMessage>{errors.objeto.message}</ErrorMessage>}
       </div>
       <div className="flex flex-col gap-2">
-        <label className="font-bold uppercase">Material de la visita</label>
+        <label htmlFor="material" className="font-bold uppercase">
+          Material de la visita
+        </label>
 
-        <input
-          type="text"
+        <textarea
+          id="material"
+          rows={3}
           placeholder="Material necesario para la visita"
           className="w-full border border-gray-400 p-3 rounded-lg"
           {...register("material", {
             required: "El material necesario para la visita es obligatorio",
           })}
-        />
+        ></textarea>
         {errors.material && (
           <ErrorMessage>{errors.material.message}</ErrorMessage>
         )}

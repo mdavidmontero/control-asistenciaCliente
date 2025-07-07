@@ -180,10 +180,12 @@ export const visitSchema = z.object({
   evaluacion: z.enum(["PENDIENTE", "APROBADO", "RECHAZADO"]),
   documentVisit: z.string().nullable(),
   asistentes: z.array(AsistenteVisitaSchema),
+  userId: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });
-
+export const visitSchemaList = z.array(visitSchema);
+export type VisitList = z.infer<typeof visitSchema>;
 export const editVistSchema = visitSchema.omit({
   asistentes: true,
   createdAt: true,

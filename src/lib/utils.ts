@@ -25,3 +25,32 @@ export function getImagePath(imagePath: string) {
     return `/products/${imagePath}.png`;
   }
 }
+export const buildDateFromFormData = (
+  dia: string,
+  mes: string,
+  anio: string
+) => {
+  const meses = [
+    "enero",
+    "febrero",
+    "marzo",
+    "abril",
+    "mayo",
+    "junio",
+    "julio",
+    "agosto",
+    "septiembre",
+    "octubre",
+    "noviembre",
+    "diciembre",
+  ];
+  const day = Number(dia);
+  const month = meses.indexOf(mes.toLowerCase());
+  const year = Number(anio);
+
+  if (!isNaN(day) && month !== -1 && !isNaN(year)) {
+    return new Date(year, month, day);
+  }
+
+  return new Date();
+};
