@@ -20,7 +20,7 @@ export default function HeaderShared({ data }: HeaderProps) {
     }
   };
   return (
-    <header className="bg-[#4CAF7D] py-6 pl-0 sm:pl-64 pr-4 shadow-md">
+    <header className="bg-[#4CAF7D] py-6 pl-0 sm:pl-64 pr-4 shadow-md lg:sticky lg:top-0">
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0 px-4">
         <div className="text-center sm:text-left">
           <h1 className="text-white text-2xl sm:text-2xl font-semibold">

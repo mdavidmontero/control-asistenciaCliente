@@ -80,9 +80,7 @@ export const getAttendanceHistoryAll = async (fecha: string) => {
         fecha,
       },
     });
-    console.log(data);
     const response = historyAttendancesSchemas.safeParse(data);
-    console.log(response);
     if (response.success) {
       return response.data;
     }

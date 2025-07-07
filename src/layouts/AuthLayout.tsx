@@ -6,8 +6,12 @@ export default function AuthLayout() {
   const { data, isLoading } = useAuth();
   if (isLoading) return "Cargando...";
   if (data) {
-    return <Navigate to="" />;
+    // if (data.role === "USER") {
+    //   return <Navigate to="/visit-center" replace />;
+    // }
+    return <Navigate to="/" replace />;
   }
+
   return (
     <>
       <div className="lg:grid lg:grid-cols-2 lg:min-h-screen">

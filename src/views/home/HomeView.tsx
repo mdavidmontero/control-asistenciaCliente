@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { getAttendandesUser } from "../../actions/attendance.actions";
 import { formatDate, formatDateTime } from "../../lib/utils";
+import { userAuthStore } from "@/store/useAuthStore";
 
 export default function HomeView() {
+  const user = userAuthStore((state) => state.user);
   const { data: attendances } = useQuery({
     queryKey: ["attendanceday"],
     queryFn: getAttendandesUser,
@@ -11,6 +13,10 @@ export default function HomeView() {
 
   const openMap = (lat: number, lng: number) =>
     `https://www.google.com/maps?q=${lat},${lng}`;
+
+  if (user?.role === "USER") {
+    return <Navigate to="/welcome-visit" replace />;
+  }
 
   return (
     <div className="px-4 md:px-8 py-6">

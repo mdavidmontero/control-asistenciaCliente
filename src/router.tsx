@@ -32,6 +32,7 @@ import NotFoundView from "./views/404/NotFounfView";
 import UnauthorizedView from "./views/unauthorized/UnauthorizedView";
 import HomeVisitCenter from "./views/visitCenter/HomeVisitCenter";
 import RegisterVisitCenterView from "./views/visitCenter/RegisterVisitCenterView";
+import HomeWelcomeVisit from "./views/home/HomeWelcomeVisit";
 
 export default function Router() {
   const cargarUbicacion = useUbicacionStore((state) => state.cargarUbicacion);
@@ -93,6 +94,7 @@ export default function Router() {
             path="/update-cleaning-equipments/edit/:id"
             element={<EditEquimentView />}
           />
+          <Route path="/welcome-visit" element={<HomeWelcomeVisit />} />
           <Route path="/visit-center" element={<HomeVisitCenter />} />
           <Route
             path="/register-visit-center"
