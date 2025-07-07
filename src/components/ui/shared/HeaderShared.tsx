@@ -1,7 +1,7 @@
 import type { User } from "@/types";
 import { Reloj } from "./Reloj";
 import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 interface HeaderProps {
   data: User;
@@ -33,10 +33,18 @@ export default function HeaderShared({ data }: HeaderProps) {
           <div className="flex items-center text-white">
             <Reloj />
           </div>
+          <NavLink
+            to="/profile"
+            className={({ isActive }) =>
+              isActive ? "text-[#04253d] font-bold" : "text-gray-100"
+            }
+          >
+            Mi Perfil
+          </NavLink>
 
           <div className="flex items-center gap-3">
             <img
-              src={data.image || "/default-profile.png"}
+              src={data.image || "/nophoto.jpeg"}
               alt="Perfil"
               className="w-12 h-12 rounded-full object-cover border-2 border-white"
             />

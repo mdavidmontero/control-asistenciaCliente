@@ -6,10 +6,7 @@ export default function AuthLayout() {
   const { data, isLoading } = useAuth();
   if (isLoading) return "Cargando...";
   if (data) {
-    // if (data.role === "USER") {
-    //   return <Navigate to="/visit-center" replace />;
-    // }
-    return <Navigate to="/" replace />;
+    return <Navigate to="/register-attendance" replace />;
   }
 
   return (

@@ -1,160 +1,106 @@
-import { useQuery } from "@tanstack/react-query";
-import { Link, Navigate } from "react-router-dom";
-import { getAttendandesUser } from "../../actions/attendance.actions";
-import { formatDate, formatDateTime } from "../../lib/utils";
-import { userAuthStore } from "@/store/useAuthStore";
+import Logo from "@/components/ui/Logo";
+import { Link } from "react-router-dom";
 
-export default function HomeView() {
-  const user = userAuthStore((state) => state.user);
-  const { data: attendances } = useQuery({
-    queryKey: ["attendanceday"],
-    queryFn: getAttendandesUser,
-  });
-
-  const openMap = (lat: number, lng: number) =>
-    `https://www.google.com/maps?q=${lat},${lng}`;
-
-  if (user?.role === "USER") {
-    return <Navigate to="/welcome-visit" replace />;
-  }
-
+export default function HomeInitialView() {
   return (
-    <div className="px-4 md:px-8 py-6">
-      <div className="flex flex-col-reverse md:flex-row md:justify-between items-start md:items-center gap-4">
-        <div>
-          <h1 className="text-3xl md:text-4xl font-bold text-[#1B5040]">
-            Mis Asistencias
-          </h1>
-          <p className="text-lg font-medium text-gray-700 mt-1">
-            Revisa tus asistencia del día{" "}
-          </p>
-        </div>
-
-        <Link
-          to="/create-attendance"
-          className="bg-amber-500 hover:bg-amber-600 transition-colors px-4 py-2 rounded-md text-white font-semibold shadow text-center w-full md:w-auto"
-        >
-          Registrar Asistencia
-        </Link>
-      </div>
-
-      {attendances?.morningIn || attendances?.afternoonIn ? (
-        <div className="mt-8">
-          <div className="p-6 rounded-lg bg-white shadow border border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">
-              Fecha: {formatDate(attendances.date)}
-            </h2>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-sm text-gray-700">
-              <div>
-                <p className="font-semibold text-gray-900">Entrada Mañana</p>
-                <p>
-                  {attendances.morningIn
-                    ? formatDateTime(attendances.morningIn)
-                    : "—"}
-                </p>
-                {attendances.morningInLocation && (
-                  <a
-                    href={openMap(
-                      attendances.morningInLocation.lat,
-                      attendances.morningInLocation.lng
-                    )}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 underline text-xs mt-1 block"
-                  >
-                    Ver ubicación
-                  </a>
-                )}
-              </div>
-
-              <div>
-                <p className="font-semibold text-gray-900">Salida Mañana</p>
-                <p>
-                  {attendances.morningOut
-                    ? formatDateTime(attendances.morningOut)
-                    : "—"}
-                </p>
-                {attendances.morningOutLocation && (
-                  <a
-                    href={openMap(
-                      attendances.morningOutLocation.lat,
-                      attendances.morningOutLocation.lng
-                    )}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 underline text-xs mt-1 block"
-                  >
-                    Ver ubicación
-                  </a>
-                )}
-              </div>
-
-              <div>
-                <p className="font-semibold text-gray-900">Anotación Mañana</p>
-                <p>{attendances.anotacionesMorning || "—"}</p>
-              </div>
-
-              <div>
-                <p className="font-semibold text-gray-900">Entrada Tarde</p>
-                <p>
-                  {attendances.afternoonIn
-                    ? formatDateTime(attendances.afternoonIn)
-                    : "—"}
-                </p>
-                {attendances.afternoonInLocation && (
-                  <a
-                    href={openMap(
-                      attendances.afternoonInLocation.lat,
-                      attendances.afternoonInLocation.lng
-                    )}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 underline text-xs mt-1 block"
-                  >
-                    Ver ubicación
-                  </a>
-                )}
-              </div>
-
-              <div>
-                <p className="font-semibold text-gray-900">Salida Tarde</p>
-                <p>
-                  {attendances.afternoonOut
-                    ? formatDateTime(attendances.afternoonOut)
-                    : "—"}
-                </p>
-                {attendances.afternoonOutLocation && (
-                  <a
-                    href={openMap(
-                      attendances.afternoonOutLocation.lat,
-                      attendances.afternoonOutLocation.lng
-                    )}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 underline text-xs mt-1 block"
-                  >
-                    Ver ubicación
-                  </a>
-                )}
-              </div>
-
-              <div>
-                <p className="font-semibold text-gray-900">Anotación Tarde</p>
-                <p>{attendances.anotacionesAfternoon || "—"}</p>
-              </div>
-            </div>
-
-            <p className="text-xs text-right text-gray-400 mt-6">
-              Última actualización: {formatDateTime(attendances.updatedAt)}
-            </p>
+    <>
+      <header className="bg-[#4CAF7D] py-5">
+        <div className="max-w-3xl mx-auto flex flex-col lg:flex-row items-center ">
+          <div className="w-96 lg:w-[500px]">
+            <Logo />
           </div>
+          <nav className="flex flex-col lg:flex-row lg:justify-end gap-5 w-full ">
+            <Link
+              to="/auth/login"
+              className="font-bold text-white hover:text-amber-500 uppercase text-sm text-center"
+            >
+              Iniciar Sesión
+            </Link>
+            <Link
+              to="/auth/register"
+              className="font-bold text-white hover:text-amber-500 uppercase text-sm text-center"
+            >
+              Registrarme
+            </Link>
+          </nav>
         </div>
-      ) : (
-        <p className="text-center text-gray-600 py-24">
-          No hay asistencias registradas el día de hoy.
+      </header>
+
+      <main className="max-w-3xl mx-auto p-5 space-y-8 mt-20">
+        <h1 className="font-black text-4xl lg:text-6xl text-[#052a47] text-center">
+          Bienvenidos a <span className="text-[#1B5040]">Seynekun</span>
+        </h1>
+
+        <p className="text-lg text-center">
+          Estamos encantados de recibirte. Para garantizar tu acceso y brindarte
+          una mejor atención, por favor registra tu solicitud de visita
+          siguiendo estos simples pasos.
         </p>
-      )}
-    </div>
+
+        <div className="space-y-4">
+          <h2 className="font-bold text-2xl text-[#052a47]">
+            Pasos para registrar tu visita
+          </h2>
+
+          <ol className="space-y-3 text-lg">
+            <li className="p-4 bg-gray-100 rounded-lg shadow-sm">
+              <span className="text-[#052a47] font-bold">1. Regístrate: </span>
+              Crea tu cuenta para poder acceder al sistema de visitas.
+            </li>
+            <li className="p-4 bg-gray-100 rounded-lg shadow-sm">
+              <span className="text-[#052a47] font-bold">
+                2. Inicia sesión:{" "}
+              </span>
+              Accede con tu cuenta para comenzar el proceso.
+            </li>
+            <li className="p-4 bg-gray-100 rounded-lg shadow-sm">
+              <span className="text-[#052a47] font-bold">
+                3. Llena el formulario:{" "}
+              </span>
+              Completa tus datos básicos como nombre, documento, correo,
+              asistentes y motivo de la visita.
+            </li>
+            <li className="p-4 bg-gray-100 rounded-lg shadow-sm">
+              <span className="text-[#052a47] font-bold">
+                4. Verifica tu información:{" "}
+              </span>
+              Asegúrate de que todos los campos estén correctos antes de enviar.
+            </li>
+            <li className="p-4 bg-gray-100 rounded-lg shadow-sm">
+              <span className="text-[#052a47] font-bold">
+                5. Confirma tu registro:{" "}
+              </span>
+              Una vez enviado, tu visita entrará en proceso de revisión. En
+              cuanto sea aceptada, recibirás un documento con el registro de la
+              visita en tu correo.
+            </li>
+          </ol>
+        </div>
+
+        <div className="flex justify-center">
+          <Link
+            to="/register-visit-center"
+            className="bg-[#1B5040] hover:bg-[#304b43] px-6 py-3 rounded-lg text-white font-bold text-lg transition-colors"
+          >
+            Registrate
+          </Link>
+        </div>
+      </main>
+
+      <nav className="flex flex-col lg:flex-row lg:justify-between gap-5 mt-10 pb-20 max-w-3xl mx-auto ">
+        <Link
+          to="/auth/register"
+          className="text-gray-500 text-sm uppercase text-center"
+        >
+          ¿No tienes cuenta? Crea una
+        </Link>
+        <Link
+          to="/auth/login"
+          className="text-gray-500 text-sm uppercase text-center"
+        >
+          ¿Ya tienes cuenta? Iniciar Sesión
+        </Link>
+      </nav>
+    </>
   );
 }

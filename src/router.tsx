@@ -7,7 +7,6 @@ import ForgotPasswordView from "./views/auth/ForgotPasswordView";
 import RequestNewCodeView from "./views/auth/RequestNewCodeView";
 import NewPasswordView from "./views/auth/NewPasswordView";
 import AppLayout from "./layouts/AppLayout";
-import HomeView from "./views/home/HomeView";
 import HomeAttedancen from "./views/attendance/HomeAttedancen";
 import ProfileLayout from "./layouts/ProfileLayout";
 import HomeProfile from "./views/profile/HomeProfile";
@@ -33,6 +32,8 @@ import UnauthorizedView from "./views/unauthorized/UnauthorizedView";
 import HomeVisitCenter from "./views/visitCenter/HomeVisitCenter";
 import RegisterVisitCenterView from "./views/visitCenter/RegisterVisitCenterView";
 import HomeWelcomeVisit from "./views/home/HomeWelcomeVisit";
+import RegisterAttendanceView from "./views/home/RegisterAttendance";
+import HomeInitialView from "./views/home/HomeView";
 
 export default function Router() {
   const cargarUbicacion = useUbicacionStore((state) => state.cargarUbicacion);
@@ -44,8 +45,12 @@ export default function Router() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<HomeInitialView />} />
         <Route element={<AppLayout />}>
-          <Route path="/" element={<HomeView />} />
+          <Route
+            path="/register-attendance"
+            element={<RegisterAttendanceView />}
+          />
           <Route path="/create-attendance" element={<HomeAttedancen />} />
           <Route
             path="/history-asistencia"

@@ -2,7 +2,7 @@ import { LinksNav } from "@/data/LinksNav";
 import { userAuthStore } from "@/store/useAuthStore";
 import { Bars3Icon } from "@heroicons/react/20/solid";
 import { useState, useRef, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export default function Sidebar() {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
@@ -58,7 +58,9 @@ export default function Sidebar() {
       >
         <div className="flex flex-col h-full p-4">
           <div className="mb-8">
-            <img src="/logo.svg" alt="Logo" className="w-56 mx-auto" />
+            <Link to={"/register-attendance"}>
+              <img src="/logo.svg" alt="Logo" className="w-56 mx-auto" />
+            </Link>
           </div>
 
           <nav className="flex flex-col gap-2">

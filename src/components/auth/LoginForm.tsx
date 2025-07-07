@@ -36,7 +36,7 @@ export default function LoginForm() {
       if (user?.role === "USER") {
         navigate("/visit-center");
       } else {
-        navigate("/");
+        navigate("/register-attendance");
       }
     },
   });
