@@ -57,7 +57,9 @@ export default function HistoryAttendandeAll() {
       toast.error("Ocurrió un error al enviar el correo.");
     }
   };
-  if (user?.role !== "ADMIN") return <Navigate to={"/403"} />;
+  if (user === null) return <Navigate to={"/login"} />;
+  const rolesAllowed = ["ADMIN", "ADMINISTRATIVA"];
+  if (!rolesAllowed.includes(user?.role)) return <Navigate to={"/403"} />;
 
   return (
     <div className="max-w-screen mx-auto px-4 py-8">

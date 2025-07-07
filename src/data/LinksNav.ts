@@ -1,38 +1,60 @@
 export const LinksNav = [
-  { to: "/", label: "Asistencias", allowedRoles: ["USER", "ADMIN"] },
+  {
+    to: "/",
+    label: "Asistencias",
+    allowedRoles: [
+      "ADMIN",
+      "COORDINACIONTECNICA",
+      "CALIDAD",
+      "ADMINISTRATIVA",
+      "BODEGA",
+      "SISTEMAS",
+      "LIMPIEZA",
+      "CONTABILIDAD",
+    ],
+  },
   {
     to: "/history-asistencia",
     label: "Historial de Asistencias",
-    allowedRoles: ["USER", "ADMIN"],
+    allowedRoles: [
+      "ADMIN",
+      "COORDINACIONTECNICA",
+      "CALIDAD",
+      "ADMINISTRATIVA",
+      "BODEGA",
+      "SISTEMAS",
+      "LIMPIEZA",
+      "CONTABILIDAD",
+    ],
   },
   {
     to: "/history-asistencias-todas",
     label: " Historico Todas las Asistencias",
-    allowedRoles: ["ADMIN"],
+    allowedRoles: ["ADMIN", "ADMINISTRATIVA"],
   },
   {
     to: "/cleaning-center",
     label: "Limpieza Centro Acopio",
-    allowedRoles: ["USER", "ADMIN"],
+    allowedRoles: ["ADMIN", "BODEGA", "LIMPIEZA"],
   },
   {
     to: "/traps-center",
     label: "Trampas Pegajosas",
-    allowedRoles: ["USER", "ADMIN"],
+    allowedRoles: ["ADMIN", "LIMPIEZA", "COORDINACIONTECNICA", "BODEGA"],
   },
   {
     to: "/cleaning-equipments",
     label: "Maquinas y Equipos",
-    allowedRoles: ["USER", "ADMIN"],
+    allowedRoles: ["ADMIN", "BODEGA", "SISTEMAS", "COORDINACIONTECNICA"],
   },
   {
     to: "/cleaning-silos",
     label: "Limpieza Silos",
-    allowedRoles: ["USER", "ADMIN"],
+    allowedRoles: ["ADMIN", "BODEGA", "CALIDAD", "COORDINACIONTECNICA"],
   },
   {
     to: "/visit-center",
     label: "Registro de Visitas",
-    allowedRoles: ["USER", "ADMIN"],
+    allowedRoles: ["USER", "ADMIN", "ADMINISTRATIVA"],
   },
 ];
