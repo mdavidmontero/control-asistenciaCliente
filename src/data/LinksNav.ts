@@ -1,6 +1,6 @@
 export const LinksNav = [
   {
-    to: "/",
+    to: "/register-attendance",
     label: "Asistencias",
     allowedRoles: [
       "ADMIN",
