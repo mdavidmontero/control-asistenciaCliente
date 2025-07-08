@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 
 export default function HistoryAttendandeAll() {
   const user = userAuthStore((state) => state.user);
+  console.log("usario montaje", user);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const selectedDate = date instanceof Date ? startOfDay(date) : null;
   const { data, isLoading } = useQuery({
@@ -57,7 +58,7 @@ export default function HistoryAttendandeAll() {
       toast.error("Ocurrió un error al enviar el correo.");
     }
   };
-  if (user === null) return <Navigate to={"/login"} />;
+  if (user === null) return <Navigate to={"/auth/login"} />;
   const rolesAllowed = ["ADMIN", "ADMINISTRATIVA"];
   if (!rolesAllowed.includes(user?.role)) return <Navigate to={"/403"} />;
 
