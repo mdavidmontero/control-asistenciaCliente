@@ -75,14 +75,25 @@ export default function RegisterVisitCenterView() {
 
   const handleForm = (formdata: VisitFormData) => {
     if (formdata.asistentes.length === 0) {
+      // Swal.fire({
+      //   icon: "error",
+      //   title: "Oops...",
+      //   text: "Desea enviar la solicitud sin asistentes?",
+      // });
       Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Debes agregar al menos un asistente",
+        title: "¿Desea enviar la solicitud sin asistentes?",
+        text: "Esta acción no puede ser revertida",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, enviar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          mutate(formdata);
+        }
       });
-      return;
     }
-    mutate(formdata);
   };
 
   return (
