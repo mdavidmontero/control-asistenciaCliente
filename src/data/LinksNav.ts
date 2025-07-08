@@ -11,6 +11,7 @@ export const LinksNav = [
       "SISTEMAS",
       "LIMPIEZA",
       "CONTABILIDAD",
+      "TRABAJADORES",
     ],
   },
   {
@@ -25,6 +26,7 @@ export const LinksNav = [
       "SISTEMAS",
       "LIMPIEZA",
       "CONTABILIDAD",
+      "TRABAJADORES",
     ],
   },
   {
