@@ -74,7 +74,7 @@ export default function RegisterVisitCenterView() {
   });
 
   const handleForm = (formdata: VisitFormData) => {
-    if (formdata.asistentes.length === 0) {
+    if (formdata.asistentes?.length === 0) {
       // Swal.fire({
       //   icon: "error",
       //   title: "Oops...",
