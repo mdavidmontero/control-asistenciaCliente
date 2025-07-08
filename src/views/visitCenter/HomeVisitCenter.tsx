@@ -74,7 +74,7 @@ export default function HomeVisitCenter() {
       ) : isError ? (
         <p className="text-center text-red-500">Error al cargar las visitas.</p>
       ) : data!.length > 0 ? (
-        <ListVisitSend data={data || []} />
+        <ListVisitSend data={data || []} statusVisit={true} />
       ) : (
         <p className="text-center text-gray-500">No hay visitas registradas.</p>
       )}

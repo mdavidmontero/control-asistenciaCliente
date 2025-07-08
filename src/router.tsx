@@ -34,6 +34,8 @@ import RegisterVisitCenterView from "./views/visitCenter/RegisterVisitCenterView
 import HomeWelcomeVisit from "./views/home/HomeWelcomeVisit";
 import RegisterAttendanceView from "./views/home/RegisterAttendance";
 import HomeInitialView from "./views/home/HomeView";
+import DetailsVisit from "./components/visitCenter/DetailsVisit";
+import ListVisitAll from "./components/visitCenter/ListVisitAll";
 
 export default function Router() {
   const cargarUbicacion = useUbicacionStore((state) => state.cargarUbicacion);
@@ -101,6 +103,8 @@ export default function Router() {
           />
           <Route path="/welcome-visit" element={<HomeWelcomeVisit />} />
           <Route path="/visit-center" element={<HomeVisitCenter />} />
+          <Route path="/visits-center-all" element={<ListVisitAll />} />
+          <Route path="/visit-cente-detail/:id" element={<DetailsVisit />} />
           <Route
             path="/register-visit-center"
             element={<RegisterVisitCenterView />}

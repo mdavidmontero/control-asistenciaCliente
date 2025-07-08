@@ -179,7 +179,7 @@ export const visitSchema = z.object({
   material: z.string(),
   evaluacion: z.enum(["PENDIENTE", "APROBADO", "RECHAZADO"]),
   documentVisit: z.string().nullable(),
-  asistentes: z.array(AsistenteVisitaSchema),
+  asistentes: z.array(AsistenteVisitaSchema).optional(),
   userId: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
@@ -215,3 +215,15 @@ export type VisitFormData = Pick<
   | "evaluacion"
   | "asistentes"
 >;
+
+// Detalles de visitas
+
+export const visitAllSchema = z.object({
+  total: z.number(),
+  limit: z.number(),
+  page: z.number(),
+  totalPages: z.number().nullable(),
+  nextPage: z.number().nullable(),
+  prevPage: z.number().nullable(),
+  data: z.array(visitSchema),
+});

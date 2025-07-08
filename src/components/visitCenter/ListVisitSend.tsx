@@ -1,8 +1,16 @@
 import type { VisitList } from "@/types/schemas";
 interface ListVisitCenterProps {
   data: VisitList[];
+  acciones?: boolean;
+  onStatus?: (id: number, estado: string) => void;
+  statusVisit?: boolean;
 }
-export default function ListVisitSend({ data }: ListVisitCenterProps) {
+export default function ListVisitSend({
+  data,
+  acciones,
+  onStatus,
+  statusVisit,
+}: ListVisitCenterProps) {
   return (
     <div className="relative overflow-x-auto my-4">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -23,6 +31,10 @@ export default function ListVisitSend({ data }: ListVisitCenterProps) {
             <th scope="col" className="px-6 py-3">
               Fecha de Visita
             </th>
+
+            <th scope="col" className="px-6 py-3">
+              Estado
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -41,6 +53,26 @@ export default function ListVisitSend({ data }: ListVisitCenterProps) {
                 {visit.fechaVisitaDia}/{visit.fechaVisitaMes}/
                 {visit.fechaVisitaAnio}
               </td>
+              {acciones && (
+                <td className="px-6 py-4">
+                  <select
+                    defaultValue={visit.evaluacion}
+                    onChange={(e) => onStatus?.(visit.id, e.target.value)}
+                    name="estado"
+                    id="estado"
+                    className="bg-gray-100 px-2 py-1 rounded"
+                  >
+                    <option value="PENDIENTE">Pendiente</option>
+                    <option value="APROBADO">Aprobado</option>
+                    <option value="RECHAZADO">Rechazado</option>
+                  </select>
+                </td>
+              )}
+              {statusVisit && (
+                <td className="px-6 py-4">
+                  <span className="text-green-600">{visit.evaluacion}</span>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

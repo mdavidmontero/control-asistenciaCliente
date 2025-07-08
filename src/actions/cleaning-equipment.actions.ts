@@ -45,7 +45,7 @@ export const updateEquimentCleaning = async ({
 
 export const getEquimentByDateActual = async (from: string, to: string) => {
   try {
-    console.log(from, to);
+    
     const { data } = await api(
       "/equipment-center/getEquimentCleaningByDateActual",
       {

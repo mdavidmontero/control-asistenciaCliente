@@ -4,7 +4,6 @@ import { isAxiosError } from "axios";
 
 export const registerStickyTrap = async (formData: LimpiezaTraps) => {
   try {
-    console.log(formData);
     const { data } = await api.post("/traps/register-traps", formData);
     return data;
   } catch (error) {
