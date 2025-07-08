@@ -77,7 +77,7 @@ export default function ListVisitAll() {
   };
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
-      <div className="text-center md:text-left space-y-2">
+      <div className="space-y-2 text-center md:text-left">
         <h1 className="text-3xl md:text-4xl font-bold text-[#1B5040]">
           Listado de Solicitudes de Visitas
         </h1>
@@ -86,11 +86,11 @@ export default function ListVisitAll() {
         </p>
       </div>
 
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+      <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center">
         <CalendarFilter setDateSelected={setDateSelected} />
 
         <form className="w-full md:w-auto" onSubmit={handleFetchReports}>
-          <div className="flex items-center gap-2 border rounded-lg bg-gray-50 px-3 py-2 focus-within:ring-2 focus-within:ring-green-600">
+          <div className="flex gap-2 items-center border rounded-lg bg-gray-50 px-3 py-2 focus-within:ring-2 focus-within:ring-green-600">
             <div className="text-gray-500">
               <svg
                 className="w-5 h-5"
@@ -123,18 +123,20 @@ export default function ListVisitAll() {
         </form>
       </div>
 
-      <div>
+      <div className="w-full overflow-x-auto">
         {isLoading ? (
           <p className="text-center text-gray-500">Cargando datos...</p>
         ) : data && data.data.length > 0 ? (
           <>
-            <ListVisitSend
-              data={data.data}
-              acciones={true}
-              onStatus={handleStatus}
-              statusVisit={false}
-            />
-            <PaginatedShared page={data?.page} totalPages={data.totalPages!} />
+            <div className="w-full  mx-auto">
+              <ListVisitSend
+                data={data.data}
+                acciones={true}
+                onStatus={handleStatus}
+                statusVisit={false}
+              />
+            </div>
+            <PaginatedShared page={data.page} totalPages={data.totalPages!} />
           </>
         ) : (
           <p className="text-center text-gray-500">

@@ -1,4 +1,6 @@
 import type { VisitList } from "@/types/schemas";
+import { View } from "lucide-react";
+import { Link } from "react-router-dom";
 interface ListVisitCenterProps {
   data: VisitList[];
   acciones?: boolean;
@@ -55,17 +57,27 @@ export default function ListVisitSend({
               </td>
               {acciones && (
                 <td className="px-6 py-4">
-                  <select
-                    defaultValue={visit.evaluacion}
-                    onChange={(e) => onStatus?.(visit.id, e.target.value)}
-                    name="estado"
-                    id="estado"
-                    className="bg-gray-100 px-2 py-1 rounded"
-                  >
-                    <option value="PENDIENTE">Pendiente</option>
-                    <option value="APROBADO">Aprobado</option>
-                    <option value="RECHAZADO">Rechazado</option>
-                  </select>
+                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-5 items-start sm:items-center">
+                    <select
+                      defaultValue={visit.evaluacion}
+                      onChange={(e) => onStatus?.(visit.id, e.target.value)}
+                      name="estado"
+                      id="estado"
+                      className="bg-gray-100 px-2 py-1 rounded text-sm"
+                    >
+                      <option value="PENDIENTE">Pendiente</option>
+                      <option value="APROBADO">Aprobado</option>
+                      <option value="RECHAZADO">Rechazado</option>
+                    </select>
+
+                    <Link
+                      to={`/visit-cente-detail/${visit.id}`}
+                      className="flex items-center gap-1 text-green-700 hover:underline text-sm"
+                    >
+                      <View className="w-4 h-4" />
+                      Ver Detalles
+                    </Link>
+                  </div>
                 </td>
               )}
               {statusVisit && (

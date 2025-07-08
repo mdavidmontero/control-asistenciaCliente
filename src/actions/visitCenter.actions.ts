@@ -1,6 +1,7 @@
 import api from "@/lib/axios";
 import {
   visitAllSchema,
+  visitSchema,
   visitSchemaList,
   type VisitFormData,
 } from "@/types/schemas";
@@ -78,6 +79,21 @@ export const updateStatusVisit = async (formData: UpdateStatusVisit) => {
       formData
     );
     return data;
+  } catch (error) {
+    console.log(error);
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+    }
+  }
+};
+
+export const getVisitById = async (id: number) => {
+  try {
+    const { data } = await api.get(`/visit-center/get-visit-by-id/${id}`);
+    const response = visitSchema.safeParse(data);
+    if (response.success) {
+      return response.data;
+    }
   } catch (error) {
     console.log(error);
     if (isAxiosError(error) && error.response) {
