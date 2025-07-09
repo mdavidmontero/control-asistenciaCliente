@@ -101,3 +101,16 @@ export const getVisitById = async (id: number) => {
     }
   }
 };
+
+export const uploadDocumentVisitUser = async (id: number, file: File) => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+    const { data } = await api.post(`/visit-center/upload-pdf/${id}`, formData);
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+    }
+  }
+};

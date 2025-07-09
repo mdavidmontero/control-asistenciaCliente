@@ -1,21 +1,57 @@
-import { getVisitById } from "@/actions/visitCenter.actions";
+import {
+  getVisitById,
+  uploadDocumentVisitUser,
+} from "@/actions/visitCenter.actions";
 import { formatDate } from "@/utils";
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { DocumentArrowDownIcon } from "@heroicons/react/20/solid";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function DetailsVisit() {
   const { id } = useParams();
   const idVisit = +id!;
+  const queryClient = useQueryClient();
   const { data, isLoading } = useQuery({
     queryKey: ["visit-center-user", idVisit],
     queryFn: () => getVisitById(idVisit),
   });
 
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files ? e.target.files[0] : null;
+    if (selectedFile) {
+      setSelectedFile(selectedFile);
+    }
+  };
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["upload-document"],
+    mutationFn: () => uploadDocumentVisitUser(idVisit, selectedFile!),
+    onSuccess: (data) => {
+      toast.success(data);
+      setSelectedFile(null);
+      queryClient.invalidateQueries({
+        queryKey: ["visit-center-user", idVisit],
+      });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const handleUpload = () => {
+    mutate();
+  };
   if (isLoading)
-    return <p className="text-center text-gray-500">Cargando detalles...</p>;
+    return (
+      <span className="text-center text-gray-500">Cargando detalles...</span>
+    );
 
   if (!data)
-    return <p className="text-center text-gray-500">No se encontraron datos</p>;
+    return (
+      <span className="text-center text-gray-500">No se encontraron datos</span>
+    );
 
   return (
     <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md space-y-8">
@@ -50,6 +86,31 @@ export default function DetailsVisit() {
         <DetailItem label="Dependencia" value={data.dependencia} />
         <DetailItem label="Objeto" value={data.objeto} />
         <DetailItem label="Material" value={data.material} />
+        <div className="space-y-4">
+          <span className="font-bold">Documento:</span>
+          <div className="text-gray-500 dark:text-gray-400">
+            {data.documentVisit && data.documentVisit.length > 0 ? (
+              <Link
+                to={data.documentVisit}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:underline"
+              >
+                <div className="flex items-center space-x-2">
+                  <DocumentArrowDownIcon className="w-5 h-5" />
+                  <span className="ml-1">Descargar</span>
+                </div>
+              </Link>
+            ) : (
+              <>
+                <span className="text-gray-500 dark:text-gray-400">
+                  No hay documento
+                </span>
+              </>
+            )}
+          </div>
+        </div>
       </div>
       <div className="space-y-4">
         <h3 className="text-xl font-bold text-green-700">Visitantes</h3>
@@ -83,39 +144,54 @@ export default function DetailsVisit() {
           className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50  hover:bg-gray-100 "
         >
           <div className="flex flex-col items-center justify-center pt-5 pb-6">
-            <svg
-              className="w-8 h-8 mb-4 text-gray-500 "
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 20 16"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-              />
-            </svg>
-            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-              <span className="font-semibold">Click </span> o arrastre para
-              subir el documento de la visita
-            </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">PDF,</p>
+            {!selectedFile && (
+              <>
+                <svg
+                  className="w-8 h-8 mb-4 text-gray-500 "
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 16"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                  />
+                </svg>
+                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                  <span className="font-semibold">Click </span> o arrastre para
+                  subir el documento de la visita
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">PDF</p>
+              </>
+            )}
           </div>
           <input
             id="dropzone-file"
+            onChange={handleFileUpload}
             type="file"
             className="hidden"
-            accept="application/pdf"
+            accept="application/pdf, image/jpeg, image/png/application, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
           />
+          {selectedFile && (
+            <p className=" text-gray-500 dark:text-gray-400">
+              <span className="font-semibold">Documento Seleccionado: </span>
+              {selectedFile && selectedFile.name}
+            </p>
+          )}
         </label>
       </div>
 
       <div className="text-center">
-        <button className="bg-green-700 hover:bg-green-800 text-white font-medium px-6 py-3 rounded-lg text-sm transition">
-          Descargar Documento
+        <button
+          onClick={handleUpload}
+          disabled={isPending}
+          className="bg-green-700 hover:bg-green-800 text-white font-medium px-6 py-3 rounded-lg text-sm transition disabled:opacity-50"
+        >
+          {!data.documentVisit ? "Subir Documento" : "Actualizar Documento"}
         </button>
       </div>
     </div>
