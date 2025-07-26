@@ -1,12 +1,36 @@
+import type React from "react";
+
+import { useState } from "react";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  MapPin,
+  Clock,
+  User,
+  ChevronDown,
+  ChevronUp,
+  CheckCircle,
+  XCircle,
+  AlertCircle,
+  ExternalLink,
+  FileText,
+} from "lucide-react";
 import { formatDate, formatDateTime } from "@/lib/utils";
 import type { HistoryAttendances } from "@/types";
 
@@ -14,154 +38,534 @@ interface Props {
   data: HistoryAttendances[];
 }
 
+type SortField = "name" | "date" | "morningIn" | "afternoonIn";
+type SortDirection = "asc" | "desc";
+
 export default function ListAttendanceHistoryAll({ data }: Props) {
-  return (
-    <div className="overflow-x-auto rounded-lg border bg-white p-4">
-      <Table>
-        <TableCaption className="text-sm text-muted-foreground mt-4">
-          Listado completo de asistencias
-        </TableCaption>
-        <TableHeader>
-          <TableRow className="bg-gray-100  text-gray-600">
-            <TableHead>Empleado</TableHead>
-            <TableHead>Fecha</TableHead>
-            {data?.[0]?.user?.cargo && <TableHead>Cargo</TableHead>}
+  const [sortField, setSortField] = useState<SortField>("date");
+  const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
+  const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
 
-            <TableHead>Entrada AM</TableHead>
-            <TableHead>Ubicación</TableHead>
-            <TableHead>Salida AM</TableHead>
-            <TableHead>Ubicación</TableHead>
-            <TableHead>Anotación AM</TableHead>
-            <TableHead>Entrada PM</TableHead>
-            <TableHead>Ubicación</TableHead>
-            <TableHead>Salida PM</TableHead>
-            <TableHead>Ubicación</TableHead>
-            <TableHead>Anotación PM</TableHead>
-          </TableRow>
-        </TableHeader>
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortDirection("asc");
+    }
+  };
 
-        <TableBody>
-          {data.map((attendance, idx) => (
-            <TableRow
-              key={attendance?.id}
-              className={
-                idx % 2 === 0 ? "bg-white" : "bg-gray-50 hover:bg-gray-100"
+  const toggleRowExpansion = (id: string) => {
+    const newExpanded = new Set(expandedRows);
+    if (newExpanded.has(id)) {
+      newExpanded.delete(id);
+    } else {
+      newExpanded.add(id);
+    }
+    setExpandedRows(newExpanded);
+  };
+
+  const sortedData: HistoryAttendances[] = [...data].sort((a, b): number => {
+    let aValue: string | Date;
+    let bValue: string | Date;
+
+    switch (sortField) {
+      case "name":
+        aValue = a!.user?.name || "";
+        bValue = b!.user?.name || "";
+        break;
+      case "date":
+        aValue = new Date(a!.date);
+        bValue = new Date(b!.date);
+        break;
+      case "morningIn":
+        aValue = a!.morningIn ? new Date(a!.morningIn) : new Date(0);
+        bValue = b!.morningIn ? new Date(b!.morningIn) : new Date(0);
+        break;
+      case "afternoonIn":
+        aValue = a!.afternoonIn ? new Date(a!.afternoonIn) : new Date(0);
+        bValue = b!.afternoonIn ? new Date(b!.afternoonIn) : new Date(0);
+        break;
+      default:
+        return 0;
+    }
+
+    if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
+    if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
+    return 0;
+  });
+
+  const getAttendanceStatus = (attendance: HistoryAttendances) => {
+    const hasMorningIn = !!attendance!.morningIn;
+    const hasMorningOut = !!attendance!.morningOut;
+    const hasAfternoonIn = !!attendance!.afternoonIn;
+    const hasAfternoonOut = !!attendance!.afternoonOut;
+
+    if (hasMorningIn && hasMorningOut && hasAfternoonIn && hasAfternoonOut) {
+      return {
+        status: "complete",
+        label: "Completo",
+        color: "bg-green-100 text-green-800",
+      };
+    } else if (hasMorningIn || hasAfternoonIn) {
+      return {
+        status: "partial",
+        label: "Parcial",
+        color: "bg-yellow-100 text-yellow-800",
+      };
+    } else {
+      return {
+        status: "absent",
+        label: "Ausente",
+        color: "bg-red-100 text-red-800",
+      };
+    }
+  };
+
+  const LocationLink = ({
+    location,
+    label,
+  }: {
+    location: { lat: number; lng: number } | null;
+    label: string;
+  }) => {
+    if (!location) return <span className="text-slate-400">—</span>;
+
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 px-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50"
+              onClick={() =>
+                window.open(
+                  `https://www.google.com/maps?q=${location.lat},${location.lng}`,
+                  "_blank"
+                )
               }
             >
-              <TableCell className="whitespace-nowrap">
-                <div className="flex items-center gap-3">
-                  {attendance?.user?.image ? (
-                    <img
-                      src={attendance.user.image}
-                      alt={attendance.user.name || "Empleado"}
-                      className="rounded-full object-cover w-10 h-10"
-                    />
-                  ) : (
-                    <div className="w-10 h-10 rounded-full bg-gray-300" />
-                  )}
-                  <span className="text-sm font-medium truncate max-w-[120px]">
-                    {attendance?.user?.name?.split(" ").slice(0, 2).join(" ") ||
-                      "—"}
-                  </span>
+              <MapPin className="w-3 h-3 mr-1" />
+              <ExternalLink className="w-3 h-3" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Ver {label} en Google Maps</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  };
+
+  const SortButton = ({
+    field,
+    children,
+  }: {
+    field: SortField;
+    children: React.ReactNode;
+  }) => (
+    <Button
+      variant="ghost"
+      size="sm"
+      className="h-auto p-0 font-semibold text-slate-700 hover:text-slate-900"
+      onClick={() => handleSort(field)}
+    >
+      {children}
+      {sortField === field &&
+        (sortDirection === "asc" ? (
+          <ChevronUp className="w-4 h-4 ml-1" />
+        ) : (
+          <ChevronDown className="w-4 h-4 ml-1" />
+        ))}
+    </Button>
+  );
+
+  if (!data || data.length === 0) {
+    return (
+      <Card className="shadow-sm">
+        <CardContent className="flex flex-col items-center justify-center py-12">
+          <FileText className="w-16 h-16 text-slate-300 mb-4" />
+          <h3 className="text-lg font-semibold text-slate-600 mb-2">
+            No hay registros
+          </h3>
+          <p className="text-slate-500 text-center">
+            No se encontraron asistencias para mostrar
+          </p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      {/* Mobile View */}
+      <div className="block lg:hidden space-y-4">
+        {sortedData.map((attendance) => {
+          const attendanceStatus = getAttendanceStatus(attendance);
+          const isExpanded = expandedRows.has(attendance!.id);
+
+          return (
+            <Card key={attendance!.id} className="shadow-sm">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="w-10 h-10">
+                      <AvatarImage
+                        src={attendance!.user?.image || "/placeholder.svg"}
+                      />
+                      <AvatarFallback>
+                        <User className="w-5 h-5" />
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <h4 className="font-semibold text-slate-800">
+                        {attendance!.user?.name
+                          ?.split(" ")
+                          .slice(0, 2)
+                          .join(" ") || "Sin nombre"}
+                      </h4>
+                      <p className="text-sm text-slate-600">
+                        {formatDate(attendance!.date)}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Badge className={attendanceStatus.color}>
+                      {attendanceStatus.status === "complete" && (
+                        <CheckCircle className="w-3 h-3 mr-1" />
+                      )}
+                      {attendanceStatus.status === "partial" && (
+                        <AlertCircle className="w-3 h-3 mr-1" />
+                      )}
+                      {attendanceStatus.status === "absent" && (
+                        <XCircle className="w-3 h-3 mr-1" />
+                      )}
+                      {attendanceStatus.label}
+                    </Badge>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => toggleRowExpansion(attendance!.id)}
+                    >
+                      {isExpanded ? (
+                        <ChevronUp className="w-4 h-4" />
+                      ) : (
+                        <ChevronDown className="w-4 h-4" />
+                      )}
+                    </Button>
+                  </div>
                 </div>
-              </TableCell>
+              </CardHeader>
 
-              <TableCell>{formatDate(attendance!.date)}</TableCell>
-              {attendance?.user?.cargo && (
-                <TableCell>{attendance?.user?.cargo || "—"}</TableCell>
+              {isExpanded && (
+                <CardContent className="pt-0">
+                  <div className="grid grid-cols-2 gap-4">
+                    {/* Morning Shift */}
+                    <div className="space-y-3">
+                      <h5 className="font-semibold text-amber-600 flex items-center gap-2">
+                        <Clock className="w-4 h-4" />
+                        Jornada Mañana
+                      </h5>
+                      <div className="space-y-2 text-sm">
+                        <div>
+                          <span className="text-slate-600">Entrada:</span>
+                          <p className="font-medium">
+                            {attendance!.morningIn
+                              ? formatDateTime(attendance!.morningIn)
+                              : "—"}
+                          </p>
+                          {attendance!.morningInLocation && (
+                            <LocationLink
+                              location={attendance!.morningInLocation}
+                              label="entrada mañana"
+                            />
+                          )}
+                        </div>
+                        <div>
+                          <span className="text-slate-600">Salida:</span>
+                          <p className="font-medium">
+                            {attendance!.morningOut
+                              ? formatDateTime(attendance!.morningOut)
+                              : "—"}
+                          </p>
+                          {attendance!.morningOutLocation && (
+                            <LocationLink
+                              location={attendance!.morningOutLocation}
+                              label="salida mañana"
+                            />
+                          )}
+                        </div>
+                        {attendance!.anotacionesMorning && (
+                          <div>
+                            <span className="text-slate-600">Notas:</span>
+                            <p className="text-sm text-slate-700">
+                              {attendance!.anotacionesMorning}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Afternoon Shift */}
+                    <div className="space-y-3">
+                      <h5 className="font-semibold text-blue-600 flex items-center gap-2">
+                        <Clock className="w-4 h-4" />
+                        Jornada Tarde
+                      </h5>
+                      <div className="space-y-2 text-sm">
+                        <div>
+                          <span className="text-slate-600">Entrada:</span>
+                          <p className="font-medium">
+                            {attendance!.afternoonIn
+                              ? formatDateTime(attendance!.afternoonIn)
+                              : "—"}
+                          </p>
+                          {attendance!.afternoonInLocation && (
+                            <LocationLink
+                              location={attendance!.afternoonInLocation}
+                              label="entrada tarde"
+                            />
+                          )}
+                        </div>
+                        <div>
+                          <span className="text-slate-600">Salida:</span>
+                          <p className="font-medium">
+                            {attendance!.afternoonOut
+                              ? formatDateTime(attendance!.afternoonOut)
+                              : "—"}
+                          </p>
+                          {attendance!.afternoonOutLocation && (
+                            <LocationLink
+                              location={attendance!.afternoonOutLocation}
+                              label="salida tarde"
+                            />
+                          )}
+                        </div>
+                        {attendance!.anotacionesAfternoon && (
+                          <div>
+                            <span className="text-slate-600">Notas:</span>
+                            <p className="text-sm text-slate-700">
+                              {attendance!.anotacionesAfternoon}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
               )}
+            </Card>
+          );
+        })}
+      </div>
 
-              {/* AM - Entrada */}
-              <TableCell>
-                {attendance?.morningIn
-                  ? formatDateTime(attendance.morningIn)
-                  : "—"}
-              </TableCell>
-              <TableCell>
-                {attendance?.morningInLocation ? (
-                  <a
-                    href={`https://www.google.com/maps?q=${attendance.morningInLocation.lat},${attendance.morningInLocation.lng}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 underline"
-                  >
-                    Ver mapa
-                  </a>
-                ) : (
-                  "—"
-                )}
-              </TableCell>
+      {/* Desktop View */}
+      <Card className="hidden lg:block shadow-sm">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileText className="w-5 h-5" />
+            Registro de Asistencias - Todos los Empleados
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-slate-50">
+                  <TableHead className="w-[200px]">
+                    <SortButton field="name">Empleado</SortButton>
+                  </TableHead>
+                  <TableHead className="w-[120px]">
+                    <SortButton field="date">Fecha</SortButton>
+                  </TableHead>
+                  <TableHead className="w-[100px]">Estado</TableHead>
+                  {data?.[0]?.user?.cargo && (
+                    <TableHead className="w-[120px]">Cargo</TableHead>
+                  )}
+                  <TableHead className="text-center" colSpan={3}>
+                    <div className="flex items-center justify-center gap-2 text-amber-600">
+                      <Clock className="w-4 h-4" />
+                      Jornada Mañana
+                    </div>
+                  </TableHead>
+                  <TableHead className="text-center" colSpan={3}>
+                    <div className="flex items-center justify-center gap-2 text-blue-600">
+                      <Clock className="w-4 h-4" />
+                      Jornada Tarde
+                    </div>
+                  </TableHead>
+                </TableRow>
+                <TableRow className="bg-slate-50 border-t-0">
+                  <TableHead></TableHead>
+                  <TableHead></TableHead>
+                  <TableHead></TableHead>
+                  {data?.[0]?.user?.cargo && <TableHead></TableHead>}
+                  <TableHead className="text-xs">Entrada</TableHead>
+                  <TableHead className="text-xs">Salida</TableHead>
+                  <TableHead className="text-xs">Notas</TableHead>
+                  <TableHead className="text-xs">Entrada</TableHead>
+                  <TableHead className="text-xs">Salida</TableHead>
+                  <TableHead className="text-xs">Notas</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {sortedData.map((attendance, idx) => {
+                  const attendanceStatus = getAttendanceStatus(attendance);
 
-              {/* AM - Salida */}
-              <TableCell>
-                {attendance?.morningOut
-                  ? formatDateTime(attendance.morningOut)
-                  : "—"}
-              </TableCell>
-              <TableCell>
-                {attendance?.morningOutLocation ? (
-                  <a
-                    href={`https://www.google.com/maps?q=${attendance.morningOutLocation.lat},${attendance.morningOutLocation.lng}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 underline "
-                  >
-                    Ver mapa
-                  </a>
-                ) : (
-                  "—"
-                )}
-              </TableCell>
+                  return (
+                    <TableRow
+                      key={attendance!.id}
+                      className={idx % 2 === 0 ? "bg-white" : "bg-slate-50/50"}
+                    >
+                      <TableCell>
+                        <div className="flex items-center gap-3">
+                          <Avatar className="w-8 h-8">
+                            <AvatarImage
+                              src={
+                                attendance!.user?.image || "/placeholder.svg"
+                              }
+                            />
+                            <AvatarFallback>
+                              <User className="w-4 h-4" />
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="min-w-0">
+                            <p className="font-medium text-slate-800 truncate">
+                              {attendance!.user?.name
+                                ?.split(" ")
+                                .slice(0, 2)
+                                .join(" ") || "Sin nombre"}
+                            </p>
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell className="font-medium">
+                        {formatDate(attendance!.date)}
+                      </TableCell>
+                      <TableCell>
+                        <Badge className={`${attendanceStatus.color} text-xs`}>
+                          {attendanceStatus.status === "complete" && (
+                            <CheckCircle className="w-3 h-3 mr-1" />
+                          )}
+                          {attendanceStatus.status === "partial" && (
+                            <AlertCircle className="w-3 h-3 mr-1" />
+                          )}
+                          {attendanceStatus.status === "absent" && (
+                            <XCircle className="w-3 h-3 mr-1" />
+                          )}
+                          {attendanceStatus.label}
+                        </Badge>
+                      </TableCell>
+                      {attendance!.user?.cargo && (
+                        <TableCell className="text-sm text-slate-600">
+                          {attendance!.user.cargo || "—"}
+                        </TableCell>
+                      )}
 
-              <TableCell>{attendance?.anotacionesMorning || "—"}</TableCell>
+                      {/* Morning Shift */}
+                      <TableCell>
+                        <div className="space-y-1">
+                          <p className="text-sm font-medium">
+                            {attendance!.morningIn
+                              ? formatDateTime(attendance!.morningIn)
+                              : "—"}
+                          </p>
+                          <LocationLink
+                            location={attendance!.morningInLocation}
+                            label="entrada mañana"
+                          />
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="space-y-1">
+                          <p className="text-sm font-medium">
+                            {attendance!.morningOut
+                              ? formatDateTime(attendance!.morningOut)
+                              : "—"}
+                          </p>
+                          <LocationLink
+                            location={attendance!.morningOutLocation}
+                            label="salida mañana"
+                          />
+                        </div>
+                      </TableCell>
+                      <TableCell className="max-w-[150px]">
+                        {attendance!.anotacionesMorning ? (
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <p className="text-sm text-slate-600 truncate cursor-help">
+                                  {attendance!.anotacionesMorning}
+                                </p>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p className="max-w-xs">
+                                  {attendance!.anotacionesMorning}
+                                </p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        ) : (
+                          <span className="text-slate-400">—</span>
+                        )}
+                      </TableCell>
 
-              {/* PM - Entrada */}
-              <TableCell>
-                {attendance?.afternoonIn
-                  ? formatDateTime(attendance.afternoonIn)
-                  : "—"}
-              </TableCell>
-              <TableCell>
-                {attendance?.afternoonInLocation ? (
-                  <a
-                    href={`https://www.google.com/maps?q=${attendance.afternoonInLocation.lat},${attendance.afternoonInLocation.lng}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 underline text-xs"
-                  >
-                    Ver mapa
-                  </a>
-                ) : (
-                  "—"
-                )}
-              </TableCell>
-
-              {/* PM - Salida */}
-              <TableCell>
-                {attendance?.afternoonOut
-                  ? formatDateTime(attendance.afternoonOut)
-                  : "—"}
-              </TableCell>
-              <TableCell>
-                {attendance?.afternoonOutLocation ? (
-                  <a
-                    href={`https://www.google.com/maps?q=${attendance.afternoonOutLocation.lat},${attendance.afternoonOutLocation.lng}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 underline"
-                  >
-                    Ver mapa
-                  </a>
-                ) : (
-                  "—"
-                )}
-              </TableCell>
-
-              <TableCell>{attendance?.anotacionesAfternoon || "—"}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+                      {/* Afternoon Shift */}
+                      <TableCell>
+                        <div className="space-y-1">
+                          <p className="text-sm font-medium">
+                            {attendance!.afternoonIn
+                              ? formatDateTime(attendance!.afternoonIn)
+                              : "—"}
+                          </p>
+                          <LocationLink
+                            location={attendance!.afternoonInLocation}
+                            label="entrada tarde"
+                          />
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="space-y-1">
+                          <p className="text-sm font-medium">
+                            {attendance!.afternoonOut
+                              ? formatDateTime(attendance!.afternoonOut)
+                              : "—"}
+                          </p>
+                          <LocationLink
+                            location={attendance!.afternoonOutLocation}
+                            label="salida tarde"
+                          />
+                        </div>
+                      </TableCell>
+                      <TableCell className="max-w-[150px]">
+                        {attendance!.anotacionesAfternoon ? (
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <p className="text-sm text-slate-600 truncate cursor-help">
+                                  {attendance!.anotacionesAfternoon}
+                                </p>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p className="max-w-xs">
+                                  {attendance!.anotacionesAfternoon}
+                                </p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        ) : (
+                          <span className="text-slate-400">—</span>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

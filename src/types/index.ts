@@ -147,3 +147,27 @@ export const historyAttendancesSchema = z
 
 export const historyAttendancesSchemas = z.array(historyAttendancesSchema);
 export type HistoryAttendances = z.infer<typeof historyAttendancesSchema>;
+
+export interface Location {
+  lat: number;
+  lng: number;
+}
+
+export interface AttendanceType {
+  id: string;
+  date: string;
+  updatedAt: string;
+
+  morningIn?: string;
+  morningOut?: string;
+  afternoonIn?: string;
+  afternoonOut?: string;
+
+  morningInLocation?: Location;
+  morningOutLocation?: Location;
+  afternoonInLocation?: Location;
+  afternoonOutLocation?: Location;
+
+  anotacionesMorning?: string;
+  anotacionesAfternoon?: string;
+}

@@ -55,7 +55,6 @@ export const getVisitCenterAll = async ({
       },
     });
     const response = visitAllSchema.safeParse(data);
-    console.log(response);
     if (response.success) {
       return response.data;
     }

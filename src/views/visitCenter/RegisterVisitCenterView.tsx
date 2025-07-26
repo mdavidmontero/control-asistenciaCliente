@@ -6,12 +6,13 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useVisitStore } from "@/store/visitStore";
 import { buildDateFromFormData } from "@/lib/utils";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { registerVisitCenter } from "@/actions/visitCenter.actions";
 type ValuePiece = Date | null;
 export type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 export default function RegisterVisitCenterView() {
+  const queryClient = useQueryClient();
   const formData = useVisitStore((state) => state.formData);
   const setFormData = useVisitStore((state) => state.setFormData);
   const resetFormData = useVisitStore((state) => state.resetFormData);
@@ -52,7 +53,7 @@ export default function RegisterVisitCenterView() {
     name: "asistentes",
   });
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: registerVisitCenter,
     onSuccess: (data) => {
       Swal.fire({
@@ -61,6 +62,8 @@ export default function RegisterVisitCenterView() {
         text: data,
       }).then(() => {
         resetFormData();
+        queryClient.invalidateQueries({ queryKey: ["visit-center-user"] });
+        queryClient.invalidateQueries({ queryKey: ["VisitCenterAll"] });
         navigate(-1);
       });
     },
@@ -128,7 +131,8 @@ export default function RegisterVisitCenterView() {
         <input
           type="submit"
           value="Enviar"
-          className="bg-[#1B5040] hover:bg-[#304b43] w-full p-3 rounded-lg text-white font-black text-xl cursor-pointer"
+          disabled={isPending}
+          className="bg-[#1B5040] hover:bg-[#304b43] w-full p-3 rounded-lg text-white font-black text-xl cursor-pointer disabled:opacity-50 transition-colors"
         />
       </form>
     </div>

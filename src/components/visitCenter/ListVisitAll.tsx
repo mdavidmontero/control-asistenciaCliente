@@ -4,12 +4,13 @@ import {
 } from "@/actions/visitCenter.actions";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addDays } from "date-fns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CalendarFilter from "../ui/CalendarFilter";
 import ListVisitSend from "./ListVisitSend";
 import PaginatedShared from "../ui/shared/PaginatedShared";
 import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useSearchStore } from "@/store/searchStore";
 
 export default function ListVisitAll() {
   const queryClient = useQueryClient();
@@ -20,11 +21,11 @@ export default function ListVisitAll() {
     from: addDays(new Date(), -5),
     to: addDays(new Date(), 5),
   });
-  const [search, setSearch] = useState("");
+  const search = useSearchStore((state) => state.search);
+  const setSearch = useSearchStore((state) => state.setSearch);
 
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const page = +(searchParams.get("page") || "1");
-
   const { data, isLoading, refetch } = useQuery({
     queryKey: [
       "VisitCenterAll",
@@ -43,6 +44,11 @@ export default function ListVisitAll() {
     },
     enabled: !!dateSelected.from && !!dateSelected.to,
   });
+  useEffect(() => {
+    if (!isLoading && data?.data.length === 0 && page > 1) {
+      setSearchParams({ page: "1" });
+    }
+  }, [data, isLoading, page, search, setSearchParams]);
 
   const handleFetchReports = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -75,6 +81,7 @@ export default function ListVisitAll() {
   const handleStatus = (id: number, evaluacion: string) => {
     mutationStatus.mutate({ id, evaluacion });
   };
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
       <div className="space-y-2 text-center md:text-left">

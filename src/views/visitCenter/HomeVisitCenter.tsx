@@ -10,7 +10,7 @@ export default function HomeVisitCenter() {
   const navigate = useNavigate();
   const formData = useVisitStore((state) => state.formData);
 
-  const { data, isLoading, isError, refetch } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["visit-center-user"],
     queryFn: getVisitCenterByUser,
   });
@@ -36,25 +36,15 @@ export default function HomeVisitCenter() {
         </p>
       </div>
 
-      <div className="flex flex-wrap gap-4 justify-between items-center">
-        <div className="flex flex-wrap gap-2">
-          <Button
-            onClick={() => navigate("/register-visit-center")}
-            className="bg-emerald-700 hover:bg-emerald-800 text-white"
-          >
-            Solicitar Visita
-          </Button>
-          <Button
-            variant="outline"
-            className="border-gray-300"
-            onClick={() => refetch()}
-          >
-            {isLoading ? "Cargando..." : "Actualizar"}
-          </Button>
-        </div>
+      <div className="flex  gap-4 justify-between items-center ">
+        <Button
+          onClick={() => navigate("/register-visit-center")}
+          className="w-full md:w-auto bg-emerald-700 hover:bg-emerald-800 text-white"
+        >
+          Solicitar Visita
+        </Button>
       </div>
 
-      {/* Borradores */}
       {hasDraft && (
         <>
           <span className="bg-blue-100 text-blue-800 me-2 px-4 py-2 rounded-sm dark:bg-blue-900 dark:text-blue-300 font-bold">
@@ -64,7 +54,6 @@ export default function HomeVisitCenter() {
         </>
       )}
 
-      {/* Enviados */}
       <span className="bg-green-100 text-green-800 font-bold me-2 px-4 py-2 rounded-sm dark:bg-green-900 dark:text-green-300">
         Enviados
       </span>
