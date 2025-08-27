@@ -13,10 +13,15 @@ export type LoginFormData = Pick<Auth, "email" | "password">;
 
 export type Auth = z.infer<typeof authSchema>;
 export type UserLoginForm = Pick<Auth, "email" | "password">;
-export type UserRegistrationForm = Pick<
+export type RegistrationForm = Pick<
   Auth,
   "name" | "email" | "password" | "password_confirmation"
 >;
+// eXTENDER EL UserRegistrationForm
+export type UserRegistrationForm = RegistrationForm & {
+  tipouser: "";
+};
+
 export type RequestConfirmationCodeForm = Pick<Auth, "email">;
 
 export type ForgotPasswordForm = Pick<Auth, "email">;

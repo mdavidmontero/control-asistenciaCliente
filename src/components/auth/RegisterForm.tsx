@@ -14,6 +14,7 @@ export default function RegisterForm() {
     name: "",
     password: "",
     password_confirmation: "",
+    tipouser: "",
   };
   const {
     register,
@@ -58,6 +59,32 @@ export default function RegisterForm() {
   const password = watch("password");
   return (
     <form className="mt-14 space-y-5" onSubmit={handleSubmit(handleRegister)}>
+      <div className="flex flex-col gap-2">
+        <label className="font-bold text-2xl" htmlFor="tipouser">
+          Tipo de Usuario
+        </label>
+        <p className="text-gray-600">
+          Seleccione que usuario eres:
+          <span> Visitante</span>
+          <span> Empleado</span>
+        </p>
+        <select
+          id="tipouser"
+          className="w-full border border-gray-300 p-3 rounded-lg"
+          {...register("tipouser", {
+            required: "Tipo de usuario es obligatorio",
+          })}
+        >
+          <option value="" disabled>
+            Seleccione tipo de usuario
+          </option>
+          <option value="USER">Visitante</option>
+          <option value="TRABAJADORES">Empleado</option>
+        </select>
+        {errors.tipouser && (
+          <ErrorMessage>{errors.tipouser.message}</ErrorMessage>
+        )}
+      </div>
       <div className="flex flex-col gap-2">
         <label className="font-bold text-2xl" htmlFor="email">
           Email
