@@ -8,8 +8,17 @@ import AttendanceForm from "@/components/attendance/AttendandeForm";
 
 export default function HomeAttendance() {
   const navigate = useNavigate();
+
+  // Detectar automáticamente la jornada basada en la hora actual
+  const getCurrentShift = (): "morning" | "afternoon" => {
+    const currentHour = new Date().getHours();
+    // Jornada mañana: 6:00 AM - 1:59 PM (6-13)
+    // Jornada tarde: 2:00 PM - 11:59 PM (14-23)
+    return currentHour >= 6 && currentHour < 14 ? "morning" : "afternoon";
+  };
+
   const [selectedShift, setSelectedShift] = useState<"morning" | "afternoon">(
-    "morning"
+    getCurrentShift()
   );
   const [ubicacion] = useState<{
     lat: number;
@@ -32,8 +41,8 @@ export default function HomeAttendance() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6 mb-8">
           <div className="space-y-2">
@@ -66,53 +75,71 @@ export default function HomeAttendance() {
         </div>
 
         {/* Shift Selection */}
-        <Card className="mb-8 shadow-sm border-0 bg-white/70 backdrop-blur-sm">
-          <CardHeader className="pb-4">
-            <CardTitle className="text-xl text-slate-700">
+        <Card className="mb-8 shadow-lg border-0 bg-white/80 backdrop-blur-md">
+          <CardHeader className="pb-6 text-center">
+            <CardTitle className="text-2xl font-bold text-slate-800">
               Seleccionar Jornada
             </CardTitle>
+            <div className="flex items-center justify-center gap-2 text-sm text-slate-600 mt-2">
+              <Clock className="w-4 h-4" />
+              <span>Jornada sugerida automáticamente según la hora actual</span>
+            </div>
           </CardHeader>
-          <CardContent>
-            <div className="flex flex-col sm:flex-row gap-4">
+          <CardContent className="px-8 pb-8">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Button
                 onClick={() => setSelectedShift("morning")}
                 variant={selectedShift === "morning" ? "default" : "outline"}
-                className={`flex-1 h-16 gap-3 text-base ${
+                className={`flex-1 max-w-xs h-20 gap-3 text-base relative transition-all duration-300 ${
                   selectedShift === "morning"
-                    ? "bg-amber-500 hover:bg-amber-600 text-white shadow-md"
-                    : "hover:bg-amber-50 hover:border-amber-200"
+                    ? "bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-xl transform scale-105"
+                    : "hover:bg-amber-50 hover:border-amber-300 hover:shadow-md border-2"
                 }`}
               >
-                <Sun className="w-5 h-5" />
-                Jornada Mañana
-                <Badge variant="secondary" className="ml-2">
-                  08:00 - 12:00
-                </Badge>
+                <Sun className="w-6 h-6" />
+                <div className="flex flex-col items-center">
+                  <span className="font-semibold">Jornada Mañana</span>
+                  <Badge variant="secondary" className="text-xs mt-1">
+                    06:00 - 14:00
+                  </Badge>
+                </div>
+                {getCurrentShift() === "morning" && (
+                  <Badge className="absolute -top-3 -right-3 bg-green-500 text-white text-xs px-2 py-1 animate-pulse">
+                    Recomendada
+                  </Badge>
+                )}
               </Button>
 
               <Button
                 onClick={() => setSelectedShift("afternoon")}
                 variant={selectedShift === "afternoon" ? "default" : "outline"}
-                className={`flex-1 h-16 gap-3 text-base ${
+                className={`flex-1 max-w-xs h-20 gap-3 text-base relative transition-all duration-300 ${
                   selectedShift === "afternoon"
-                    ? "bg-amber-500 hover:bg-amber-600 text-white shadow-md"
-                    : "hover:bg-amber-50 hover:border-amber-200"
+                    ? "bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white shadow-xl transform scale-105"
+                    : "hover:bg-indigo-50 hover:border-indigo-300 hover:shadow-md border-2"
                 }`}
               >
-                <Moon className="w-5 h-5" />
-                Jornada Tarde
-                <Badge variant="secondary" className="ml-2">
-                  2:00 - 6:00
-                </Badge>
+                <Moon className="w-6 h-6" />
+                <div className="flex flex-col items-center">
+                  <span className="font-semibold">Jornada Tarde</span>
+                  <Badge variant="secondary" className="text-xs mt-1">
+                    14:00 - 18:00
+                  </Badge>
+                </div>
+                {getCurrentShift() === "afternoon" && (
+                  <Badge className="absolute -top-3 -right-3 bg-green-500 text-white text-xs px-2 py-1 animate-pulse">
+                    Recomendada
+                  </Badge>
+                )}
               </Button>
             </div>
           </CardContent>
         </Card>
 
         {/* Main Content */}
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="flex justify-center">
           {/* Form Section */}
-          <Card className="shadow-sm border-0 bg-white/70 backdrop-blur-sm">
+          <Card className="w-full max-w-2xl shadow-lg border-0 bg-white/80 backdrop-blur-md">
             <CardContent className="p-8">
               <AttendanceForm shift={selectedShift} ubicacion={ubicacion} />
             </CardContent>
