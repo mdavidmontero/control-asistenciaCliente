@@ -14,7 +14,9 @@ import {
 } from "../types";
 import { isAxiosError } from "axios";
 
-export const login = async (formData: UserLoginForm): Promise<AuthResponse> => {
+export const loginAction = async (
+  formData: UserLoginForm
+): Promise<AuthResponse> => {
   try {
     const { data } = await api.post<AuthResponse>("/auth/login", formData);
     return data;

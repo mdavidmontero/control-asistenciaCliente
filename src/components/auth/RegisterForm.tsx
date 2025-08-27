@@ -3,9 +3,11 @@ import ErrorMessage from "../ui/ErrorMessage";
 import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import type { UserRegistrationForm } from "../../types";
-import { createAccount, login } from "../../actions/auth.actions";
+import { createAccount } from "../../actions/auth.actions";
 import { useNavigate } from "react-router";
+import { useAuthStore } from "@/store/auth.store";
 export default function RegisterForm() {
+  const { login } = useAuthStore();
   const navigate = useNavigate();
   const initialValues: UserRegistrationForm = {
     email: "",
@@ -26,13 +28,9 @@ export default function RegisterForm() {
     onError: (error) => {
       toast.error(error.message);
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       reset();
-      toast.success(data, {
-        onClose: () => {
-          navigate("/auth/login");
-        },
-      });
+      navigate("/auth/login");
     },
   });
   const mutationLogin = useMutation({
@@ -41,14 +39,12 @@ export default function RegisterForm() {
       toast.error(error.message);
     },
     onSuccess: () => {
-      navigate("/register-attendance");
+      navigate("/");
     },
   });
   const handleRegister = async (formData: UserRegistrationForm) => {
     try {
-      const registerResponse = await mutationRegister.mutateAsync(formData);
-
-      toast.success(registerResponse);
+      await mutationRegister.mutateAsync(formData);
 
       await mutationLogin.mutateAsync({
         email: formData.email,
