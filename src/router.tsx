@@ -34,9 +34,8 @@ import {
 import NotFoundView from "./views/404/NotFounfView.tsx";
 import RoleIndexRedirect from "./components/routes/RoleIndexRedirect.tsx";
 
-const AuthLayout = lazy(() => import("./layouts/AuthLayout.tsx"));
-const AdminLayout = lazy(() => import("./layouts/AppLayout.tsx"));
-
+const AuthLayout = lazy(() => import("./layouts/AuthLayout"));
+const AdminLayout = lazy(() => import("./layouts/AppLayout"));
 export const appRouter = createBrowserRouter([
   {
     path: "/auth",

@@ -36,7 +36,6 @@ export default function AttendanceForm({ shift, ubicacion }: Props) {
     queryKey: ["attendance-date"],
     queryFn: () => getAttendandesUser(),
   });
-  console.log(data);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [tipo, setTipo] = useState<"entrada" | "salida" | "">("");
@@ -160,24 +159,13 @@ export default function AttendanceForm({ shift, ubicacion }: Props) {
   };
 
   const config = shiftConfig[shift];
-  const ShiftIcon = config.icon;
   const { currentTime, isCorrectShift } = getCurrentTimeInfo();
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="text-center space-y-4 mb-8">
+    <div className="">
+      <div className="text-center space-y-4">
         <div className="space-y-3">
-          <div
-            className={`inline-flex items-center gap-3 px-6 py-3 rounded-full ${config.bgColor} relative shadow-md`}
-          >
-            <ShiftIcon className={`w-6 h-6 ${config.color}`} />
-            <span className={`font-bold text-lg ${config.color}`}>
-              {config.title}
-            </span>
-            <Badge variant="outline" className="ml-2 text-sm font-medium">
-              {config.timeRange}
-            </Badge>
+          <div>
             {!isCorrectShift && (
               <Badge className="absolute -top-3 -right-3 bg-orange-500 text-white text-xs px-2 py-1 animate-pulse">
                 Fuera de horario
@@ -200,102 +188,77 @@ export default function AttendanceForm({ shift, ubicacion }: Props) {
             </div>
           )}
         </div>
-
-        <p className="text-slate-600 text-lg">
-          Complete los datos para registrar su asistencia
-        </p>
       </div>
 
-      {/* Form */}
-      <div className="space-y-6">
-        {/* Attendance Type Selection */}
-        <div className="space-y-4">
+      <div className="space-y-2">
+        <div>
           <Label
             htmlFor="tipo"
             className="text-lg font-semibold text-slate-700 flex items-center justify-center gap-2"
           >
             <div className="w-2 h-2 bg-blue-500 rounded-full" />
             Tipo de Asistencia
-            {tipo && (
-              <Badge className="ml-2 bg-blue-100 text-blue-700 text-xs">
-                Selección automática
-              </Badge>
-            )}
           </Label>
           <Select
             value={tipo}
             onValueChange={(value) => setTipo(value as "entrada" | "salida")}
           >
-            <SelectTrigger className="h-14 text-base border-2 hover:border-blue-300 focus:border-blue-500 transition-colors">
+            <SelectTrigger className="h-14 text-base border-2 hover:border-blue-300 focus:border-blue-500 transition-colors w-full">
               <SelectValue placeholder="Seleccione el tipo de asistencia" />
             </SelectTrigger>
             <SelectContent className="z-50 max-w-[calc(100vw-2rem)] w-full">
-              <SelectItem 
-                value="entrada" 
+              <SelectItem
+                value="entrada"
                 className="h-14"
-                disabled={data && shift === "morning" && data.morningIn ? true : data && shift === "afternoon" && data.afternoonIn ? true : false}
+                disabled={
+                  data && shift === "morning" && data.morningIn
+                    ? true
+                    : data && shift === "afternoon" && data.afternoonIn
+                    ? true
+                    : false
+                }
               >
                 <div className="flex items-center gap-3">
                   <div className="p-1 bg-green-100 rounded-full">
                     <LogIn className="w-4 h-4 text-green-600" />
                   </div>
                   <span className="font-medium">Entrada</span>
-                  {data && ((shift === "morning" && data.morningIn) || (shift === "afternoon" && data.afternoonIn)) && (
-                    <Badge className="ml-2 bg-green-100 text-green-700 text-xs">
-                      Ya registrada
-                    </Badge>
-                  )}
+                  {data &&
+                    ((shift === "morning" && data.morningIn) ||
+                      (shift === "afternoon" && data.afternoonIn)) && (
+                      <Badge className="ml-2 bg-green-100 text-green-700 text-xs">
+                        Ya registrada
+                      </Badge>
+                    )}
                 </div>
               </SelectItem>
-              <SelectItem 
-                value="salida" 
+              <SelectItem
+                value="salida"
                 className="h-14"
-                disabled={data && shift === "morning" && data.morningOut ? true : data && shift === "afternoon" && data.afternoonOut ? true : false}
+                disabled={
+                  data && shift === "morning" && data.morningOut
+                    ? true
+                    : data && shift === "afternoon" && data.afternoonOut
+                    ? true
+                    : false
+                }
               >
                 <div className="flex items-center gap-3">
                   <div className="p-1 bg-red-100 rounded-full">
                     <LogOut className="w-4 h-4 text-red-600" />
                   </div>
                   <span className="font-medium">Salida</span>
-                  {data && ((shift === "morning" && data.morningOut) || (shift === "afternoon" && data.afternoonOut)) && (
-                    <Badge className="ml-2 bg-red-100 text-red-700 text-xs">
-                      Ya registrada
-                    </Badge>
-                  )}
+                  {data &&
+                    ((shift === "morning" && data.morningOut) ||
+                      (shift === "afternoon" && data.afternoonOut)) && (
+                      <Badge className="ml-2 bg-red-100 text-red-700 text-xs">
+                        Ya registrada
+                      </Badge>
+                    )}
                 </div>
               </SelectItem>
             </SelectContent>
           </Select>
-          
-          {/* Mensaje informativo sobre selección automática */}
-          {tipo && data && (
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 text-sm">
-              <div className="flex items-center gap-2 text-blue-700 mb-2">
-                <div className="w-3 h-3 bg-blue-500 rounded-full" />
-                <span className="font-semibold">Selección Automática</span>
-              </div>
-              <p className="text-blue-600">
-                {shift === "morning" && !data.morningIn && !data.morningOut && (
-                  "Se seleccionó 'Entrada' porque aún no has registrado ninguna asistencia de la jornada mañana."
-                )}
-                {shift === "morning" && data.morningIn && !data.morningOut && (
-                  "Se seleccionó 'Salida' porque ya registraste tu entrada de la jornada mañana."
-                )}
-                {shift === "morning" && !data.morningIn && data.morningOut && (
-                  "Se seleccionó 'Entrada' porque tienes registrada la salida pero falta la entrada de la jornada mañana."
-                )}
-                {shift === "afternoon" && !data.afternoonIn && !data.afternoonOut && (
-                  "Se seleccionó 'Entrada' porque aún no has registrado ninguna asistencia de la jornada tarde."
-                )}
-                {shift === "afternoon" && data.afternoonIn && !data.afternoonOut && (
-                  "Se seleccionó 'Salida' porque ya registraste tu entrada de la jornada tarde."
-                )}
-                {shift === "afternoon" && !data.afternoonIn && data.afternoonOut && (
-                  "Se seleccionó 'Entrada' porque tienes registrada la salida pero falta la entrada de la jornada tarde."
-                )}
-              </p>
-            </div>
-          )}
         </div>
 
         {tipo && (

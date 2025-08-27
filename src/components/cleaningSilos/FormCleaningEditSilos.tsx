@@ -90,7 +90,6 @@ export default function FormCleaningEditSilos() {
     const updated = current.includes(key)
       ? current.filter((k: string) => k !== key)
       : [...current, key];
-    console.log(updated);
     setValue(tipo, updated);
   };
 

@@ -6,7 +6,6 @@ export const checkAuthAction = async (): Promise<AuthResponse> => {
   if (!token) throw new Error("No hay token");
   try {
     const { data } = await api.get<AuthResponse>("/auth/check-status");
-    console.log(data);
     localStorage.setItem("AUTH_TOKEN", data.token);
     return data;
   } catch (error) {

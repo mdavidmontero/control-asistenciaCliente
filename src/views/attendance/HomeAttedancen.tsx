@@ -75,22 +75,18 @@ export default function HomeAttendance() {
         </div>
 
         {/* Shift Selection */}
-        <Card className="mb-8 shadow-lg border-0 bg-white/80 backdrop-blur-md">
-          <CardHeader className="pb-6 text-center">
+        <Card className="mb-4 shadow-lg border-0 bg-white/80 backdrop-blur-md">
+          <CardHeader className=" text-center">
             <CardTitle className="text-2xl font-bold text-slate-800">
               Seleccionar Jornada
             </CardTitle>
-            <div className="flex items-center justify-center gap-2 text-sm text-slate-600 mt-2">
-              <Clock className="w-4 h-4" />
-              <span>Jornada sugerida automáticamente según la hora actual</span>
-            </div>
           </CardHeader>
-          <CardContent className="px-8 pb-8">
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+          <CardContent className="px-8 ">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Button
                 onClick={() => setSelectedShift("morning")}
                 variant={selectedShift === "morning" ? "default" : "outline"}
-                className={`flex-1 max-w-xs h-20 gap-3 text-base relative transition-all duration-300 ${
+                className={`flex-1 max-w-xs h-20  text-base relative transition-all duration-300 ${
                   selectedShift === "morning"
                     ? "bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-xl transform scale-105"
                     : "hover:bg-amber-50 hover:border-amber-300 hover:shadow-md border-2"
