@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import type { UserRegistrationForm } from "../../types";
 import { createAccount, login } from "../../actions/auth.actions";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 export default function RegisterForm() {
   const navigate = useNavigate();
   const initialValues: UserRegistrationForm = {

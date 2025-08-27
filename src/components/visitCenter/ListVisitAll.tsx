@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import CalendarFilter from "../ui/CalendarFilter";
 import ListVisitSend from "./ListVisitSend";
 import PaginatedShared from "../ui/shared/PaginatedShared";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import Swal from "sweetalert2";
 import { useSearchStore } from "@/store/searchStore";
 

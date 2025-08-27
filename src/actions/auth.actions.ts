@@ -10,24 +10,28 @@ import {
   type UserRegistrationForm,
   type confirmToken,
   type UserProfileForm,
+  type AuthResponse,
 } from "../types";
 import { isAxiosError } from "axios";
 
-export const login = async (formData: UserLoginForm) => {
+export const login = async (formData: UserLoginForm): Promise<AuthResponse> => {
   try {
-    const { data } = await api.post("/auth/login", formData);
-    localStorage.setItem("AUTH_TOKEN", data);
+    const { data } = await api.post<AuthResponse>("/auth/login", formData);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.error);
     }
+    throw new Error("Error al intentar iniciar sesión");
   }
 };
 
 export const createAccount = async (formData: UserRegistrationForm) => {
   try {
-    const { data } = await api.post<string>("/auth/create-account", formData);
+    const { data } = await api.post<AuthResponse>(
+      "/auth/create-account",
+      formData
+    );
 
     return data;
   } catch (error) {
@@ -105,7 +109,7 @@ export async function updatePasswordWithToken({
 
 export async function getUser() {
   try {
-    const { data } = await api("/auth/user");
+    const { data } = await api("/auth/check-status");
     const response = userSchema.safeParse(data);
     if (response.success) {
       return response.data;

@@ -1,6 +1,6 @@
 import type { VisitList } from "@/types/schemas";
 import { View } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 interface ListVisitCenterProps {
   data: VisitList[];
   acciones?: boolean;
@@ -71,7 +71,7 @@ export default function ListVisitSend({
                     </select>
 
                     <Link
-                      to={`/visit-cente-detail/${visit.id}`}
+                      to={`/visit/visit-cente-detail/${visit.id}`}
                       className="flex items-center gap-1 text-green-700 hover:underline text-sm"
                     >
                       <View className="w-4 h-4" />

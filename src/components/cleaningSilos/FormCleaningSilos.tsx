@@ -1,10 +1,9 @@
-import { userAuthStore } from "@/store/useAuthStore";
 import { siloSchema, type LimpiezaSilo } from "@/types/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import CalendarShared from "../ui/CalendarShared";
 import { AREAS_SILOS, INTERVENCIONES_SILOS } from "@/data";
 import { Button } from "../ui/button";
@@ -19,9 +18,10 @@ import {
 import { Input } from "../ui/input";
 import { toast } from "react-toastify";
 import { registerCleaingSilo } from "@/actions/cleaning-silos.actions";
+import { useAuthStore } from "@/store/auth.store";
 
 export default function FormCleaningSilos() {
-  const user = userAuthStore((state) => state.user);
+  const { user } = useAuthStore();
   const navigate = useNavigate();
   const [date, setDate] = useState<Date | undefined>(new Date());
   const queryClient = useQueryClient();

@@ -1,7 +1,6 @@
-import { userAuthStore } from "@/store/useAuthStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import CalendarShared from "../ui/CalendarShared";
 import { Controller, useForm } from "react-hook-form";
 import { Input } from "../ui/input";
@@ -15,9 +14,10 @@ import { registerStickyTrap } from "@/actions/sticky-traps.actions";
 import { toast } from "react-toastify";
 import { Button } from "../ui/button";
 import ErrorMessage from "../ui/ErrorMessage";
+import { useAuthStore } from "@/store/auth.store";
 
 export default function FormCleaningSticky() {
-  const user = userAuthStore((state) => state.user);
+  const { user } = useAuthStore();
   const navigate = useNavigate();
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [fechaRecambio, setFechaRecambio] = useState<Date | undefined>(

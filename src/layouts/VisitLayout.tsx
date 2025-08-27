@@ -5,7 +5,7 @@ import Sidebar from "@/components/ui/shared/Sidebar";
 import { useAuthStore } from "@/store/auth.store";
 import HeaderShared from "@/components/ui/shared/HeaderShared";
 
-export default function AppLayout() {
+export default function VisitLayout() {
   const { user } = useAuthStore();
 
   if (user)
@@ -34,7 +34,7 @@ export default function AppLayout() {
                 <div className="flex items-center gap-4 text-xs text-slate-500">
                   <span>Versión 2.0</span>
                   <span>•</span>
-                  <span>Sistema de Asistencias</span>
+                  <span>Registro de visitas</span>
                 </div>
               </div>
             </div>

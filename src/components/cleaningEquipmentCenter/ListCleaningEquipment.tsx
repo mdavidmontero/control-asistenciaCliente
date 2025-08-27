@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "../ui/table";
 import type { EquipmentSchemaType } from "@/types/schemas";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Button } from "../ui/button";
 import { Pencil, ChevronDown, ChevronUp } from "lucide-react";
 import { formatDate } from "@/utils";

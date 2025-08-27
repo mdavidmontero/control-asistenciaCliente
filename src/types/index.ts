@@ -9,6 +9,8 @@ const authSchema = z.object({
   token: z.string(),
 });
 
+export type LoginFormData = Pick<Auth, "email" | "password">;
+
 export type Auth = z.infer<typeof authSchema>;
 export type UserLoginForm = Pick<Auth, "email" | "password">;
 export type UserRegistrationForm = Pick<
@@ -89,6 +91,11 @@ export const attendanceSchema = z
   .optional();
 
 export type Attendance = z.infer<typeof attendanceSchema>;
+
+export interface AuthResponse {
+  user: User;
+  token: string;
+}
 
 export const attendancesSchemas = z.array(attendanceSchema);
 

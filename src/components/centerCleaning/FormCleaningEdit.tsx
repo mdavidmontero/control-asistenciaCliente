@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { userAuthStore } from "@/store/useAuthStore";
 import { AREAS, INTERVENCIONES } from "@/data";
 import { limpiezaSchema, type LimpiezaForm } from "@/types/schemas";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -15,12 +14,13 @@ import {
 } from "@/actions/cleanin-center.actions";
 import { toast } from "react-toastify";
 
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import CalendarShared from "../ui/CalendarShared";
 import { formatDate } from "@/utils";
+import { useAuthStore } from "@/store/auth.store";
 
 export default function FormCleaningEdit() {
-  const user = userAuthStore((state) => state.user);
+  const { user } = useAuthStore();
   const [date, setDate] = useState<Date | undefined>(new Date());
   const queryClient = useQueryClient();
   const { id } = useParams();

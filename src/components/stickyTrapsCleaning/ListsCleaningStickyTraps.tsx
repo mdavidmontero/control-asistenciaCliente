@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Button } from "../ui/button";
 import { Pencil, Upload } from "lucide-react";
 

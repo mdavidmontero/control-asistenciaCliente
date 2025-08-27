@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import RegisterForm from "../../components/auth/RegisterForm";
 
 export default function RegisterView() {

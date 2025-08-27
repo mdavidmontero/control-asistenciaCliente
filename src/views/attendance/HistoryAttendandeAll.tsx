@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { startOfDay } from "date-fns";
 import { es } from "date-fns/locale";
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router";
 import { PDFDownloadLink, pdf } from "@react-pdf/renderer";
 import { toast } from "react-toastify";
 import {
@@ -22,10 +22,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
 import { Badge } from "@/components/ui/badge";
 import api from "@/lib/axios";
-import { userAuthStore } from "@/store/useAuthStore";
+import { useAuthStore } from "@/store/auth.store";
 
 export default function HistoryAttendanceAll() {
-  const user = userAuthStore((state) => state.user);
+  const { user } = useAuthStore();
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [isSendingEmail, setIsSendingEmail] = useState(false);
 

@@ -1,7 +1,7 @@
 import { getEquimentById } from "@/actions/cleaning-equipment.actions";
 import { FormCleaningEquipmentEdit } from "@/components/cleaningEquipmentCenter/FormCleaningEquipmentEdit";
 import { useQuery } from "@tanstack/react-query";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router";
 
 export default function EditEquimentView() {
   const params = useParams();

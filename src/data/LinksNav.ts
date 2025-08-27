@@ -56,12 +56,12 @@ export const LinksNav = [
   },
   {
     to: "/visit-center",
-    label: "Registro de Visitas",
+    label: "Registro y listado de visitas",
     allowedRoles: ["USER", "ADMIN", "ADMINISTRATIVA"],
   },
   {
     to: "/visits-center-all",
     label: "Visitas",
-    allowedRoles: ["USER", "ADMIN", "ADMINISTRATIVA"],
+    allowedRoles: ["ADMIN", "ADMINISTRATIVA"],
   },
 ];

@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { registetEquimentCleaning } from "@/actions/cleaning-equipment.actions";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export const FormCleaningEquipment = () => {
   const queryClient = useQueryClient();

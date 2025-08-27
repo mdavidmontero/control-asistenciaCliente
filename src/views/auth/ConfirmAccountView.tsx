@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import type { confirmToken } from "../../types";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router";
 import { confirmAccount } from "../../actions/auth.actions";
 
 export default function ConfirmAccountView() {

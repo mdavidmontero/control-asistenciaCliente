@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { userAuthStore } from "@/store/useAuthStore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import CalendarShared from "../ui/CalendarShared";
 import { Controller, useForm } from "react-hook-form";
 import { Input } from "../ui/input";
@@ -16,9 +15,11 @@ import { toast } from "react-toastify";
 import { Button } from "../ui/button";
 import ErrorMessage from "../ui/ErrorMessage";
 import UploadImage from "../images/DropzoneImage";
+import { useAuthStore } from "@/store/auth.store";
 
 export default function FormCleaningStickyEdit() {
-  const user = userAuthStore((state) => state.user);
+  const { user } = useAuthStore();
+
   const navigate = useNavigate();
   const { id } = useParams();
   const [date, setDate] = useState<Date | undefined>(new Date());

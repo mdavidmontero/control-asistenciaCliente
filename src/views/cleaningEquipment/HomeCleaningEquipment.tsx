@@ -5,7 +5,7 @@ import CalendarFilter from "@/components/ui/CalendarFilter";
 import { useQuery } from "@tanstack/react-query";
 import { addDays } from "date-fns";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export default function HomeCleaningEquipment() {
   const navigate = useNavigate();

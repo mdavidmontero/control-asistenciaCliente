@@ -1,14 +1,7 @@
-import { Link, Navigate, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router";
 import { ToastContainer } from "react-toastify";
 import Logo from "../components/ui/Logo";
-import { useAuth } from "../hooks/useAuth";
 export default function AuthLayout() {
-  const { data, isLoading } = useAuth();
-  if (isLoading) return "Cargando...";
-  if (data) {
-    return <Navigate to="/register-attendance" replace />;
-  }
-
   return (
     <>
       <div className="lg:grid lg:grid-cols-2 lg:min-h-screen">

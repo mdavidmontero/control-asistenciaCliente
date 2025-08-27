@@ -10,7 +10,7 @@ import { Button } from "../ui/button";
 import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { registerAttendanceAfternoon } from "../../actions/attendance.actions";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 type Props = {
   ubicacion: { lat: number; lng: number } | null;

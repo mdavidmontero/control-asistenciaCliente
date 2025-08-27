@@ -1,7 +1,7 @@
 import VisitForm from "@/components/visitCenter/VisitForm";
 import type { VisitFormData } from "@/types/schemas";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useVisitStore } from "@/store/visitStore";

@@ -2,14 +2,12 @@ import { getLimpiezaSiloByDateActual } from "@/actions/cleaning-silos.actions";
 import ListCleaningSilos from "@/components/cleaningSilos/ListCleaningSilos";
 import { Button } from "@/components/ui/button";
 import CalendarFilter from "@/components/ui/CalendarFilter";
-// import { userAuthStore } from "@/store/useAuthStore";
 import { useQuery } from "@tanstack/react-query";
 import { addDays } from "date-fns";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export default function HomeCleaningSilos() {
-  // const user = userAuthStore((state) => state.user);
   const navigate = useNavigate();
 
   const [dateSelected, setDateSelected] = useState<{

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router";
 import {
   Clock,
   MapPin,
@@ -18,7 +18,6 @@ import {
 
 import { getAttendandesUser } from "../../actions/attendance.actions";
 import { formatDate, formatDateTime } from "../../lib/utils";
-import { userAuthStore } from "@/store/useAuthStore";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -30,9 +29,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import type { Location } from "@/types";
+import { useAuthStore } from "@/store/auth.store";
 
 export default function RegisterAttendanceView() {
-  const user = userAuthStore((state) => state.user);
+  const { user } = useAuthStore();
 
   const {
     data: attendances,

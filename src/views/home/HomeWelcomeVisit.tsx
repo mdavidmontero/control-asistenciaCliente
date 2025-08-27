@@ -1,8 +1,8 @@
-import { userAuthStore } from "@/store/useAuthStore";
-import { Link } from "react-router-dom";
+import { useAuthStore } from "@/store/auth.store";
+import { Link } from "react-router";
 
 export default function HomeWelcomeVisit() {
-  const user = userAuthStore((state) => state.user);
+  const { user } = useAuthStore();
   return (
     <>
       <main className="max-w-4xl mx-auto p-5 space-y-8 mt-20">

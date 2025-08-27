@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { requestConfirmationCode } from "../../actions/auth.actions";
 import ErrorMessage from "../../components/ui/ErrorMessage";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export default function RequestNewCodeView() {
   const initialValues: RequestConfirmationCodeForm = {

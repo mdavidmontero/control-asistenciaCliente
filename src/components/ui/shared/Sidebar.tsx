@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router";
 import {
   X,
   Home,
@@ -12,9 +12,9 @@ import {
 } from "lucide-react";
 
 import { LinksNav } from "@/data/LinksNav";
-import { userAuthStore } from "@/store/useAuthStore";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useAuthStore } from "@/store/auth.store";
 
 const iconMap = {
   "/": Home,
@@ -29,7 +29,7 @@ const iconMap = {
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const user = userAuthStore((state) => state.user);
+  const { user } = useAuthStore();
   const location = useLocation();
 
   // Handle mobile menu toggle

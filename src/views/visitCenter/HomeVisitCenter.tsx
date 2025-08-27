@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import ListVisitCenter from "@/components/visitCenter/ListVisitCenter";
 import ListVisitSend from "@/components/visitCenter/ListVisitSend";

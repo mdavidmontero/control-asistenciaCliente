@@ -2,13 +2,13 @@ import { useForm } from "react-hook-form";
 import ErrorMessage from "../ui/ErrorMessage";
 import type { UserLoginForm } from "../../types";
 import { toast } from "react-toastify";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { getUser, login } from "../../actions/auth.actions";
-import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
+import { useAuthStore } from "@/store/auth.store";
 
 export default function LoginForm() {
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { login } = useAuthStore();
 
   const initialValues: UserLoginForm = {
     email: "",
@@ -26,16 +26,7 @@ export default function LoginForm() {
       toast.error(error.message);
     },
     onSuccess: async () => {
-      const user = await queryClient.fetchQuery({
-        queryKey: ["user"],
-        queryFn: getUser,
-      });
-
-      if (user?.role === "USER") {
-        navigate("/visit-center");
-      } else {
-        navigate("/register-attendance");
-      }
+      navigate("/");
     },
   });
   const handleLogin = (formData: UserLoginForm) => mutate(formData);

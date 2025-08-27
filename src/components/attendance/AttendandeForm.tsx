@@ -16,7 +16,7 @@ import {
   registerAttendanceMorning,
   registerAttendanceAfternoon,
 } from "../../actions/attendance.actions";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { LogIn, LogOut, FileText, Sun, Moon } from "lucide-react";
 
 type Props = {

@@ -6,7 +6,7 @@ import { formatDate } from "@/utils";
 import { DocumentArrowDownIcon } from "@heroicons/react/20/solid";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router";
 import { toast } from "react-toastify";
 
 export default function DetailsVisit() {

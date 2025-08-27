@@ -11,11 +11,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import CalendarFilter from "@/components/ui/CalendarFilter";
-import { userAuthStore } from "@/store/useAuthStore";
 import { toast } from "react-toastify";
+import { useAuthStore } from "@/store/auth.store";
 
 export default function HomeHistoryAttendance() {
-  const user = userAuthStore((state) => state.user);
+  const { user } = useAuthStore();
   const [dateSelected, setDateSelected] = useState<{
     from: Date | undefined;
     to: Date | undefined;

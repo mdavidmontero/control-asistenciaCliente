@@ -4,13 +4,12 @@ import {
   updateLimpiezaSilo,
 } from "@/actions/cleaning-silos.actions";
 import { AREAS_SILOS, INTERVENCIONES_SILOS } from "@/data";
-import { userAuthStore } from "@/store/useAuthStore";
 import { siloSchema, type LimpiezaSilo } from "@/types/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 import {
   Select,
@@ -23,9 +22,10 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
 import CalendarShared from "../ui/CalendarShared";
+import { useAuthStore } from "@/store/auth.store";
 
 export default function FormCleaningEditSilos() {
-  const user = userAuthStore((state) => state.user);
+  const { user } = useAuthStore();
   const navigate = useNavigate();
   const [date, setDate] = useState<Date | undefined>(new Date());
   const { id } = useParams();
