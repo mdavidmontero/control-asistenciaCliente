@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, ArrowLeft, Sun, Moon } from "lucide-react";
-import MapaLeaflet from "@/components/maps/MapLealfet";
+import { Clock, ArrowLeft, Sun, Moon } from "lucide-react";
 import AttendanceForm from "@/components/attendance/AttendandeForm";
 
 export default function HomeAttendance() {
@@ -12,10 +11,13 @@ export default function HomeAttendance() {
   const [selectedShift, setSelectedShift] = useState<"morning" | "afternoon">(
     "morning"
   );
-  const [ubicacion, setUbicacion] = useState<{
+  const [ubicacion] = useState<{
     lat: number;
     lng: number;
-  } | null>(null);
+  } | null>({
+    lat: 0,
+    lng: 0,
+  });
 
   const currentDate = new Date().toLocaleDateString("es-ES", {
     weekday: "long",
@@ -109,31 +111,6 @@ export default function HomeAttendance() {
 
         {/* Main Content */}
         <div className="grid lg:grid-cols-2 gap-8">
-          {/* Map Section */}
-          <Card className="shadow-sm border-0 bg-white/70 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-slate-700">
-                <MapPin className="w-5 h-5" />
-                Ubicación Actual
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <MapaLeaflet onUbicacionConfirmada={setUbicacion} />
-                <div className="flex items-center justify-center gap-2 text-sm text-slate-600">
-                  <div
-                    className={`w-2 h-2 rounded-full ${
-                      ubicacion ? "bg-green-500" : "bg-red-500"
-                    }`}
-                  />
-                  {ubicacion
-                    ? "Ubicación confirmada"
-                    : "Esperando ubicación..."}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
           {/* Form Section */}
           <Card className="shadow-sm border-0 bg-white/70 backdrop-blur-sm">
             <CardContent className="p-8">

@@ -16,8 +16,6 @@ import HistoryAttendandeAll from "./views/attendance/HistoryAttendandeAll";
 import HomeCleaningCenter from "./views/CleaningCenter/HomeCleaningCenter";
 import FormCleaningEdit from "./components/centerCleaning/FormCleaningEdit";
 import FormCleaningCenter from "./components/centerCleaning/FormCleaningCenter";
-import { useUbicacionStore } from "./store/ubicacionStore";
-import { useEffect } from "react";
 import HomeStickyTraps from "./views/stickyTraps/HomeStickyTraps";
 import HomeCleaningSilos from "./views/cleaningSilos/HomeCleaningSilos";
 import FormCleaningSilos from "./components/cleaningSilos/FormCleaningSilos";
@@ -38,12 +36,6 @@ import DetailsVisit from "./components/visitCenter/DetailsVisit";
 import ListVisitAll from "./components/visitCenter/ListVisitAll";
 
 export default function Router() {
-  const cargarUbicacion = useUbicacionStore((state) => state.cargarUbicacion);
-
-  useEffect(() => {
-    cargarUbicacion();
-  }, [cargarUbicacion]);
-
   return (
     <BrowserRouter>
       <Routes>
