@@ -148,10 +148,7 @@ export const appRouter = createBrowserRouter([
         path: "visit-cente-detail/:id",
         element: <DetailsVisit />,
       },
-      {
-        path: "register-visit-center",
-        element: <RegisterVisitCenterView />,
-      },
+
       {
         element: <ProfileLayout />,
         children: [
@@ -166,6 +163,10 @@ export const appRouter = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: "register-visit-center",
+    element: <RegisterVisitCenterView />,
   },
   {
     path: "*",

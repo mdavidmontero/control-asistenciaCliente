@@ -62,8 +62,8 @@ export default function RegisterVisitCenterView() {
         text: data,
       }).then(() => {
         resetFormData();
-        queryClient.invalidateQueries({ queryKey: ["visit-center-user"] });
-        queryClient.invalidateQueries({ queryKey: ["VisitCenterAll"] });
+        // queryClient.invalidateQueries({ queryKey: ["visit-center-user"] });
+        // queryClient.invalidateQueries({ queryKey: ["VisitCenterAll"] });
         navigate(-1);
       });
     },
