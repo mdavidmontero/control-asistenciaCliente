@@ -96,6 +96,8 @@ export default function RegisterVisitCenterView() {
           mutate(formdata);
         }
       });
+    } else {
+      mutate(formdata);
     }
   };
 
