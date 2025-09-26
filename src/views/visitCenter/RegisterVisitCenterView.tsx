@@ -6,13 +6,13 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useVisitStore } from "@/store/visitStore";
 import { buildDateFromFormData } from "@/lib/utils";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { registerVisitCenter } from "@/actions/visitCenter.actions";
 type ValuePiece = Date | null;
 export type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 export default function RegisterVisitCenterView() {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   const formData = useVisitStore((state) => state.formData);
   const setFormData = useVisitStore((state) => state.setFormData);
   const resetFormData = useVisitStore((state) => state.resetFormData);
